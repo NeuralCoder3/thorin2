@@ -57,6 +57,7 @@ function(add_thorin_dialect)
     cmake_parse_arguments(
         PARSED              # prefix of output variables
         "INSTALL"           # list of names of the boolean arguments (only defined ones will be true)
+        # "RUST"              # list of names of the boolean arguments (only defined ones will be true)
         "DIALECT"           # list of names of mono-valued arguments
         "SOURCES;DEPENDS;HEADER_DEPENDS"   # list of names of multi-valued arguments (output variables are lists)
         ${UNPARSED}         # arguments of the function to parse, here we take the all original ones
@@ -120,9 +121,29 @@ function(add_thorin_dialect)
             VISIBILITY_INLINES_HIDDEN 1
             WINDOWS_EXPORT_ALL_SYMBOLS OFF
             LIBRARY_OUTPUT_DIRECTORY ${THORIN_LIB_DIR}
+            # LINKER_LANGUAGE CXX
     )
 
-    target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
+    # if(${PARSED_RUST})
+    # #     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dialects/${DIALECT}/rust_${DIALECT})
+    # #     add_subdirectory(rust_${DIALECT})
+    # #     target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin rust_${DIALECT})
+    #     message(STATUS "Rust support for dialect '${DIALECT}' is not yet implemented")
+    #     target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
+    # else()
+        # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
+    # endif()
+        
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
+        include_directories(${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
+        target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin rust_${DIALECT})
+
+        install(TARGETS rust_${DIALECT} EXPORT install_exports LIBRARY DESTINATION lib/thorin RUNTIME DESTINATION lib/thorin INCLUDES DESTINATION include)
+        message(STATUS "Rust support for dialect '${DIALECT}' is not yet implemented")
+    else()
+        target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
+    endif()
 
     target_include_directories(thorin_${DIALECT}
         PUBLIC

@@ -73,6 +73,8 @@ add_thorin_dialect(direct
     INSTALL
 )
 
+
+
 add_thorin_dialect(rusty
     SOURCES
         rusty/rusty.cpp
@@ -80,3 +82,5 @@ add_thorin_dialect(rusty
         rusty/normalizers.cpp
     INSTALL
 )
+
+message(STATUS "Compiling plugins finished")
