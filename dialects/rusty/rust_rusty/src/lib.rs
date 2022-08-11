@@ -3,7 +3,7 @@ use std::fmt;
 #[cxx::bridge]
 mod ffi {
 
-    #[namespace = "rust_part"]
+    #[namespace = "rust_rusty"]
     extern "Rust" {
         fn rust_echo(val: i32) -> i32;
     }
@@ -12,5 +12,5 @@ mod ffi {
 
 #[inline(always)]
 fn rust_echo(val: i32) -> i32 {
-    val
+    val+3
 }
