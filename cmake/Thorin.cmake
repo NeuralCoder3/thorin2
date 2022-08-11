@@ -124,31 +124,14 @@ function(add_thorin_dialect)
             # LINKER_LANGUAGE CXX
     )
 
-    # if(${PARSED_RUST})
-    # #     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dialects/${DIALECT}/rust_${DIALECT})
-    # #     add_subdirectory(rust_${DIALECT})
-    # #     target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin rust_${DIALECT})
-    #     message(STATUS "Rust support for dialect '${DIALECT}' is not yet implemented")
-    #     target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
-    # else()
-        # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
-    # endif()
         
     target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
         include_directories(${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
         add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
 
-        # install(TARGETS rust_${DIALECT} EXPORT install_exports LIBRARY DESTINATION lib/thorin RUNTIME DESTINATION lib/thorin INCLUDES DESTINATION include)
-        # install(TARGETS rust_${DIALECT} LIBRARY)
-
-        # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin rust_${DIALECT})
-        # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
         target_link_libraries(thorin_${DIALECT} rust_${DIALECT})
-        # message(STATUS "Rust support for dialect '${DIALECT}' is not yet implemented")
-        message(STATUS "build Rust support for dialect '${DIALECT}'")
-        message(STATUS "rust library is: rust_${DIALECT}")
-    # else()
+        message(STATUS "build Rust support for dialect '${DIALECT}' using directory rust_${DIALECT}")
     endif()
 
     target_include_directories(thorin_${DIALECT}
@@ -164,20 +147,13 @@ function(add_thorin_dialect)
         install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT} DESTINATION include/dialects FILES_MATCHING PATTERN *.h)
 
         if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
-            # want: copy build/dialects/rusty/rust_rusty/rust_rusty.h 
-            # to         build/include/rusty/rust_rusty/rust_rusty.h
+            # c reference include:
+            # copy build/dialects/rusty/rust_rusty/rust_rusty.h 
+            # to   build/include/rusty/rust_rusty/rust_rusty.h
 
             install(TARGETS rust_${DIALECT} EXPORT install_exports)
             file(MAKE_DIRECTORY ${DIALECTS_INCLUDE_DIR}${DIALECT}/rust_${DIALECT})
-            # set(RUST_DIALECT_H       ${DIALECTS_INCLUDE_DIR}${DIALECT}/rust_${DIALECT}.h)
-            # install(FILES ${RUST_DIALECT_H} DESTINATION include/dialects/${DIALECT}/rust_${DIALECT})
-            # install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${DIALECT}/rust_${DIALECT} DESTINATION include/dialects/${DIALECT} FILES_MATCHING PATTERN *.h)
             message(STATUS "the build dir is ${CMAKE_CURRENT_BINARY_DIR}")
-            # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT} DESTINATION include/dialects FILES_MATCHING PATTERN *.h)
-            # install(FILES ${RUST_DIALECT_H} DESTINATION include/dialects/${DIALECT})
-            # install(TARGETS rust_${DIALECT} EXPORT install_exports LIBRARY DESTINATION lib/thorin RUNTIME DESTINATION lib/thorin INCLUDES DESTINATION include)
-            # install(FILES ${THORIN_FILE_LIB_DIR} DESTINATION lib/thorin)
-            # install(FILES ${DIALECT_H} DESTINATION include/dialects/${DIALECT})
         endif()
     endif()
 endfunction()

@@ -6,9 +6,12 @@ else ()
     set(TARGET_DIR "release")
 endif ()
 
+# TODO: enable LTO
 # if(ENABLE_LTO)
 #     set(RUST_FLAGS "-Clinker-plugin-lto" "-Clinker=clang" "-Clink-arg=-fuse-ld=lld")
 # endif()
+
+# TODO: remove hard-coded names rust_${DIALECT} => only rust_part (naming conflict?)
 
 set(RUST_RUSTY_LIB "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_DIR}/librust_rusty.a")
 message(STATUS "RUST_RUSTY_LIB: ${RUST_RUSTY_LIB}")
@@ -28,17 +31,7 @@ message(STATUS "RUST_RUSTY_CXX: ${RUST_RUSTY_CXX}")
 message(STATUS "in ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "depends on ${CMAKE_CURRENT_SOURCE_DIR}/src/lib.rs")
 
-# set_property(
-#     DIRECTORY
-#     APPEND
-#     PROPERTY CMAKE_CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src
-# )
-
-# need to compile first time without ${RUST_RUSTY_LIB} 
-# so that librust_rusty.a exists
-# TODO: fix
 target_link_libraries(rust_rusty pthread dl ${RUST_RUSTY_LIB})
-# target_link_libraries(rust_rusty pthread dl)
 
 add_test(NAME rust_rusty_test 
     COMMAND cargo test
