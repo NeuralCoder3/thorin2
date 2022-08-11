@@ -12,5 +12,5 @@ mod ffi {
 
 #[inline(always)]
 fn rust_echo(val: i32) -> i32 {
-    val+3
+    val+5
 }

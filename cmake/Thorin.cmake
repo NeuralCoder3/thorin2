@@ -134,6 +134,7 @@ function(add_thorin_dialect)
         # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
     # endif()
         
+    target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
         include_directories(${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
         add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
@@ -142,13 +143,12 @@ function(add_thorin_dialect)
         # install(TARGETS rust_${DIALECT} LIBRARY)
 
         # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin rust_${DIALECT})
-        target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
+        # target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
         target_link_libraries(thorin_${DIALECT} rust_${DIALECT})
         # message(STATUS "Rust support for dialect '${DIALECT}' is not yet implemented")
         message(STATUS "build Rust support for dialect '${DIALECT}'")
         message(STATUS "rust library is: rust_${DIALECT}")
-    else()
-        target_link_libraries(thorin_${DIALECT} ${THORIN_TARGET_NAMESPACE}libthorin)
+    # else()
     endif()
 
     target_include_directories(thorin_${DIALECT}
@@ -166,7 +166,6 @@ function(add_thorin_dialect)
         if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${DIALECT}/rust_${DIALECT})
             # want: copy build/dialects/rusty/rust_rusty/rust_rusty.h 
             # to         build/include/rusty/rust_rusty/rust_rusty.h
-            # TODO: fix
 
             install(TARGETS rust_${DIALECT} EXPORT install_exports)
             file(MAKE_DIRECTORY ${DIALECTS_INCLUDE_DIR}${DIALECT}/rust_${DIALECT})

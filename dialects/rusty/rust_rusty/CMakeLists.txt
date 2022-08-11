@@ -17,6 +17,8 @@ set(RUST_RUSTY_CXX "${CMAKE_CURRENT_BINARY_DIR}/rust_rusty.cpp")
 add_library(rust_rusty STATIC ${RUST_RUSTY_CXX})
 add_custom_command(
     OUTPUT ${RUST_RUSTY_CXX}
+    OUTPUT ${RUST_RUSTY_LIB}
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/lib.rs
     COMMAND CARGO_TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR} RUSTFLAGS="${RUST_FLAGS}" ${CARGO_CMD}
     COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/cxxbridge/rust_rusty/src/lib.rs.cc ${RUST_RUSTY_CXX}
     COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/cxxbridge/rust_rusty/src/lib.rs.h ${CMAKE_CURRENT_BINARY_DIR}/rust_rusty.h
@@ -24,6 +26,13 @@ add_custom_command(
 )
 message(STATUS "RUST_RUSTY_CXX: ${RUST_RUSTY_CXX}")
 message(STATUS "in ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "depends on ${CMAKE_CURRENT_SOURCE_DIR}/src/lib.rs")
+
+# set_property(
+#     DIRECTORY
+#     APPEND
+#     PROPERTY CMAKE_CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src
+# )
 
 # need to compile first time without ${RUST_RUSTY_LIB} 
 # so that librust_rusty.a exists
