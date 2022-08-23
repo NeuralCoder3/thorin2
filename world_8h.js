@@ -1,21 +1,15 @@
 var world_8h =
 [
     [ "thorin::World", "classthorin_1_1World.html", "classthorin_1_1World" ],
-    [ "thorin::World::SeaHash", "structthorin_1_1World_1_1SeaHash.html", "structthorin_1_1World_1_1SeaHash" ],
-    [ "thorin::World::SeaEq", "structthorin_1_1World_1_1SeaEq.html", "structthorin_1_1World_1_1SeaEq" ],
-    [ "thorin::World::Arena::Zone", "structthorin_1_1World_1_1Arena_1_1Zone.html", "structthorin_1_1World_1_1Arena_1_1Zone" ],
-    [ "thorin::World::Arena::Lock", "structthorin_1_1World_1_1Arena_1_1Lock.html", "structthorin_1_1World_1_1Arena_1_1Lock" ],
-    [ "DLOG", "world_8h.html#a87fe05eb8767a6b1abf71eea0bdcfcac", null ],
-    [ "ELOG", "world_8h.html#a16e6a53bea50271aa28355f071f7df6b", null ],
-    [ "ILOG", "world_8h.html#a0c221110c77b993968e98cb53c0d652e", null ],
-    [ "VLOG", "world_8h.html#a35e71de09dfd64892a48e3f7c56c5619", null ],
-    [ "WLOG", "world_8h.html#a32648fc31390d09eaa0cc2ef0afeb02a", null ],
-    [ "LogLevel", "world_8h.html#ad0760f4dc915fa0b12d244fddce5c426", [
-      [ "Error", "world_8h.html#ad0760f4dc915fa0b12d244fddce5c426a902b0d55fddef6f8d651fe1035b7d4bd", null ],
-      [ "Warn", "world_8h.html#ad0760f4dc915fa0b12d244fddce5c426a56525ae64d370c0b448ac0d60710ef17", null ],
-      [ "Info", "world_8h.html#ad0760f4dc915fa0b12d244fddce5c426a4059b0251f66a18cb56f544728796875", null ],
-      [ "Verbose", "world_8h.html#ad0760f4dc915fa0b12d244fddce5c426ad4a9fa383ab700c5bdd6f31cf7df0faf", null ],
-      [ "Debug", "world_8h.html#ad0760f4dc915fa0b12d244fddce5c426aa603905470e2a5b8c13e96b579ef0dba", null ]
+    [ "thorin::World::State", "structthorin_1_1World_1_1State.html", "structthorin_1_1World_1_1State" ],
+    [ "thorin::World::State::POD", "structthorin_1_1World_1_1State.html#structthorin_1_1World_1_1State_1_1POD", [
+      [ "curr_gid", "structthorin_1_1World_1_1State.html#a7f6b68de40c0d4e36c8b26ec364f503d", null ],
+      [ "curr_sub", "structthorin_1_1World_1_1State.html#a6ff146e35adca4aa3cd684f71115030f", null ],
+      [ "flags", "structthorin_1_1World_1_1State.html#ad41b4ece404499cd5827c766eb6e1363", null ],
+      [ "frozen", "structthorin_1_1World_1_1State.html#a6fb0c28903223d6b0d925b29dd883d90", null ],
+      [ "log", "structthorin_1_1World_1_1State.html#abd02362e4b18515bcda5b614fe70468e", null ]
     ] ],
-    [ "operator<<", "world_8h.html#aeaa9638b9a869ca694aaaeaa79e1a521", null ]
+    [ "thorin::World::Freezer", "structthorin_1_1World_1_1Freezer.html", "structthorin_1_1World_1_1Freezer" ],
+    [ "thorin::World::Arena::Zone", "structthorin_1_1World_1_1Arena_1_1Zone.html", "structthorin_1_1World_1_1Arena_1_1Zone" ],
+    [ "thorin::World::Arena::Lock", "structthorin_1_1World_1_1Arena_1_1Lock.html", "structthorin_1_1World_1_1Arena_1_1Lock" ]
 ];

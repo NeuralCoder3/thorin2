@@ -1,52 +1,52 @@
 <map id="/home/runner/work/thorin2/thorin2/thorin/dialects.cpp" name="/home/runner/work/thorin2/thorin2/thorin/dialects.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="1009,5,1205,47"/>
-<area shape="rect" id="node2" href="$dialects_8h.html" title=" " alt="" coords="1147,95,1274,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="163,543,253,569"/>
-<area shape="rect" id="node4" title=" " alt="" coords="1788,169,1865,196"/>
-<area shape="rect" id="node5" title=" " alt="" coords="427,781,485,808"/>
-<area shape="rect" id="node13" title=" " alt="" coords="2001,781,2076,808"/>
-<area shape="rect" id="node23" href="$world_8h.html" title=" " alt="" coords="1051,319,1163,345"/>
-<area shape="rect" id="node38" title=" " alt="" coords="1801,393,1916,420"/>
-<area shape="rect" id="node46" href="$pass_8h.html" title=" " alt="" coords="929,244,1069,271"/>
-<area shape="rect" id="node48" title=" " alt="" coords="2245,95,2310,121"/>
-<area shape="rect" id="node49" href="$dl_8h.html" title=" " alt="" coords="254,468,367,495"/>
-<area shape="rect" id="node50" href="$sys_8h.html" title=" " alt="" coords="5,468,128,495"/>
-<area shape="rect" id="node6" title=" " alt="" coords="1995,699,2058,726"/>
-<area shape="rect" id="node7" href="$tables_8h.html" title=" " alt="" coords="1338,617,1454,644"/>
-<area shape="rect" id="node22" href="$emitter_8h.html" title=" " alt="" coords="1145,244,1287,271"/>
-<area shape="rect" id="node30" title=" " alt="" coords="624,692,763,733"/>
-<area shape="rect" id="node47" href="$pipelinebuilder_8h.html" title=" " alt="" coords="1506,169,1713,196"/>
-<area shape="rect" id="node8" title=" " alt="" coords="1299,699,1397,726"/>
-<area shape="rect" id="node9" href="$print_8h.html" title=" " alt="" coords="1439,699,1569,726"/>
-<area shape="rect" id="node16" href="$types_8h.html" title=" " alt="" coords="1109,781,1246,808"/>
-<area shape="rect" id="node10" title=" " alt="" coords="1473,781,1553,808"/>
-<area shape="rect" id="node11" title=" " alt="" coords="1375,856,1451,883"/>
-<area shape="rect" id="node12" title=" " alt="" coords="1743,781,1809,808"/>
-<area shape="rect" id="node14" href="$assert_8h.html" title=" " alt="" coords="1577,781,1719,808"/>
-<area shape="rect" id="node15" title=" " alt="" coords="1613,856,1683,883"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1015,856,1081,883"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1105,856,1164,883"/>
-<area shape="rect" id="node19" title=" " alt="" coords="898,856,990,883"/>
-<area shape="rect" id="node20" title=" " alt="" coords="1189,856,1251,883"/>
-<area shape="rect" id="node21" title=" " alt="" coords="1276,856,1351,883"/>
-<area shape="rect" id="node43" href="$schedule_8h.html" title=" " alt="" coords="1218,319,1414,345"/>
-<area shape="rect" id="node24" href="$axiom_8h.html" title=" " alt="" coords="1220,393,1337,420"/>
-<area shape="rect" id="node29" href="$debug_8h.html" title=" " alt="" coords="595,617,711,644"/>
-<area shape="rect" id="node37" href="$hash_8h.html" title=" " alt="" coords="1031,699,1163,726"/>
-<area shape="rect" id="node39" href="$error_8h.html" title=" " alt="" coords="716,543,823,569"/>
-<area shape="rect" id="node41" href="$lattice_8h.html" title=" " alt="" coords="1087,468,1204,495"/>
-<area shape="rect" id="node42" href="$tuple_8h.html" title=" " alt="" coords="1036,393,1145,420"/>
-<area shape="rect" id="node25" href="$lam_8h.html" title=" " alt="" coords="1228,468,1329,495"/>
-<area shape="rect" id="node26" title=" " alt="" coords="1261,543,1329,569"/>
-<area shape="rect" id="node27" href="$def_8h.html" title=" " alt="" coords="1140,543,1236,569"/>
-<area shape="rect" id="node28" title=" " alt="" coords="243,617,317,644"/>
-<area shape="rect" id="node32" href="$array_8h.html" title=" " alt="" coords="1732,617,1865,644"/>
-<area shape="rect" id="node34" href="$cast_8h.html" title=" " alt="" coords="1321,781,1449,808"/>
-<area shape="rect" id="node35" href="$container_8h.html" title=" " alt="" coords="898,617,1059,644"/>
-<area shape="rect" id="node31" title=" " alt="" coords="787,692,925,733"/>
-<area shape="rect" id="node33" title=" " alt="" coords="1885,699,1971,726"/>
-<area shape="rect" id="node36" title=" " alt="" coords="950,699,1007,726"/>
-<area shape="rect" id="node40" title=" " alt="" coords="735,617,822,644"/>
-<area shape="rect" id="node44" href="$cfg_8h.html" title=" " alt="" coords="1567,393,1726,420"/>
-<area shape="rect" id="node45" href="$scope_8h.html" title=" " alt="" coords="1505,468,1681,495"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1752,5,1948,47"/>
+<area shape="rect" id="node2" href="$dialects_8h.html" title=" " alt="" coords="1373,95,1500,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="1915,632,2006,659"/>
+<area shape="rect" id="node4" title=" " alt="" coords="1685,169,1762,196"/>
+<area shape="rect" id="node5" title=" " alt="" coords="1747,871,1806,897"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1430,871,1505,897"/>
+<area shape="rect" id="node23" href="$world_8h.html" title=" " alt="" coords="898,393,1010,420"/>
+<area shape="rect" id="node34" title=" " alt="" coords="1502,475,1617,502"/>
+<area shape="rect" id="node44" href="$pass_8h.html" title=" " alt="" coords="1008,319,1148,345"/>
+<area shape="rect" id="node48" title=" " alt="" coords="1996,95,2061,121"/>
+<area shape="rect" id="node49" href="$dl_8h.html" title=" " alt="" coords="1793,557,1907,584"/>
+<area shape="rect" id="node50" href="$sys_8h.html" title=" " alt="" coords="2033,557,2155,584"/>
+<area shape="rect" id="node6" title=" " alt="" coords="191,707,253,733"/>
+<area shape="rect" id="node7" href="$tables_8h.html" title=" " alt="" coords="525,707,641,733"/>
+<area shape="rect" id="node22" href="$emitter_8h.html" title=" " alt="" coords="809,169,952,196"/>
+<area shape="rect" id="node31" title=" " alt="" coords="1449,781,1587,823"/>
+<area shape="rect" id="node47" href="$pipelinebuilder_8h.html" title=" " alt="" coords="1028,244,1235,271"/>
+<area shape="rect" id="node8" title=" " alt="" coords="535,789,632,815"/>
+<area shape="rect" id="node9" href="$print_8h.html" title=" " alt="" coords="874,789,1005,815"/>
+<area shape="rect" id="node16" href="$types_8h.html" title=" " alt="" coords="373,789,511,815"/>
+<area shape="rect" id="node10" title=" " alt="" coords="1160,871,1247,897"/>
+<area shape="rect" id="node11" title=" " alt="" coords="799,871,879,897"/>
+<area shape="rect" id="node12" title=" " alt="" coords="699,871,775,897"/>
+<area shape="rect" id="node13" title=" " alt="" coords="903,871,970,897"/>
+<area shape="rect" id="node15" href="$assert_8h.html" title=" " alt="" coords="994,871,1135,897"/>
+<area shape="rect" id="node17" title=" " alt="" coords="222,871,289,897"/>
+<area shape="rect" id="node18" title=" " alt="" coords="313,871,371,897"/>
+<area shape="rect" id="node19" title=" " alt="" coords="396,871,488,897"/>
+<area shape="rect" id="node20" title=" " alt="" coords="512,871,575,897"/>
+<area shape="rect" id="node21" title=" " alt="" coords="599,871,674,897"/>
+<area shape="rect" id="node41" href="$schedule_8h.html" title=" " alt="" coords="271,319,467,345"/>
+<area shape="rect" id="node43" href="$phase_8h.html" title=" " alt="" coords="1259,244,1417,271"/>
+<area shape="rect" id="node24" title=" " alt="" coords="523,468,675,509"/>
+<area shape="rect" id="node25" title=" " alt="" coords="699,468,851,509"/>
+<area shape="rect" id="node26" href="$axiom_8h.html" title=" " alt="" coords="1057,475,1174,502"/>
+<area shape="rect" id="node30" href="$debug_8h.html" title=" " alt="" coords="1281,707,1397,733"/>
+<area shape="rect" id="node33" href="$hash_8h.html" title=" " alt="" coords="317,707,449,733"/>
+<area shape="rect" id="node35" href="$error_8h.html" title=" " alt="" coords="1406,632,1513,659"/>
+<area shape="rect" id="node37" href="$flags_8h.html" title=" " alt="" coords="926,475,1033,502"/>
+<area shape="rect" id="node38" href="$lattice_8h.html" title=" " alt="" coords="589,557,706,584"/>
+<area shape="rect" id="node39" href="$tuple_8h.html" title=" " alt="" coords="793,557,902,584"/>
+<area shape="rect" id="node40" href="$log_8h.html" title=" " alt="" coords="1103,632,1224,659"/>
+<area shape="rect" id="node27" href="$lam_8h.html" title=" " alt="" coords="926,557,1027,584"/>
+<area shape="rect" id="node28" href="$def_8h.html" title=" " alt="" coords="806,632,902,659"/>
+<area shape="rect" id="node29" title=" " alt="" coords="1865,707,1939,733"/>
+<area shape="rect" id="node32" title=" " alt="" coords="1235,781,1374,823"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1421,707,1508,733"/>
+<area shape="rect" id="node42" href="$cfg_8h.html" title=" " alt="" coords="5,632,164,659"/>
+<area shape="rect" id="node45" title=" " alt="" coords="1145,393,1203,420"/>
+<area shape="rect" id="node46" title=" " alt="" coords="1035,393,1121,420"/>
 </map>

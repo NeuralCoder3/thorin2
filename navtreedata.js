@@ -26,12 +26,12 @@ var NAVTREE =
 [
   [ "Thorin", "index.html", [
     [ "Introduction", "index.html", [
-      [ "Building", "index.html#autotoc_md39", [
-        [ "Install", "index.html#autotoc_md40", null ],
-        [ "Build Switches", "index.html#autotoc_md41", null ],
-        [ "Tests", "index.html#autotoc_md42", null ]
+      [ "Building", "index.html#autotoc_md41", [
+        [ "Install", "index.html#autotoc_md42", null ],
+        [ "Build Switches", "index.html#autotoc_md43", null ],
+        [ "Tests", "index.html#autotoc_md44", null ]
       ] ],
-      [ "Dependencies", "index.html#autotoc_md43", null ]
+      [ "Dependencies", "index.html#autotoc_md45", null ]
     ] ],
     [ "Documentation", "usergroup0.html", [
       [ "Command-Line Reference", "cli.html", null ],
@@ -44,7 +44,8 @@ var NAVTREE =
       [ "affine", "affine.html", null ],
       [ "clos", "clos.html", null ],
       [ "core", "core.html", null ],
-      [ "mem", "mem.html", null ]
+      [ "mem", "mem.html", null ],
+      [ "direct", "direct.html", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -86,26 +87,27 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "affine.html",
-"classthorin_1_1ArrayRef.html#a2a6828a3ee980d848690c8dfa74a503f",
-"classthorin_1_1CFG.html#a4be7bf931bf9471d78c464c9d3559f3b",
-"classthorin_1_1Def.html#acf2d9b7a9181faa538aad4c0237f6f36",
-"classthorin_1_1FPPass.html#aec19110c9b35d32e8025737d4b2ae61f",
-"classthorin_1_1LoopTreeBuilder.html#a1026774c35768d126137b47622093883",
-"classthorin_1_1PipelineBuilder.html#aaad8abacc76957c36bec7eb2c1c2a499",
-"classthorin_1_1TailRecElim.html",
-"classthorin_1_1World.html#a05c6774c833bf0afd224f70e3c77fbdf",
-"classthorin_1_1World.html#ab37d948254d9c4e4a5e8447f79a74dd8",
-"classthorin_1_1dot_1_1DotEmitter.html#ad616ea9c49b3215cec8e506653f4a454",
-"conceptthorin_1_1axiom__without__sub__tags.html",
-"def_8h.html#a79fff1449ba1eaecead8f607520f8574",
-"lattice_8h.html#acf74d6ffc9168d125bb73ff17c3b8395",
-"namespacethorin.html#a25e65e2898328d7df97d05cbe8263220",
-"namespacethorin.html#ad50213d9c15d1b83b31b6bb415d7989d",
-"namespacethorin_1_1core.html#a0f653b62ae72a612ab61a03ec83bfd0a",
-"namespacethorin_1_1mem.html#a85f6dddc05019ffa4d67a0d4c84dc258",
-"structthorin_1_1GIDLt.html",
-"structthorin_1_1normalize_1_1Fold_3_01wrap_00_01wrap_1_1shl_00_01w_01_4.html",
-"thorin_2normalize_8h.html#a581ce706121ebc10658edc271e1e73d1"
+"classthorin_1_1ArrayRef.html#a152d25808d043bd74889fbfedea15dcd",
+"classthorin_1_1CFG.html#a64d8accf26c78129934af6bdca16c626",
+"classthorin_1_1Def.html#ad0ea206ded848435dadac1aa06483782",
+"classthorin_1_1FPPass.html#a992db753a80b89fb6bcce0dc6154dd8b",
+"classthorin_1_1LoopTree_1_1Base.html#a0da27e354dfb7008c0407cecbf09fafa",
+"classthorin_1_1Pi.html#a96b6e9b4f88c8c4fe9e9ccb05c731f23",
+"classthorin_1_1TBound.html",
+"classthorin_1_1World.html#a5a9a63d3149f29068f5e93f4b35d734c",
+"classthorin_1_1World.html#aec18e6baba00b043d2c2f24187fdb635",
+"classthorin_1_1fe_1_1Tok.html#aeadccca82ea7eb403048721d820db3a1",
+"classthorin_1_1utf8_1_1Lexer.html#a3847117273fe64049e2a970180d3b9d6",
+"core_2autogen_8h.html#aeb257a381a67c26c3443427c161e70a7",
+"domtree_8h.html",
+"mem_2autogen_8h.html#a764c3127556982a3d401d60c743aac7a",
+"namespacethorin.html#a5207b75bc2b0b46621df4adabaa55f38",
+"namespacethorin.html#af538a45dc8c0c242b9a51f2ea1e6afea",
+"namespacethorin_1_1core.html#abb042804efc7aab7a955c30e67e43f82",
+"namespacethorin_1_1normalize.html#a5d65027121abe7271aa0de1a72525c3d",
+"structthorin_1_1Inline.html#a98571644eb0ef7c13174f00e1ca97e59",
+"structthorin_1_1normalize_1_1Fold_3_01Shr_00_01Shr_1_1ashr_00_01w_01_4.html#a74cce0422325c8860c3a3f1ef4f3780d",
+"tables_8h.html#afc355b8b0b46ac37ac5b35d2f2f93719a15bd4502d3a7637c7bb048db810fcc26"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
