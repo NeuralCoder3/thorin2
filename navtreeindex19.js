@@ -1,5 +1,6 @@
 var NAVTREEINDEX19 =
 {
+"structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#af4d672facaede9857960eac8e4746882":[5,0,0,19,0],
 "structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#af4d672facaede9857960eac8e4746882":[3,0,0,26,0],
 "structthorin_1_1DefDefEq.html":[5,0,0,31],
 "structthorin_1_1DefDefEq.html":[3,0,0,38],
@@ -248,6 +249,5 @@ var NAVTREEINDEX19 =
 "structthorin_1_1normalize_1_1FoldConv_3_01conv_1_1r2r_00_01dw_00_01sw_01_4.html":[3,0,0,14,26],
 "structthorin_1_1normalize_1_1FoldConv_3_01conv_1_1r2r_00_01dw_00_01sw_01_4.html":[5,0,0,11,26],
 "structthorin_1_1normalize_1_1FoldConv_3_01conv_1_1r2r_00_01dw_00_01sw_01_4.html#afeb652e53557173c810d26cf6bd608b2":[3,0,0,14,26,0],
-"structthorin_1_1normalize_1_1FoldConv_3_01conv_1_1r2r_00_01dw_00_01sw_01_4.html#afeb652e53557173c810d26cf6bd608b2":[5,0,0,11,26,0],
-"structthorin_1_1normalize_1_1FoldConv_3_01conv_1_1r2s_00_01dw_00_01sw_01_4.html":[5,0,0,11,29]
+"structthorin_1_1normalize_1_1FoldConv_3_01conv_1_1r2r_00_01dw_00_01sw_01_4.html#afeb652e53557173c810d26cf6bd608b2":[5,0,0,11,26,0]
 };

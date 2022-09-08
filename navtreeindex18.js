@@ -1,5 +1,6 @@
 var NAVTREEINDEX18 =
 {
+"namespacethorin_1_1mem.html#aaac8560242f619f5ac359bba09f7fd36a51e0df3ca5c430d39d775ec66f8c6f45":[3,0,0,12,12,0],
 "namespacethorin_1_1mem.html#aad66148a6a1aae3329173e9a23b6045e":[3,0,0,12,85],
 "namespacethorin_1_1mem.html#ab523b78b9f916d301c07153894cbac32":[3,0,0,12,60],
 "namespacethorin_1_1mem.html#ab628da15932087b2c99bc11cd9d2eaf8":[3,0,0,12,31],
@@ -34,8 +35,8 @@ var NAVTREEINDEX18 =
 "namespacethorin_1_1mem.html#afd8364f511447fa4c8c0758556b60b69":[3,0,0,12,74],
 "namespacethorin_1_1normalize.html":[3,0,0,14],
 "namespacethorin_1_1normalize.html#a00163a070a8191d1b035f330634ab0c1":[3,0,0,14,43],
-"namespacethorin_1_1normalize.html#a08cc1e13d38a852afa38f6385152f9f0":[3,0,0,14,62],
 "namespacethorin_1_1normalize.html#a08cc1e13d38a852afa38f6385152f9f0":[3,0,0,14,61],
+"namespacethorin_1_1normalize.html#a08cc1e13d38a852afa38f6385152f9f0":[3,0,0,14,62],
 "namespacethorin_1_1normalize.html#a0db54dceb219a82c9d088d7b007d2982":[3,0,0,14,41],
 "namespacethorin_1_1normalize.html#a12ee465fca291967708dfab8fbd8d2fa":[3,0,0,14,56],
 "namespacethorin_1_1normalize.html#a1a8e10898d0d5cfa49753bb2edc2efb3":[3,0,0,14,51],
@@ -58,8 +59,8 @@ var NAVTREEINDEX18 =
 "namespacethorin_1_1normalize.html#ae84c99ac8c916ea2e292bc82b2d9304f":[3,0,0,14,44],
 "namespacethorin_1_1normalize.html#aedc1267fc90feef77490fb71e07e9bf3":[3,0,0,14,63],
 "namespacethorin_1_1normalize.html#structthorin_1_1normalize_1_1Fold":[6,0,3,25,1],
-"namespacethorin_1_1normalize.html#structthorin_1_1normalize_1_1FoldConv":[6,0,3,24,13],
 "namespacethorin_1_1normalize.html#structthorin_1_1normalize_1_1FoldConv":[6,0,1,2,3,11],
+"namespacethorin_1_1normalize.html#structthorin_1_1normalize_1_1FoldConv":[6,0,3,24,13],
 "namespacethorin_1_1sys.html":[3,0,0,16],
 "namespacethorin_1_1sys.html#a2eda434a3eb1dcbf48dd570d8d2f7733":[3,0,0,16,1],
 "namespacethorin_1_1sys.html#a932508f0d5bde98eb7127e4f2533776f":[3,0,0,16,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX18 =
 "structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#ac3795836fbb5eb4edbb139a0343219dc":[3,0,0,26,4],
 "structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#ac3795836fbb5eb4edbb139a0343219dc":[5,0,0,19,4],
 "structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#ac80d660438b4842b825631b2f3d637b1":[3,0,0,26,8],
-"structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#ac80d660438b4842b825631b2f3d637b1":[5,0,0,19,8],
-"structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#af4d672facaede9857960eac8e4746882":[5,0,0,19,0]
+"structthorin_1_1ArrayStorage_3_01T_00_010_01_4.html#ac80d660438b4842b825631b2f3d637b1":[5,0,0,19,8]
 };
