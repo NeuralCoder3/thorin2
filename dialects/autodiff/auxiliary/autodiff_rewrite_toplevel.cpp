@@ -153,7 +153,7 @@ const Def* AutoDiffEval::derive_(const Def* def) {
         // partial derivative: e': B' × (B* -> A*)
         //   implicit: e'_fun: A' -> B' × (B* -> A*)
         auto new_body = augment(lam->body(), lam, deriv);
-        deriv->set_filter(true);
+        deriv->set_filter(lam->filter());
         deriv->set_body(new_body);
 
         return deriv;
