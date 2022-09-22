@@ -124,10 +124,14 @@ add_thorin_dialect(autodiff
         autodiff/auxiliary/autodiff_rewrite_toplevel.cpp
         autodiff/normalizers.cpp
     DEPENDS
+        tool
         mem
         core
         clos
         affine
         direct
+    HEADER_DEPENDS
+        core
+        mem
     INSTALL
 )

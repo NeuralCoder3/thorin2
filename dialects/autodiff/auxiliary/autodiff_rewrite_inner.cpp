@@ -71,7 +71,8 @@ const Def* AutoDiffEval::augment_lam(Lam* lam, Lam* f, Lam* f_diff) {
         partial_pullback[aug_var] = pb;
         // still in same closed function
         auto new_body = augment(lam->body(), f, f_diff);
-        aug_lam->set_filter(lam->filter());
+        // aug_lam->set_filter(lam->filter());
+        aug_lam->set_filter(false);
         aug_lam->set_body(new_body);
 
         // R auto lam_pb_ty = pullback_type(lam->type(), f_arg_ty);
@@ -90,6 +91,8 @@ const Def* AutoDiffEval::augment_lam(Lam* lam, Lam* f, Lam* f_diff) {
     world.DLOG("found a closed function call {} : {}", lam, lam->type());
     // general function
     auto aug_lam = op_autodiff(lam);
+    // auto aug_lam = derive(lam);
+
     // TODO: directly more association here?
     world.DLOG("augmented function is {} : {}", aug_lam, aug_lam->type());
     return aug_lam;
@@ -290,7 +293,7 @@ const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
         world.DLOG("result pullback: {} : {}", res_pb, res_pb->type());
         partial_pullback[aug_res] = res_pb;
         // assert(0);
-        world.debug_dump();
+        // world.debug_dump();
         // assert(0);
         // R assert(false);
         return aug_res;
@@ -388,7 +391,7 @@ const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
         auto c1   = world.nom_lam(c1_ty, world.dbg("c1"));
         auto res  = c1->var((nat_t)0);
         auto r_pb = c1->var(1);
-        c1->app(true, aug_cont, {res, compose_continuation(e_pb, r_pb)});
+        c1->app(false, aug_cont, {res, compose_continuation(e_pb, r_pb)});
 
         // auto X = continuation_codom(g->type());
         // // auto A = f_diff->var((nat_t)0);

@@ -90,7 +90,8 @@
 /// but needs a ds handling of inlining
 
 
-.lam .extern internal_diff_core_icmp_xYgLE 
+// .lam .extern internal_diff_core_icmp_xYgLE 
+.lam .extern internal_diff_core_icmp_xyglE
     [w: .Nat] ->
     (.Cn[[%Int w, %Int w], .Cn[%Int 2, .Cn[%Int 2, .Cn[%Int w, %Int w]]]])
     = (1:(%Int 2)),{
