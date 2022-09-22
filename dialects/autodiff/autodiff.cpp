@@ -20,6 +20,26 @@
 
 using namespace thorin;
 
+/// Eta Problem:
+/// Functions are eta expanded and the eta expansion remains after optimization
+/// => functions that theoretically stay alone but are not closed
+/// Solutions:
+/// * persistent maps => wrong derivative type => not possible
+/// * eta reduction => does not seem to work (and maybe eta expansion + inlining is helpful)
+/// * before optimizations: might be asymptotically worse
+///   ^ we use this currently
+/// better solution: handle non-closed full functions (D_A on functions)
+
+/// Continuation Problem:
+/// if a function is differentiated twice,
+/// the return continuation (after the first differentiation)
+/// looks like a closed function
+/// current solution: Look at name
+/// better solution: check closedness
+
+// closedness test:
+// Scope s{lam}; s.free_vars().empty()
+
 extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
     return {"autodiff",
             [](thorin::PipelineBuilder& builder) {
@@ -35,8 +55,8 @@ extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
                 //     man.add<mem::CopyProp>(br, ee);
                 // });
                 // builder.add_opt(100);
-                // builder.extend_opt_phase(105, [](thorin::PassMan& man) {
-                builder.extend_opt_phase(99, [](thorin::PassMan& man) {
+                builder.extend_opt_phase(105, [](thorin::PassMan& man) {
+                    // builder.extend_opt_phase(99, [](thorin::PassMan& man) {
                     // man.add<PartialEval>();
                     // man.add<BetaRed>();
                     // man.add<EtaRed>();
@@ -54,7 +74,7 @@ extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
                     man.add<thorin::autodiff::AutoDiffZero>();
                 });
 
-                // builder.add_opt(120);
+                builder.add_opt(120);
                 builder.extend_opt_phase(299, [](PassMan& man) {
                     man.add<thorin::autodiff::AutoDiffZeroCleanup>();
                     man.add<thorin::autodiff::AutoDiffExternalCleanup>();
