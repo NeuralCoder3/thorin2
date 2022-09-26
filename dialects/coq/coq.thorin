@@ -1,0 +1,20 @@
+/// # The coq dialect {#coq}
+///
+/// [TOC]
+///
+/// Generates Coq code for the given Thorin program.
+///
+/// ## Dependencies
+///
+/// none
+///
+/// ## Types
+///
+/// none 
+///
+/// ## Operations
+///
+/// ### %debug.dbg
+/// 
+/// none 
+///

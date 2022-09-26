@@ -82,3 +82,13 @@ add_thorin_dialect(mem
         core
     INSTALL
 )
+
+add_thorin_dialect(coq
+    SOURCES
+        coq/coq.h
+        coq/coq.cpp
+        coq/normalizers.cpp
+        coq/be/coq/coq.cpp
+        coq/be/coq/coq.h
+    INSTALL
+)
