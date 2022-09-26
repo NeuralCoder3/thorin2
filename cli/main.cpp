@@ -20,7 +20,7 @@
 using namespace thorin;
 using namespace std::literals;
 
-enum Backends { Dot, H, LL, Md, Thorin, Num_Backends };
+enum Backends { Dot, H, LL, Coq, Md, Thorin, Num_Backends };
 
 int main(int argc, char** argv) {
     try {
@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
             | lyra::opt(output[Dot   ], "file"   )      ["--output-dot"        ]("Emits the Thorin program as a graph using Graphviz' DOT language.")
             | lyra::opt(output[H     ], "file"   )      ["--output-h"          ]("Emits a header file to be used to interface with a dialect in C++.")
             | lyra::opt(output[LL    ], "file"   )      ["--output-ll"         ]("Compiles the Thorin program to LLVM.")
+            | lyra::opt(output[Coq   ], "file"   )      ["--output-coq"        ]("Compiles the Thorin program to Coq.")
             | lyra::opt(output[Md    ], "file"   )      ["--output-md"         ]("Emits the input formatted as Markdown.")
             | lyra::opt(output[Thorin], "file"   )["-o"]["--output-thorin"     ]("Emits the Thorin program again.")
             | lyra::opt(flags.dump_gid, "level"  )      ["--dump-gid"          ]("Dumps gid of inline expressions as a comment in output if <level> > 0. Use a <level> of 2 to also emit the gid of trivial defs.")
@@ -149,6 +150,12 @@ int main(int argc, char** argv) {
                 it->second(world, *os[LL]);
             } else
                 errln("error: 'll' emitter not loaded. Try loading 'mem' dialect.");
+        }
+        if (os[Coq]) {
+            if (auto it = backends.find("coq"); it != backends.end()) {
+                it->second(world, *os[Coq]);
+            } else
+                errln("error: 'coq' emitter not loaded. Try loading 'coq' dialect.");
         }
     } catch (const std::exception& e) {
         errln("{}", e.what());
