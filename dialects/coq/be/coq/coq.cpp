@@ -18,7 +18,6 @@ namespace thorin::coq {
 void emit(World& world, std::ostream& ostream) {
     // Emitter emitter(world, ostream);
     // emitter.run();
-
     ostream << "Hello World!" << std::endl;
 }
 

@@ -29,7 +29,7 @@ Problems:
 * Axiom semantics
 * Fin type of Int/Idx
 * modulo arithmetic
-
+* highly dependent tuples (zipCalculus)
 
 
 
