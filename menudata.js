@@ -35,8 +35,8 @@ var menudata={children:[
 {text:"clos",url:"clos.html"},
 {text:"core",url:"core.html"},
 {text:"direct",url:"direct.html"},
-{text:"debug",url:"debug.html"},
-{text:"mem",url:"mem.html"}]},
+{text:"mem",url:"mem.html"},
+{text:"refly",url:"refly.html"}]},
 {text:"Namespaces",url:"namespaces.html",children:[
 {text:"Namespace List",url:"namespaces.html"},
 {text:"Namespace Members",url:"namespacemembers.html",children:[
@@ -108,6 +108,7 @@ var menudata={children:[
 {text:"c",url:"namespacemembers_enum.html#index_c"},
 {text:"d",url:"namespacemembers_enum.html#index_d"},
 {text:"f",url:"namespacemembers_enum.html#index_f"},
+{text:"g",url:"namespacemembers_enum.html#index_g"},
 {text:"i",url:"namespacemembers_enum.html#index_i"},
 {text:"l",url:"namespacemembers_enum.html#index_l"},
 {text:"m",url:"namespacemembers_enum.html#index_m"},
