@@ -34,6 +34,7 @@ var menudata={children:[
 {text:"affine",url:"affine.html"},
 {text:"clos",url:"clos.html"},
 {text:"core",url:"core.html"},
+{text:"demo",url:"demo.html"},
 {text:"direct",url:"direct.html"},
 {text:"mem",url:"mem.html"},
 {text:"refly",url:"refly.html"}]},
