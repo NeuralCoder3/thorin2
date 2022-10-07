@@ -10,7 +10,7 @@ using namespace thorin;
 
 extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
     return {"betest", nullptr,
-            [](Backends& backends, BackendExtensions& extensions) {
+            [](Backends&, BackendExtensions& extensions) {
                 if (!extensions.contains("ll")) { extensions["ll"] = {}; }
                 // extensions["ll"].push_back([]() { return std::optional<std::string>{}; });
                 // extensions["ll"].push_back();

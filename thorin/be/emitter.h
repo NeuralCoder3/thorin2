@@ -36,8 +36,8 @@ public:
 protected:
     Emitter(World& world, std::string_view name, std::ostream& ostream, Backend backend)
         : ScopePhase(world, name, false)
-        , backend_(backend)
-        , ostream_(ostream) {}
+        , ostream_(ostream)
+        , backend_(backend) {}
 
     std::ostream& ostream() const { return ostream_; }
 
