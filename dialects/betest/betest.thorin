@@ -1,0 +1,20 @@
+/// # The betest dialect {#betest}
+///
+/// [TOC]
+///
+/// 
+///
+/// ## Dependencies
+///
+/// none
+///
+/// ## Types
+///
+/// none 
+///
+/// ## Operations
+///
+/// ### %real.const
+/// 
+/// The 42 constant, evaluated using a normalizer
+.ax %betest.constIdx: Π [n:.Nat] -> .Idx n, normalize_const;

@@ -46,6 +46,18 @@ add_thorin_dialect(core
     INSTALL
 )
 
+add_thorin_dialect(betest
+    SOURCES
+        betest/betest.cpp
+        betest/betest.h
+        betest/normalizers.cpp
+        betest/be/ll/extension.cpp
+        betest/be/ll/extension.h
+    DEPENDS
+        core
+    INSTALL
+)
+
 add_thorin_dialect(demo
     SOURCES
         demo/demo.cpp
