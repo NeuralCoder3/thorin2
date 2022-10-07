@@ -1,6 +1,7 @@
 #include "thorin/be/dot/dot.h"
 
 #include "thorin/def.h"
+#include "thorin/dialects.h"
 #include "thorin/world.h"
 
 #include "thorin/be/emitter.h"
@@ -10,12 +11,12 @@ namespace thorin::dot {
 
 class BB {};
 
-class Emitter : public thorin::Emitter<std::string, std::string, BB, Emitter> {
+class Emitter : public thorin::Emitter<std::string, std::string, BB, Emitter, std::monostate> {
 public:
-    using Super = thorin::Emitter<std::string, std::string, BB, Emitter>;
+    using Super = thorin::Emitter<std::string, std::string, BB, Emitter, std::monostate>;
 
     Emitter(World& w, std::ostream& ostream, const std::function<void(std::ostream&, const Def*)>& stream_def)
-        : Super(w, "dot_emitter", ostream)
+        : Super(w, "dot_emitter", ostream, std::monostate{})
         , stream_def_(stream_def) {
         ostream << "digraph Thorin {\n";
     }

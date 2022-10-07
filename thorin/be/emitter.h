@@ -7,7 +7,7 @@
 
 namespace thorin {
 
-template<class Value, class Type, class BB, class Child>
+template<class Value, class Type, class BB, class Child, class Backend>
 class Emitter : public ScopePhase {
 private:
     constexpr const Child& child() const { return *static_cast<const Child*>(this); };
@@ -25,8 +25,9 @@ public:
     Tab tab;
 
 protected:
-    Emitter(World& world, std::string_view name, std::ostream& ostream)
+    Emitter(World& world, std::string_view name, std::ostream& ostream, Backend backend)
         : ScopePhase(world, name, false)
+        , backend_(backend)
         , ostream_(ostream) {}
 
     std::ostream& ostream() const { return ostream_; }
@@ -86,6 +87,7 @@ protected:
     }
 
     std::ostream& ostream_;
+    Backend backend_;
     Scheduler scheduler_;
     DefMap<Value> locals_;
     DefMap<Value> globals_;

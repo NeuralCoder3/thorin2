@@ -154,11 +154,12 @@ int main(int argc, char** argv) {
         }
 
         if (os[Custom]) {
-            auto backend = output[CustBE];
-            if (auto it = backends.find(backend); it != backends.end()) {
-                it->second(world, *os[Custom]);
+            auto backendId = output[CustBE];
+            if (auto it = backends.find(backendId); it != backends.end()) {
+                auto backend = it->second;
+                backend.emitter(world, *os[Custom], &backend);
             } else
-                errln("error: '{}' emitter not loaded.", backend);
+                errln("error: '{}' emitter not loaded.", backendId);
         }
 
     } catch (const std::exception& e) {

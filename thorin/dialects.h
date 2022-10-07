@@ -1,6 +1,9 @@
 #pragma once
 
+#include <any>
 #include <filesystem>
+#include <functional>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -11,9 +14,36 @@
 
 #include "absl/container/flat_hash_map.h"
 
+template<typename Ret>
+struct AnyCallable {
+    AnyCallable() {}
+    template<typename F>
+    AnyCallable(F&& fun)
+        : AnyCallable(std::function(fun)) {}
+    template<typename... Args>
+    AnyCallable(std::function<Ret(Args...)> fun)
+        : m_any(fun) {}
+    template<typename... Args>
+    Ret operator()(Args&&... args) {
+        return std::invoke(std::any_cast<std::function<Ret(Args...)>>(m_any), std::forward<Args>(args)...);
+    }
+    template<typename... Args>
+    Ret compute(Args... args) {
+        return operator()(std::forward<Args>(args)...);
+    }
+    std::any m_any;
+};
+
+using EmitterExtension = AnyCallable<std::optional<std::string>>;
+
 namespace thorin {
 
-using Backends    = std::map<std::string, std::function<void(World&, std::ostream&)>>;
+struct Backend {
+    std::function<void(World&, std::ostream&, Backend*)> emitter;
+    std::vector<EmitterExtension> extensions = {};
+};
+
+using Backends    = std::map<std::string, Backend>;
 using Normalizers = absl::flat_hash_map<flags_t, Def::NormalizeFn>;
 
 extern "C" {
