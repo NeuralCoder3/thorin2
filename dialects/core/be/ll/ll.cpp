@@ -58,7 +58,7 @@ std::string Emitter::id(const Def* def, bool force_bb /*= false*/) const {
     return "%" + def->unique_name();
 }
 
-extern "C" THORIN_EXPORT std::string Emitter::convert(const Def* type) {
+THORIN_EXPORT std::string Emitter::convert(const Def* type) {
     if (auto i = types_.find(type); i != types_.end()) return i->second;
 
     assert(!match<mem::M>(type));
