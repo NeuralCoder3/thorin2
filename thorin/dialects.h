@@ -19,7 +19,7 @@ struct AnyCallable {
     AnyCallable() {}
     template<typename F>
     AnyCallable(F&& fun)
-        : AnyCallable(std::function(fun)) {}
+        : AnyCallable(std::function(std::forward<F>(fun))) {}
     template<typename... Args>
     AnyCallable(std::function<Ret(Args...)> fun)
         : m_any(fun) {}
@@ -27,24 +27,39 @@ struct AnyCallable {
     Ret operator()(Args&&... args) {
         return std::invoke(std::any_cast<std::function<Ret(Args...)>>(m_any), std::forward<Args>(args)...);
     }
-    template<typename... Args>
-    Ret compute(Args... args) {
-        return operator()(std::forward<Args>(args)...);
-    }
     std::any m_any;
 };
 
-using EmitterExtension = AnyCallable<std::optional<std::string>>;
+// template<typename Ret>
+// struct AnyCallable {
+//     AnyCallable() {}
+//     template<typename F>
+//     AnyCallable(F&& fun)
+//         : AnyCallable(std::function(fun)) {}
+//     template<typename... Args>
+//     AnyCallable(std::function<Ret(Args...)> fun)
+//         : m_any(fun) {}
+//     template<typename... Args>
+//     Ret operator()(Args&&... args) {
+//         return std::invoke(std::any_cast<std::function<Ret(Args...)>>(m_any), std::forward<Args>(args)...);
+//     }
+//     template<typename... Args>
+//     Ret compute(Args... args) {
+//         return operator()(std::forward<Args>(args)...);
+//     }
+//     std::any m_any;
+// };
+
+using Extension  = AnyCallable<std::optional<std::string>>;
+using Extensions = std::vector<Extension>;
 
 namespace thorin {
 
-struct Backend {
-    std::function<void(World&, std::ostream&, Backend*)> emitter;
-    std::vector<EmitterExtension> extensions = {};
-};
+using BackendEmitter = std::function<void(World&, std::ostream&, Extensions)>;
 
-using Backends    = std::map<std::string, Backend>;
-using Normalizers = absl::flat_hash_map<flags_t, Def::NormalizeFn>;
+using Backends          = std::map<std::string, BackendEmitter>;
+using BackendExtensions = std::map<std::string, Extensions>;
+using Normalizers       = absl::flat_hash_map<flags_t, Def::NormalizeFn>;
 
 extern "C" {
 /// Basic info and registration function pointer to be returned from a dialect plugin.
@@ -57,7 +72,7 @@ struct DialectInfo {
     void (*register_passes)(PipelineBuilder& builder);
 
     /// Callback for registering the mapping from backend names to emission functions in the given \a backends map.
-    void (*register_backends)(Backends& backends);
+    void (*register_backends)(Backends& backends, BackendExtensions& extensions);
 
     /// Callback for registering the mapping from axiom ids to normalizer functions in the given \a normalizers map.
     void (*register_normalizers)(Normalizers& normalizers);
@@ -93,8 +108,8 @@ public:
     }
 
     /// Registers the mapping from backend names to emission functions in the given \a backends map.
-    void register_backends(Backends& backends) const {
-        if (info_.register_backends) info_.register_backends(backends);
+    void register_backends(Backends& backends, BackendExtensions& extensions) const {
+        if (info_.register_backends) info_.register_backends(backends, extensions);
     }
 
     /// Registers the mapping from axiom ids to normalizer functions in the given \a normalizers map.

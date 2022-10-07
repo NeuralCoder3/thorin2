@@ -393,6 +393,11 @@ std::string Emitter::emit_bb(BB& bb, const Def* def) {
         return prev;
     };
 
+    for (Extension& ext : backend_) {
+        auto res = ext(this, &bb, def);
+        if (res) return res.value();
+    }
+
     if (auto lit = def->isa<Lit>()) {
         if (lit->type()->isa<Nat>()) {
             return std::to_string(lit->get<nat_t>());
@@ -758,8 +763,8 @@ std::string Emitter::emit_bb(BB& bb, const Def* def) {
     unreachable(); // not yet implemented
 }
 
-void emit(World& world, std::ostream& ostream, Backend* backend) {
-    Emitter emitter(world, ostream, backend);
+void emit(World& world, std::ostream& ostream, Extensions extensions) {
+    Emitter emitter(world, ostream, extensions);
     emitter.run();
 }
 
@@ -774,7 +779,7 @@ int compile(World& world, std::string name) {
 
 int compile(World& world, std::string ll, std::string out) {
     std::ofstream ofs(ll);
-    emit(world, ofs, nullptr);
+    emit(world, ofs, {});
     ofs.close();
     auto cmd = fmt("clang \"{}\" -o \"{}\" -Wno-override-module", ll, out);
     return sys::system(cmd);

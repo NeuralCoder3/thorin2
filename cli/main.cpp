@@ -106,11 +106,12 @@ int main(int argc, char** argv) {
 
         std::vector<Dialect> dialects;
         thorin::Backends backends;
+        thorin::BackendExtensions extensions;
         thorin::Normalizers normalizers;
         if (!dialect_plugins.empty()) {
             for (const auto& dialect : dialect_plugins) {
                 dialects.push_back(Dialect::load(dialect, dialect_paths));
-                dialects.back().register_backends(backends);
+                dialects.back().register_backends(backends, extensions);
                 dialects.back().register_normalizers(normalizers);
             }
         }
@@ -157,7 +158,8 @@ int main(int argc, char** argv) {
             auto backendId = output[CustBE];
             if (auto it = backends.find(backendId); it != backends.end()) {
                 auto backend = it->second;
-                backend.emitter(world, *os[Custom], &backend);
+                // auto backendExtensions = extensions["ll"];
+                backend(world, *os[Custom], extensions.contains(backendId) ? (extensions[backendId]) : Extensions{});
             } else
                 errln("error: '{}' emitter not loaded.", backendId);
         }

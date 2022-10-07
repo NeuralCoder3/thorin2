@@ -13,7 +13,7 @@ class World;
 
 namespace ll {
 
-void emit(World&, std::ostream&, Backend*);
+void emit(World&, std::ostream&, Extensions);
 
 int compile(World&, std::string name);
 int compile(World&, std::string ll, std::string out);
@@ -49,12 +49,12 @@ struct BB {
     std::array<std::deque<std::ostringstream>, 3> parts;
 };
 
-class Emitter : public thorin::Emitter<std::string, std::string, BB, Emitter, Backend*> {
+class Emitter : public thorin::Emitter<std::string, std::string, BB, Emitter, Extensions> {
 public:
-    using Super = thorin::Emitter<std::string, std::string, BB, Emitter, Backend*>;
+    using Super = thorin::Emitter<std::string, std::string, BB, Emitter, Extensions>;
 
-    Emitter(World& world, std::ostream& ostream, Backend* backend)
-        : Super(world, "llvm_emitter", ostream, backend) {}
+    Emitter(World& world, std::ostream& ostream, Extensions extensions)
+        : Super(world, "llvm_emitter", ostream, extensions) {}
 
     bool is_valid(std::string_view s) { return !s.empty(); }
     void start() override;
