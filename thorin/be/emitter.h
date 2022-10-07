@@ -24,14 +24,6 @@ private:
 public:
     Tab tab;
 
-protected:
-    Emitter(World& world, std::string_view name, std::ostream& ostream, Backend backend)
-        : ScopePhase(world, name, false)
-        , backend_(backend)
-        , ostream_(ostream) {}
-
-    std::ostream& ostream() const { return ostream_; }
-
     /// Recursively emits code.
     /// `mem`-typed @p def%s return sth that is `!child().is_valid(value)`.
     /// This variant asserts in this case.
@@ -40,6 +32,14 @@ protected:
         assert(child().is_valid(res));
         return res;
     }
+
+protected:
+    Emitter(World& world, std::string_view name, std::ostream& ostream, Backend backend)
+        : ScopePhase(world, name, false)
+        , backend_(backend)
+        , ostream_(ostream) {}
+
+    std::ostream& ostream() const { return ostream_; }
 
     /// As above but returning `!child().is_valid(value)` is permitted.
     Value emit_unsafe(const Def* def) {

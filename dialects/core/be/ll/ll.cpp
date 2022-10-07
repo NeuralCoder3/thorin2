@@ -394,7 +394,9 @@ std::string Emitter::emit_bb(BB& bb, const Def* def) {
     };
 
     for (Extension& ext : backend_) {
+        // operator()<Emitter*, BB&, const Def*>(ext)
         auto res = ext(this, &bb, def);
+        // auto res = ext();
         if (res) return res.value();
     }
 

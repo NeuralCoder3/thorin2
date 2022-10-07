@@ -60,6 +60,7 @@ public:
     void start() override;
     void emit_imported(Lam*);
     void emit_epilogue(Lam*);
+    std::string id(const Def*, bool force_bb = false) const;
     std::string convert(const Def*);
     std::string emit_bb(BB&, const Def*);
     std::string prepare(const Scope&);
@@ -67,7 +68,6 @@ public:
     void finalize(const Scope&);
 
 private:
-    std::string id(const Def*, bool force_bb = false) const;
     std::string convert_ret_pi(const Pi*);
 
     std::ostringstream type_decls_;
