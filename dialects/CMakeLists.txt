@@ -55,6 +55,8 @@ add_thorin_dialect(betest
         betest/be/ll/extension.h
     DEPENDS
         core
+    HEADER_DEPENDS
+        core
     INSTALL
 )
 
