@@ -4,6 +4,12 @@ var annotated_dup =
       [ "affine", "namespacethorin_1_1affine.html", [
         [ "LowerFor", "classthorin_1_1affine_1_1LowerFor.html", "classthorin_1_1affine_1_1LowerFor" ]
       ] ],
+      [ "autodiff", "namespacethorin_1_1autodiff.html", [
+        [ "AutoDiffEval", "classthorin_1_1autodiff_1_1AutoDiffEval.html", "classthorin_1_1autodiff_1_1AutoDiffEval" ],
+        [ "AutoDiffExternalCleanup", "classthorin_1_1autodiff_1_1AutoDiffExternalCleanup.html", "classthorin_1_1autodiff_1_1AutoDiffExternalCleanup" ],
+        [ "AutoDiffZero", "classthorin_1_1autodiff_1_1AutoDiffZero.html", "classthorin_1_1autodiff_1_1AutoDiffZero" ],
+        [ "AutoDiffZeroCleanup", "classthorin_1_1autodiff_1_1AutoDiffZeroCleanup.html", "classthorin_1_1autodiff_1_1AutoDiffZeroCleanup" ]
+      ] ],
       [ "clos", "namespacethorin_1_1clos.html", [
         [ "BranchClosElim", "classthorin_1_1clos_1_1BranchClosElim.html", "classthorin_1_1clos_1_1BranchClosElim" ],
         [ "Clos2SJLJ", "classthorin_1_1clos_1_1Clos2SJLJ.html", "classthorin_1_1clos_1_1Clos2SJLJ" ],
@@ -44,6 +50,7 @@ var annotated_dup =
         [ "Res", "classthorin_1_1core_1_1Res.html", "classthorin_1_1core_1_1Res" ]
       ] ],
       [ "direct", "namespacethorin_1_1direct.html", [
+        [ "CPS2DS", "classthorin_1_1direct_1_1CPS2DS.html", "classthorin_1_1direct_1_1CPS2DS" ],
         [ "DS2CPS", "classthorin_1_1direct_1_1DS2CPS.html", "classthorin_1_1direct_1_1DS2CPS" ]
       ] ],
       [ "dl", "namespacethorin_1_1dl.html", [
