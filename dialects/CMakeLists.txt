@@ -123,3 +123,15 @@ add_thorin_dialect(autodiff
         mem
     INSTALL
 )
+
+add_thorin_dialect(ad_ext
+    SOURCES
+        ad_ext/ad_ext.cpp
+        ad_ext/ad_ext.h
+    DEPENDS
+        autodiff
+        mem
+        core
+        direct
+    INSTALL
+)

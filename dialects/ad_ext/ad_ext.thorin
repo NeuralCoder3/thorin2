@@ -1,0 +1,20 @@
+/// # The autodiff extension dialect {#ad_ext}
+///
+/// [TOC]
+///
+/// A collection of automatic differentiated versions of axioms.
+///
+/// ## Dependencies
+///
+/// none
+///
+/// ## Types
+///
+/// none 
+///
+/// ## Operations
+///
+/// none 
+///
+/// ## Definitions
+///
