@@ -3,7 +3,7 @@
 #include <thorin/def.h>
 #include <thorin/pass/pass.h>
 
-namespace thorin::autodiff {
+namespace thorin::ad_ext {
 
 /// Removes all external autodiff axioms extensions from the program.
 class AutoDiffExternalCleanup : public RWPass<AutoDiffExternalCleanup, Lam> {
@@ -14,4 +14,4 @@ public:
     void enter() override;
 };
 
-} // namespace thorin::autodiff
+} // namespace thorin::ad_ext
