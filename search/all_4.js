@@ -40,7 +40,7 @@ var searchData=
   ['defdefset_37',['DefDefSet',['../namespacethorin.html#aaf1a7e310ceb35245e55027593cf1025',1,'thorin']]],
   ['defmap_38',['DefMap',['../namespacethorin.html#ad6fd3e5738182c43950e6e22607a7cd6',1,'thorin']]],
   ['defs_39',['defs',['../classthorin_1_1Dumper.html#a3dbdd523615597736f8e06ac27d9c1ba',1,'thorin::Dumper']]],
-  ['defs_40',['Defs',['../namespacethorin.html#a2d1ba8b5552b3120a6648deb2bf7eb16',1,'thorin']]],
+  ['defs_40',['Defs',['../namespacethorin.html#ab6c106c44c8584cd4bdb99b75b915c38',1,'thorin']]],
   ['defset_41',['DefSet',['../namespacethorin.html#a7fddaff34d4e4927bc748c28b49eef46',1,'thorin']]],
   ['defvec_42',['DefVec',['../namespacethorin.html#a79fff1449ba1eaecead8f607520f8574',1,'thorin']]],
   ['delim_5fl2r_43',['delim_l2r',['../classthorin_1_1fe_1_1Tok.html#ab92a89852385e11ef22b7486624f88c4',1,'thorin::fe::Tok']]],
