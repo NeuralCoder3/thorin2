@@ -27,6 +27,7 @@ public:
     bool is_basicblock() const { return is_cn() && !ret_pi(); }
     bool is_returning() const { return is_cn() && ret_pi(); }
     const Pi* ret_pi(const Def* dbg = {}) const;
+    const Def* ret_dom(const Def* dbg = {}) const;
     ///@}
 
     /// @name setters for *nom*inal Pi.
@@ -35,6 +36,9 @@ public:
     Pi* set_dom(Defs doms);
     Pi* set_codom(const Def* codom) { return Def::set(1, codom)->as<Pi>(); }
     ///@}
+
+    const Def* arg() const;
+    THORIN_PROJ(arg, const)
 
     /// @name virtual methods
     ///@{
@@ -71,6 +75,7 @@ public:
     const Def* dom() const { return type()->dom(); }
     const Def* codom() const { return type()->codom(); }
     const Pi* ret_pi() const { return type()->ret_pi(); }
+    const Def* ret_dom() const { return type()->ret_dom(); }
     THORIN_PROJ(dom, const)
     THORIN_PROJ(codom, const)
     ///@}
@@ -84,6 +89,12 @@ public:
     /// @name vars
     ///@{
     const Def* ret_var(const Def* dbg = {});
+    ///@}
+
+    /// @name args
+    ///@{
+    const Def* arg(const Def* dbg = {});
+    THORIN_PROJ(arg, )
     ///@}
 
     /// @name Setters for nominal Lam.
