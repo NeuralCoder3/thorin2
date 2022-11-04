@@ -9,6 +9,13 @@
 
 namespace thorin::matrix {
 
+const Def* normalize_Mat(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
+    auto& world    = type->world();
+    auto [n, S, T] = arg->projs<3>();
+    auto arr_ty    = arrTyOfMatrixTy(S, T);
+    return arrTyOfMatrixTy(S, T);
+}
+
 /// Normalizer for read opertions
 /// - read(constMat v) -> v
 /// - read(insert m v i, i) -> v (TODO: check with mapReduce)

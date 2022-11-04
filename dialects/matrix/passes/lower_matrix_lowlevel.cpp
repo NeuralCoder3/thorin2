@@ -95,30 +95,6 @@ const Def* op_pack_tuple(u64 n, const Def* tuple, const Def* val) {
 //     return computeSize(S);
 // }
 
-const Def* arrTyOfMatrixTy(const Def* S, const Def* T) {
-    auto& world = S->world();
-    // auto size   = computeSize(S);
-    // auto arr_ty = world.arr(size, T);
-    auto n      = S->num_projs();
-    auto arr_ty = T;
-    for (int i = n - 1; i >= 0; i--) {
-        auto dim = S->proj(n, i);
-        // world.DLOG("dim {}: {}", i, dim);
-        arr_ty = world.arr(dim, arr_ty);
-        // world.DLOG("arr_ty {}..{}: {}", i, n, arr_ty);
-    }
-    return arr_ty;
-}
-
-const Def* arrTyOfMatrixTy(const Def* Mat) {
-    auto& world = Mat->world();
-    world.DLOG("compute array type of matrix type {}", Mat);
-    auto mat_ax = match<matrix::Mat>(Mat);
-    assert(mat_ax && "type must be a matrix");
-    auto [n_def, S, T] = mat_ax->args<3>();
-    return arrTyOfMatrixTy(S, T);
-}
-
 // void LowerMatrixLowLevel::enter() {
 //     if (!curr_nom()->is_external()) return;
 //     auto lam = curr_nom()->isa_nom<Lam>();

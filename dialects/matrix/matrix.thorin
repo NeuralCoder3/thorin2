@@ -36,7 +36,7 @@
 /// 
 /// depending on operations, one probably wants matrices to be a transparent definition instead of an opaque axiom
 /// (currently: mat: [T: *] -> *)
-.ax %matrix.Mat: Π [n: .Nat, S: «n; .Nat», T: *] -> *; 
+.ax %matrix.Mat: Π [n: .Nat, S: «n; .Nat», T: *] -> *, normalize_Mat; 
 ///
 /// ## Operations
 ///
