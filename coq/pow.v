@@ -6,14 +6,7 @@ Require Import FunInd.
 
 Import VectorNotations.
 
-Definition Idx (n:nat) := nat.
-Definition Cont := Prop.
-Definition Cn (A:Type) := A -> Cont.
-Notation Bool := (Idx 2).
-Definition _32 := 4294967296.
-Notation I32 := (Idx _32).
-Notation vector := (Vector.t).
-Definition Unit := True.
+Load helper.
 
 
 Definition mod_lift
@@ -35,7 +28,7 @@ Definition core_icmp_e_fin (n:nat) (ab:(Idx n * Idx n)) : Fin.t 2 :=
 | DepTuple_cons A (a:A) n (v:vector Type n) (a:A):
     DepTuple n v -> DepTuple (S n) (Vector.cons _ A n v). *)
 
-Hypothesis (IdxInj: forall n, Idx n -> Fin.t n).    
+(* Hypothesis (IdxInj: forall n, Idx n -> Fin.t n).     *)
 
 (* Check Vector.t. *)
 (* Definition proj 
@@ -43,10 +36,10 @@ Hypothesis (IdxInj: forall n, Idx n -> Fin.t n).
   (t:DepTuple n A) (i:Idx n) : Vector.nth A (IdxInj _ i).
 Admitted. *)
 
-Definition heterogen_vector := 
-  vector {T:Type & T}.
+(* Definition heterogen_vector := 
+  vector {T:Type & T}. *)
 
-Definition proj 
+(* Definition proj 
   {n:nat} 
   (t:heterogen_vector n) (i:Idx n) : projT1 (Vector.nth t (IdxInj _ i)) :=
     projT2 (Vector.nth t (IdxInj _ i)).
@@ -54,63 +47,21 @@ Definition proj
 Definition proj_fin
   {n:nat} 
   (t:heterogen_vector n) (i:Fin.t n) : projT1 (Vector.nth t i) :=
-    projT2 (Vector.nth t i).
+    projT2 (Vector.nth t i). *)
   
-Definition inject {T:Type} (t:T) : {T:Type & T} := existT _ T t.
+(* Definition inject {T:Type} (t:T) : {T:Type & T} := existT _ T t.
 
 Definition cast {T:Type} (U:Type) (t:T) (p:T = U) : U :=
   match p with
   | eq_refl => t
-  end.
+  end. *)
 
 
 
 Section code_definitions.
 
-
   Check pow.
-
-  Fixpoint pow_cps_ref (a b:nat) (ret:Cn nat) :=
-    match b with
-    | 0 => ret 1
-    | S b' => pow_cps_ref a b' (fun x => ret (a * x))
-    end.
-
-  Lemma pow_cps_congruence:
-    forall a b (ret1 ret2: Cn nat),
-      (forall x, ret1 x -> ret2 x) ->
-      pow_cps_ref a b ret1 -> pow_cps_ref a b ret2.
-  Proof.
-    intros a b ret1 ret2 H H1.
-    induction b in ret1, ret2, H, H1 |- *.
-    - simpl in *.
-      apply H.
-      assumption.
-    - simpl in *.
-      eapply IHb.
-      2: apply H1.
-      intros.
-      apply H.
-      apply H0.
-  Qed.
-
-
-  Goal forall a b, pow_cps_ref a b (fun c => c = pow a b).
-  Proof.
-    intros.
-    induction b.
-     (* in a |- *. *)
-    - simpl. reflexivity.
-    - simpl. 
-      eapply pow_cps_congruence.
-      2: apply IHb.
-      simpl.
-      lia.
-  Qed.
-
     
-    rewrite IHb. reflexivity.
-
 
   Axiom (free_cast: forall {T:Type} {a b:T}, a=b).
 
