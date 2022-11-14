@@ -31,7 +31,7 @@ TEST(Lexer, Toks) {
     EXPECT_TRUE(lexer.lex().isa(Tok::Tag::T_dot));
     EXPECT_TRUE(lexer.lex().isa(Tok::Tag::K_lam));
     EXPECT_TRUE(lexer.lex().isa(Tok::Tag::K_Pi));
-    EXPECT_TRUE(lexer.lex().isa(Tok::Tag::T_lam));
+    EXPECT_TRUE(lexer.lex().isa(Tok::Tag::T_lm));
     EXPECT_TRUE(lexer.lex().isa(Tok::Tag::T_Pi));
     EXPECT_TRUE(lexer.lex().isa(Tok::Tag::M_eof));
 }
@@ -67,20 +67,20 @@ TEST(Lexer, Errors) {
     std::istringstream is1("asdf \xc0\xc0");
     Lexer l1(world, "<is1>", is1);
     l1.lex();
-    EXPECT_THROW(l1.lex(), LexError);
+    EXPECT_ANY_THROW(l1.lex());
 
     std::istringstream is2("foo \xaa");
     Lexer l2(world, "<is2>", is2);
     l2.lex();
-    EXPECT_THROW(l2.lex(), LexError);
+    EXPECT_ANY_THROW(l2.lex());
 
     std::istringstream is3("+");
     Lexer l3(world, "<is3>", is3);
-    EXPECT_THROW(l3.lex(), LexError);
+    EXPECT_ANY_THROW(l3.lex());
 
     std::istringstream is4("-");
     Lexer l4(world, "<is4>", is4);
-    EXPECT_THROW(l4.lex(), LexError);
+    EXPECT_ANY_THROW(l4.lex());
 }
 
 TEST(Lexer, Eof) {
@@ -97,7 +97,7 @@ TEST_P(Real, sign) {
     World w;
 
     // clang-format off
-    auto check = [&w](std::string s, r64 r) {
+    auto check = [&w](std::string s, f64 r) {
         const auto sign = GetParam();
         switch (sign) {
             case 0: break;
@@ -111,7 +111,7 @@ TEST_P(Real, sign) {
 
         auto tag = lexer.lex();
         EXPECT_TRUE(tag.isa(Tok::Tag::L_r));
-        EXPECT_EQ(std::bit_cast<r64>(tag.u()), sign == 2 ? -r : r);
+        EXPECT_EQ(std::bit_cast<f64>(tag.u()), sign == 2 ? -r : r);
     };
 
     check(  "2e+3",   2e+3); check(  "2E3",   2E3);
@@ -127,11 +127,11 @@ TEST_P(Real, sign) {
 
     std::istringstream is1("0x2.34");
     Lexer l1(w, "<is1>", is1);
-    EXPECT_THROW(l1.lex(), LexError);
+    EXPECT_ANY_THROW(l1.lex());
 
     std::istringstream is2("2.34e");
     Lexer l2(w, "<is2>", is2);
-    EXPECT_THROW(l2.lex(), LexError);
+    EXPECT_ANY_THROW(l2.lex());
 }
 
 TEST(Lexer, utf8) {

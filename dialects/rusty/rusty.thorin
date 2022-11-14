@@ -16,6 +16,8 @@
 ///
 /// ### %rusty.const
 ///
-.let I32 = %Int 4294967296;
-.ax %rusty.constant: I32, normalize_constant;
-.ax %rusty.constant_fun: Π [n:.Nat] -> (%Int n), normalize_constant_fun;
+
+// .let _32 = 4294967296;
+// .let I32 = .Idx _32;
+// .ax %rusty.constant: I32, normalize_constant;
+.ax %rusty.constant_fun: Π [n:.Nat] -> (.Idx n), normalize_constant_fun;
