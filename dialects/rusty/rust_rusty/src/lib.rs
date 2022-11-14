@@ -4,11 +4,15 @@ use std::pin::Pin;
 // include_cpp! {
 //     #include "input.h"
 //     safety!(unsafe_ffi)
-//     generate!("jurassic")
+//     // generate!("jurassic")
 // }
 
 // fn main() {
 //     ffi::jurassic();
+// }
+
+// fn main() {
+//     println!("The answer to Life, The Universe and Everything is {}", 42);
 // }
 
 // #[autocxx::extern_rust::extern_rust_function]
@@ -50,7 +54,7 @@ use std::pin::Pin;
 //     println!("Boom")
 // }
 
-
+// pub mod test {
 #[autocxx::extern_rust::extern_rust_function]
 fn debug(world: i32) -> () {
     println!("Hello, world! {}", world);
@@ -60,5 +64,6 @@ fn debug(world: i32) -> () {
 // #[inline(always)]
 #[autocxx::extern_rust::extern_rust_function]
 fn rust_echo(val: i32) -> i32 {
-    val+7
+    val+3
 }
+// }

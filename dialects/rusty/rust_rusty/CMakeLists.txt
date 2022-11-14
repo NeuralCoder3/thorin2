@@ -15,6 +15,7 @@ endif ()
 
 set(RUST_RUSTY_LIB "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_DIR}/librust_rusty.a")
 message(STATUS "RUST_RUSTY_LIB: ${RUST_RUSTY_LIB}")
+message(STATUS "CMAKE CURRENT SOURCE: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(RUST_RUSTY_CXX "${CMAKE_CURRENT_BINARY_DIR}/rust_rusty.cpp")
 add_library(rust_rusty STATIC ${RUST_RUSTY_CXX})
