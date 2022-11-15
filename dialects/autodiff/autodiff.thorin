@@ -93,11 +93,11 @@
     ![w: .Nat] ->
     (.Cn[[.Idx w, .Idx w], .Cn[.Idx 2, .Cn[.Idx 2, .Cn[.Idx w, .Idx w]]]])
     = { 
-        .cn inner_cmp 
+        .cpn inner_cmp 
         ![[a: .Idx w, b: .Idx w], ret:.Cn[.Idx 2, .Cn[.Idx 2, .Cn[.Idx w, .Idx w]]]]
         = { 
             .let result = %core.icmp.ul (w) (a,b);
-            .cn cmp_pb ![s: .Idx 2, pb_ret:.Cn[.Idx w, .Idx w]]
+            .con cmp_pb ![s: .Idx 2, pb_ret:.Cn[.Idx w, .Idx w]]
             = { 
                 .let z = 0:(.Idx w);
                 pb_ret (z, z)
@@ -111,11 +111,11 @@
     ![w: .Nat] ->
     (.Cn[[.Idx w, .Idx w], .Cn[.Idx 2, .Cn[.Idx 2, .Cn[.Idx w, .Idx w]]]])
     = { 
-        .cn inner_cmp 
+        .con inner_cmp 
         ![[a: .Idx w, b: .Idx w], ret:.Cn[.Idx 2, .Cn[.Idx 2, .Cn[.Idx w, .Idx w]]]]
         = { 
             .let result = %core.icmp.e (w) (a,b);
-            .cn cmp_pb ![s: .Idx 2, pb_ret:.Cn[.Idx w, .Idx w]]
+            .con cmp_pb ![s: .Idx 2, pb_ret:.Cn[.Idx w, .Idx w]]
             = { 
                 .let z = 0:(.Idx w);
                 pb_ret (z, z)
