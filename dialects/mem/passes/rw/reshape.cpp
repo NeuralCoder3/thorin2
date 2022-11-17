@@ -153,8 +153,10 @@ const Def* Reshape::convert(const Def* def) {
 
 const Def* Reshape::reshape(const Def* mem, const Def* ty, DefQueue& vars) {
     if (ty->isa<Sigma>() || ty->isa<Arr>()) {
-        auto& w  = ty->world();
-        auto ops = DefArray(ty->num_ops(), [&](auto i) { return reshape(mem, ty->op(i), vars); });
+        auto& w = ty->world();
+        // op is not number of components in general
+        // auto ops = DefArray(ty->num_ops(), [&](auto i) { return reshape(mem, ty->op(i), vars); });
+        auto ops = DefArray(ty->num_projs(), [&](auto i) { return reshape(mem, ty->proj(i), vars); });
         return w.tuple(ty, ops);
     }
 
@@ -176,7 +178,8 @@ const Def* fill_extract_mem(const Def* def, DefQueue& vars) {
     lam_vars(def, [&](const Def* def) {
         if (match<mem::M>(def->type())) {
             mem = def;
-        } else {
+        } else if (!(def->type()->isa<Sigma>() && def->type()->num_ops() == 0)) {
+            // ignore [] elements
             vars.push_back(def);
         }
     });
@@ -188,10 +191,12 @@ const Def* Reshape::reshape(const Def* arg, const Pi* target_pi) {
     auto& w = arg->world();
     w.DLOG("Reshape::reshape: arg = {} : {}", arg, arg->type());
     w.DLOG("Reshape::reshape: target_pi = {} : {}", target_pi, target_pi->type());
+    w.DLOG("Reshape::reshape: target_dom = {} : {}", target_pi->dom(), target_pi->dom()->type());
     const Def* mem  = fill_extract_mem(arg, queue);
     auto target_arg = reshape(mem, target_pi->dom(), queue);
     w.DLOG("Reshape::reshape: target_arg = {} : {}", target_arg, target_arg->type());
     // w.DLOG("Reshape::reshape: queue = {,}", queue);
+    w.DLOG("Queue size: {}", queue.size());
     for (auto var : queue) { w.DLOG("  Reshape::reshape: var = {} : {}", var, var->type()); }
     assert(queue.empty());
     return target_arg;
@@ -213,30 +218,31 @@ const Def* Reshape::rewrite_convert(const Def* def) {
     auto new_type = rewrite(def->type());
     auto new_dbg  = def->dbg() ? rewrite(def->dbg()) : nullptr;
 
-    if (auto malloc = match<mem::malloc>(def)) {
-        auto [mem, size] = rewrite(malloc->arg())->projs<2>();
-        auto type        = malloc->decurry()->arg(0);
+    // if (auto malloc = match<mem::malloc>(def)) {
+    //     auto [mem, size] = rewrite(malloc->arg())->projs<2>();
+    //     auto type        = malloc->decurry()->arg(0);
 
-        auto new_type = convert_ty(type);
+    //     auto new_type = convert_ty(type);
 
-        return mem::op_malloc(new_type, mem, malloc->dbg());
-    } else if (auto lea = match<mem::lea>(def)) {
-        auto [ptr, idx] = rewrite(lea->arg())->projs<2>();
+    //     return mem::op_malloc(new_type, mem, malloc->dbg());
+    // } else if (auto lea = match<mem::lea>(def)) {
+    //     auto [ptr, idx] = rewrite(lea->arg())->projs<2>();
 
-        return mem::op_lea(ptr, idx);
-    } else if (auto store = match<mem::store>(def)) {
-        auto [mem, ptr, val] = rewrite(store->arg())->projs<3>();
-        auto new_val         = convert(val);
+    //     return mem::op_lea(ptr, idx);
+    // } else if (auto store = match<mem::store>(def)) {
+    //     auto [mem, ptr, val] = rewrite(store->arg())->projs<3>();
+    //     auto new_val         = convert(val);
 
-        return mem::op_store(mem, ptr, new_val);
-    } else if (auto load = match<mem::load>(def)) {
-        auto [rewritten_mem, rewritten_ptr] = rewrite(load->arg())->projs<2>();
-        auto ptr_ty                         = match<mem::Ptr>(load->arg(1)->type())->arg(0);
-        auto [mem, val]                     = mem::op_load(rewritten_mem, rewritten_ptr)->projs<2>();
-        auto new_val                        = wrap(val, ptr_ty);
+    //     return mem::op_store(mem, ptr, new_val);
+    // } else if (auto load = match<mem::load>(def)) {
+    //     auto [rewritten_mem, rewritten_ptr] = rewrite(load->arg())->projs<2>();
+    //     auto ptr_ty                         = match<mem::Ptr>(load->arg(1)->type())->arg(0);
+    //     auto [mem, val]                     = mem::op_load(rewritten_mem, rewritten_ptr)->projs<2>();
+    //     auto new_val                        = wrap(val, ptr_ty);
 
-        return w.tuple({mem, new_val});
-    } else if (auto app = def->isa<App>()) {
+    //     return w.tuple({mem, new_val});
+    // } else
+    if (auto app = def->isa<App>()) {
         auto callee = rewrite(app->op(0));
         auto arg    = rewrite(app->op(1));
 
