@@ -93,7 +93,7 @@
     ![w: .Nat] ->
     (.Cn[[.Idx w, .Idx w], .Cn[.Idx 2, .Cn[.Idx 2, .Cn[.Idx w, .Idx w]]]])
     = { 
-        .cpn inner_cmp 
+        .con inner_cmp 
         ![[a: .Idx w, b: .Idx w], ret:.Cn[.Idx 2, .Cn[.Idx 2, .Cn[.Idx w, .Idx w]]]]
         = { 
             .let result = %core.icmp.ul (w) (a,b);
