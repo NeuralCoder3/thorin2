@@ -76,6 +76,7 @@ add_thorin_dialect(clos
         clos/phase/lower_typed_clos.h
         mem/passes/fp/copy_prop.cpp
         mem/passes/rw/reshape.cpp
+        mem/phases/rw/add_mem.cpp
     DEPENDS
         mem
         affine
@@ -127,8 +128,8 @@ add_thorin_dialect(mem
         mem/passes/rw/remem_elim.h
         mem/passes/rw/reshape.cpp
         mem/passes/rw/reshape.h
-        mem/passes/rw/add_mem.cpp
-        mem/passes/rw/add_mem.h
+        mem/phases/rw/add_mem.cpp
+        mem/phases/rw/add_mem.h
     HEADER_DEPENDS
         core
     INSTALL
