@@ -5,6 +5,16 @@
 
 #include "thorin/dialects.h"
 
+#include "thorin/pass/fp/beta_red.h"
+#include "thorin/pass/fp/eta_exp.h"
+#include "thorin/pass/fp/eta_red.h"
+#include "thorin/pass/fp/tail_rec_elim.h"
+#include "thorin/pass/pipelinebuilder.h"
+#include "thorin/pass/rw/lam_spec.h"
+#include "thorin/pass/rw/partial_eval.h"
+#include "thorin/pass/rw/ret_wrap.h"
+#include "thorin/pass/rw/scalarize.h"
+
 #include "dialects/affine/passes/lower_for.h"
 #include "dialects/autodiff/passes/autodiff_eval.h"
 #include "dialects/autodiff/passes/autodiff_ext_cleanup.h"
@@ -35,12 +45,16 @@ extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
                     // zero and add need to be close together
                     man.add<thorin::autodiff::AutoDiffZero>();
                 });
+                builder.add_opt(125);
                 builder.extend_opt_phase(126, [](PassMan& man) {
                     man.add<thorin::autodiff::AutoDiffZeroCleanup>();
                     man.add<thorin::autodiff::AutoDiffExternalCleanup>();
                 });
 
-                builder.add_opt(125);
+                builder.extend_opt_phase(127, [](thorin::PassMan& man) { man.add<Scalerize>(); });
+                builder.extend_opt_phase(128, [](thorin::PassMan& man) { man.add<EtaRed>(); });
+                builder.extend_opt_phase(129, [](thorin::PassMan& man) { man.add<TailRecElim>(); });
+                builder.add_opt(130);
             },
             nullptr, [](Normalizers& normalizers) { autodiff::register_normalizers(normalizers); }};
 }
