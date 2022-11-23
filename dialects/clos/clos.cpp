@@ -145,9 +145,10 @@ extern "C" THORIN_EXPORT DialectInfo thorin_get_dialect_info() {
 
                 builder.add_opt(base++);
 
+                // pre-pre-code-gen phase -- prepare for closure conversion
                 builder.extend_opt_phase(base++, [](PassMan& man) { man.add<DebugDump>(); });
                 builder.extend_opt_phase(base++, [](PassMan& man) { man.add<mem::Reshape>(mem::Reshape::Flat); });
-                // or codegen prep phase
+
                 builder.extend_opt_phase(base++, [](PassMan& man) { man.add<mem::AddMemWrapper>(); });
                 builder.extend_opt_phase(base++, [](PassMan& man) { man.add<DebugDump>(); });
 
