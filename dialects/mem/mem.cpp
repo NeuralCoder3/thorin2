@@ -3,6 +3,7 @@
 #include <thorin/config.h>
 #include <thorin/pass/pass.h>
 
+#include "thorin/axiom.h"
 #include "thorin/dialects.h"
 
 #include "thorin/pass/fp/beta_red.h"
@@ -13,6 +14,7 @@
 #include "thorin/pass/rw/ret_wrap.h"
 #include "thorin/pass/rw/scalarize.h"
 
+#include "dialects/mem/autogen.h"
 #include "dialects/mem/passes/fp/copy_prop.h"
 #include "dialects/mem/passes/fp/ssa_constr.h"
 #include "dialects/mem/passes/rw/alloc2malloc.h"
@@ -47,15 +49,31 @@ extern "C" THORIN_EXPORT DialectInfo thorin_get_dialect_info() {
                 register_pass<mem::remem_elim_pass, mem::RememElim>(passes);
                 register_pass<mem::Alloc2Malloc, mem::Alloc2Malloc>(passes);
 
+                // passes[flags_t(Axiom::Base<mem::copy_prop_no_arg_pass>)] = [&](World&, PipelineBuilder& builder,
+                //                                                                const Def* app) {
+                //     auto bb_only = app->as<App>()->arg()->as<Lit>()->get<u64>();
+                //     builder.add_pass<mem::CopyProp>(app, nullptr, nullptr, bb_only);
+                // };
+
                 // TODO: generalize register_pass_with_arg
-                passes[flags_t(Axiom::Base<mem::copy_prop_pass>)] = [&](World&, PipelineBuilder& builder,
+                passes[flags_t(Axiom::Base<mem::copy_prop_pass>)] = [&](World& world, PipelineBuilder& builder,
                                                                         const Def* app) {
-                    auto [br, ee] = app->as<App>()->args<2>();
+                    auto [br, ee, bb] = app->as<App>()->args<3>();
                     // TODO: let get_pass do the casts
                     auto br_pass = (BetaRed*)builder.get_pass_instance(br);
                     auto ee_pass = (EtaExp*)builder.get_pass_instance(ee);
-                    builder.add_pass<mem::CopyProp>(app, br_pass, ee_pass);
+                    auto bb_only = bb->as<Lit>()->get<u64>();
+                    world.DLOG("registering copy_prop with br = {}, ee = {}, bb_only = {}", br, ee, bb_only);
+                    builder.add_pass<mem::CopyProp>(app, br_pass, ee_pass, bb_only);
                 };
+                passes[flags_t(Axiom::Base<mem::reshape_pass>)] = [&](World&, PipelineBuilder& builder,
+                                                                      const Def* app) {
+                    auto mode_ax = app->as<App>()->arg()->as<Axiom>();
+                    auto mode    = mode_ax->flags() == flags_t(Axiom::Base<mem::reshape_arg>) ? mem::Reshape::Arg
+                                                                                              : mem::Reshape::Flat;
+                    builder.add_pass<mem::Reshape>(app, mode);
+                };
+                register_pass<mem::add_mem_pass, mem::AddMemWrapper>(passes);
             },
             nullptr, [](Normalizers& normalizers) { mem::register_normalizers(normalizers); }};
 }
