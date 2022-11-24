@@ -72,7 +72,7 @@ void optimize(World& world, Passes& passes, PipelineBuilder& builder) {
         world.DLOG("Building pipeline");
         pipe_builder.buildPipeline(pipe);
 
-        // pipe.run();
+        pipe.run();
         return;
     }
 

@@ -53,10 +53,10 @@ void addPasses(World& world, PipelineBuilder& builder, Passes& passes, DefVec& p
                 auto pass_fun = passes[flag];
                 pass_fun(world, builder, pass);
             } else {
-                world.WLOG("pass '{}' not found", pass_ax->name());
+                world.ELOG("pass '{}' not found", pass_ax->name());
             }
         } else {
-            world.WLOG("pass '{}' is not an axiom", pass_def);
+            world.ELOG("pass '{}' is not an axiom", pass_def);
         }
     }
 }

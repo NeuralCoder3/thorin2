@@ -1,3 +1,4 @@
+#include "dialects/compile/autogen.h"
 #include "dialects/compile/compile.h"
 
 namespace thorin::compile {
@@ -7,12 +8,20 @@ const Def* normalize_pass_phase(const Def* type, const Def* callee, const Def* a
     auto& world = type->world();
     // world.DLOG("Normalize pass_phase: {} {}", callee, arg);
 
-    auto [ax, pass_list_defs] = collect_args(arg);
+    auto [ax, _] = collect_args(arg);
     if (ax->flags() != flags_t(Axiom::Base<pass_list>)) {
-        // world.ELOG("pass_phase expects a pass_list as argument but got {}", ax->name());
-        return world.raw_app(callee, arg, dbg);
+        // return world.raw_app(callee, arg, dbg);
+        // TODO: remove when normalizers are fixed
+        if (ax->flags() == flags_t(Axiom::Base<combine_pass_list>)) {
+            auto arg_cpl = arg->as<App>();
+            arg = normalize_combine_pass_list(arg_cpl->type(), arg_cpl->callee(), arg_cpl->arg(), arg_cpl->dbg());
+        } else {
+            world.ELOG("pass_phase expects a pass_list as argument but got {}", arg);
+        }
     }
-    assert(ax->flags() == flags_t(Axiom::Base<pass_list>));
+
+    auto [f_ax, pass_list_defs] = collect_args(arg);
+    assert(f_ax->flags() == flags_t(Axiom::Base<pass_list>));
     auto n = pass_list_defs.size();
 
     return world.raw_app(world.raw_app(world.ax<passes_to_phase>(), world.lit_nat(n)), world.tuple(pass_list_defs));
