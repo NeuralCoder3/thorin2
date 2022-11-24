@@ -1,5 +1,7 @@
 #include "thorin/pass/optimize.h"
 
+#include "thorin/dialects.h"
+
 #include "thorin/pass/fp/beta_red.h"
 #include "thorin/pass/fp/eta_exp.h"
 #include "thorin/pass/fp/eta_red.h"
@@ -40,7 +42,40 @@ namespace thorin {
 ///   * + Custom (default priority 100)
 
 /// See optimize.h for magic numbers
-void optimize(World& world, PipelineBuilder& builder) {
+void optimize(World& world, Passes& passes, PipelineBuilder& builder) {
+    if (auto compilation = world.lookup("_compile")) {
+        // We found a compilation directive in the file and use it to build the compilation pipeline.
+        // The general idea is that passes and phases are exposed as axioms.
+        // Each pass/phase axiom is associated with a handler function operating on the PipelineBuilder in the passes
+        // map. This registering is analogous to the normalizers (`code -> code`) but only operated using side effects
+        // that change the pipeline.
+        world.DLOG("compilation using {} : {}", compilation, compilation->type());
+        compilation->make_internal();
+
+        // We can not directly access compile axioms here.
+        // But the compile dialect has not the necessary communication pipeline.
+        // Therefore, we register the handlers and let the compile dialect call them.
+
+        PipelineBuilder pipe_builder;
+        // TODO: remove indirections of pipeline builder. Just add passes and phases directly to the pipeline.
+
+        auto pipeline     = compilation->as<Lam>()->body();
+        auto [ax, phases] = collect_args(pipeline);
+
+        // handle pipeline like all other pass axioms
+        auto pipeline_axiom = ax->as<Axiom>();
+        auto pipeline_flags = pipeline_axiom->flags();
+        assert(passes.contains(pipeline_flags));
+        passes[pipeline_flags](world, pipe_builder, pipeline);
+
+        Pipeline pipe(world);
+        world.DLOG("Building pipeline");
+        pipe_builder.buildPipeline(pipe);
+
+        pipe.run();
+        return;
+    }
+
     builder.extend_opt_phase(0, [](thorin::PassMan& man) { man.add<Scalerize>(); });
     builder.extend_opt_phase(1, [](thorin::PassMan& man) { man.add<EtaRed>(); });
     builder.extend_opt_phase(2, [](thorin::PassMan& man) { man.add<TailRecElim>(); });

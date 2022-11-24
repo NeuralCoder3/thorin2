@@ -56,5 +56,11 @@ extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
                 builder.extend_opt_phase(129, [](thorin::PassMan& man) { man.add<TailRecElim>(); });
                 builder.add_opt(130);
             },
+            [](Passes& passes) {
+                register_pass<autodiff::ad_eval_pass, autodiff::AutoDiffEval>(passes);
+                register_pass<autodiff::ad_zero_pass, autodiff::AutoDiffZero>(passes);
+                register_pass<autodiff::ad_zero_cleanup_pass, autodiff::AutoDiffZeroCleanup>(passes);
+                register_pass<autodiff::ad_ext_cleanup_pass, autodiff::AutoDiffExternalCleanup>(passes);
+            },
             nullptr, [](Normalizers& normalizers) { autodiff::register_normalizers(normalizers); }};
 }
