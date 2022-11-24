@@ -77,17 +77,17 @@ extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
                     });
                 };
 
-                auto pass_phase_flag    = flags_t(Axiom::Base<thorin::compile::pass_phase>);
-                passes[pass_phase_flag] = [&](World& world, PipelineBuilder& builder, const Def* app) {
-                    auto [ax, pass_list] = collect_args(app->as<App>()->arg());
-                    addPasses(world, builder, passes, pass_list);
-                };
+                // auto pass_phase_flag    = flags_t(Axiom::Base<thorin::compile::pass_phase>);
+                // passes[pass_phase_flag] = [&](World& world, PipelineBuilder& builder, const Def* app) {
+                //     auto [ax, pass_list] = collect_args(app->as<App>()->arg());
+                //     addPasses(world, builder, passes, pass_list);
+                // };
 
-                auto combined_phase_flag    = flags_t(Axiom::Base<thorin::compile::combined_phase>);
-                passes[combined_phase_flag] = [&](World& world, PipelineBuilder& builder, const Def* app) {
-                    auto [ax, phase_list] = collect_args(app->as<App>()->arg());
-                    addPhases(phase_list, world, passes, builder);
-                };
+                // auto combined_phase_flag    = flags_t(Axiom::Base<thorin::compile::combined_phase>);
+                // passes[combined_phase_flag] = [&](World& world, PipelineBuilder& builder, const Def* app) {
+                //     auto [ax, phase_list] = collect_args(app->as<App>()->arg());
+                //     addPhases(phase_list, world, passes, builder);
+                // };
 
                 passes[flags_t(Axiom::Base<thorin::compile::passes_to_phase>)] =
                     [&](World& world, PipelineBuilder& builder, const Def* app) {

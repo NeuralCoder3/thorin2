@@ -9,6 +9,7 @@
 .import compile;
 .import affine;
 .import direct;
+.import clos;
 /// For derivatives:
 .import core;
 // .import matrix;
@@ -86,12 +87,14 @@
 /// 
 /// ### Pipelines
 /// 
-.let full_pipeline = {
+.let ad_full_pipeline = {
+    .let nullptr = %compile.nullptr_pass;
     %compile.pipe
+        (%compile.single_pass_phase nullptr)
         // General
-        (%compile.single_pass_phase %compile.scalerize_no_arg_pass)
+        (%compile.single_pass_phase (%compile.scalerize_pass nullptr))
         (%compile.single_pass_phase %compile.eta_red_pass)
-        (%compile.single_pass_phase %compile.tail_rec_elim_no_arg_pass)
+        (%compile.single_pass_phase (%compile.tail_rec_elim_pass nullptr))
         // Optimization Phase (formerly known as "100")
         (%compile.pass_phase 
             (%compile.combine_pass_list (⊤:.Nat)
@@ -110,7 +113,7 @@
         // AD Cleanup
         ad_cleanup_phase
         // TODO: AD simplification
-        // TODO: Clos
+        clos_phases
         // General PreCodeGenPrep (formerly known as "200")
         // (%compile.single_pass_phase %compile.lam_spec_pass)
         // General CodeGenPrep (formerly known as "300")
