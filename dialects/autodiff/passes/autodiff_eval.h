@@ -163,6 +163,7 @@ public:
     const Def* upper_bound_size(const Def* size, bool lower = false);
 
     void init_loop_frame();
+    void init_grad_requirements(const App* ad);
 
     void add_inverted(const Def* key, const Def* value) {
         assert(value);

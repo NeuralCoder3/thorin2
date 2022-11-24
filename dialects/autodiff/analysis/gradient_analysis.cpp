@@ -16,9 +16,7 @@ bool GradientLattice::set(Type type) {
 }
 
 GradientAnalysis::GradientAnalysis(AnalysisFactory& factory)
-    : Analysis(factory) {
-    run(factory.lam());
-}
+    : Analysis(factory) {}
 
 GradientLattice& GradientAnalysis::get_lattice(const Def* def) {
     auto it = lattices.find(def);
@@ -26,9 +24,15 @@ GradientLattice& GradientAnalysis::get_lattice(const Def* def) {
     return *it->second;
 }
 
-DefSet& GradientAnalysis::defs() { return gradient_set; }
+DefSet& GradientAnalysis::defs() {
+    lazy_run();
+    return gradient_set;
+}
 
-bool GradientAnalysis::has_gradient(const Def* def) { return gradient_set.contains(def); }
+bool GradientAnalysis::has_gradient(const Def* def) {
+    lazy_run();
+    return gradient_set.contains(def);
+}
 
 bool GradientAnalysis::is_const(const Def* def) {
     if (def->isa<Lit>()) {
@@ -92,22 +96,7 @@ void GradientAnalysis::visit(const Def* def) {
             auto ptr = bitcast->arg();
             meet(ptr, bitcast);
             meet(bitcast, ptr);
-        } /*else{
-
-
-              if( auto lam = app->callee()->isa_nom<Lam>() ){
-             for( size_t i = 0 ; i < app->num_args() ; i++ ){
-                 meet(app->arg(i), lam->var(i));
-             }
-
-
-             auto alias_node = alias_.alias_node(present);
-             auto& alias_set = alias_node.alias_set();
-
-             if(alias_node){
-
-             }
-         }*/
+        }
     }
 }
 
@@ -123,29 +112,34 @@ void GradientAnalysis::meet_app(const Def* arg, AffineCFNode* node) {
     }
 }
 
-void GradientAnalysis::run(Lam* diffee) {
-    for (auto var : diffee->vars()) {
+void GradientAnalysis::require(const Def* def) { todo_ |= get_lattice(def).set(GradientLattice::Required); }
+
+void GradientAnalysis::has(const Def* def) { todo_ |= get_lattice(def).set(GradientLattice::Has); }
+
+void GradientAnalysis::run() {
+    auto lam = factory().lam();
+    /*for (auto var : lam->vars()) {
         if (match<mem::M>(var->type())) continue;
-        auto& lattice = get_lattice(var);
+
         // gradients of all input arguments are required
-        lattice.set(GradientLattice::Required);
+        require(var);
 
         // we have the gradients of all input pointers
-        if (match<mem::Ptr>(var->type())) { lattice.set(GradientLattice::Has); }
+        if (match<mem::Ptr>(var->type())) { has(var); }
     }
 
     { // ret arguments get gradients
         auto& cfa     = factory().cfa();
-        auto ret_node = cfa.node(diffee->ret_var());
+        auto ret_node = cfa.node(lam->ret_var());
         auto ret_wrap = ret_node->pred();
         auto ret_app  = ret_wrap->def()->as_nom<Lam>()->body()->as<App>();
         auto ret_arg  = ret_app->arg();
 
         for (auto proj : ret_arg->projs()) {
             if (match<mem::M>(proj->type())) continue;
-            get_lattice(proj).set(GradientLattice::Has);
+            has(proj);
         }
-    }
+    }*/
 
     auto& utils = factory().utils();
     auto& cfa   = factory().cfa();
@@ -165,7 +159,10 @@ void GradientAnalysis::run(Lam* diffee) {
     }
 
     for (auto& [def, lattice] : lattices) {
-        if (lattice->type() == GradientLattice::Top) { gradient_set.insert(def); }
+        if (lattice->type() == GradientLattice::Top) {
+            def->dump();
+            gradient_set.insert(def);
+        }
     }
 }
 

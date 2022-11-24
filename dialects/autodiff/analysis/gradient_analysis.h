@@ -45,6 +45,7 @@ private:
     bool todo_;
     DefSet gradient_set;
     DefMap<std::unique_ptr<GradientLattice>> lattices;
+    bool is_run_ = false;
 
 public:
     GradientAnalysis(AnalysisFactory& factory);
@@ -58,6 +59,9 @@ public:
 
     bool is_const(const Def* def);
 
+    void require(const Def* def);
+    void has(const Def* def);
+
     void meet_app(const Def* arg, AffineCFNode* node);
     void meet(GradientLattice& present, GradientLattice& next);
     void meet(const Def* present, const Def* next);
@@ -65,7 +69,13 @@ public:
 
     void visit(const Def* def);
 
-    void run(Lam* diffee);
+    void lazy_run() {
+        if (!is_run_) {
+            is_run_ = true;
+            run();
+        }
+    }
+    void run();
 };
 
 } // namespace thorin::autodiff

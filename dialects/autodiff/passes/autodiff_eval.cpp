@@ -60,11 +60,7 @@ const Def* AutoDiffEval::rewrite(const Def* def) {
         world().DLOG("found a autodiff::autodiff of {}", arg);
         assert(arg->isa<Lam>());
 
-        for (auto use : ad_app->uses()) {
-            if (auto app = use->isa<App>()) { app->arg()->dump(1); }
-        }
-
-        def = derive(arg);
+        def = derive(ad_app);
         return def;
     }
 

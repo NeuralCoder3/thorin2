@@ -532,7 +532,8 @@ void AutoDiffEval::prop(const Def* def) {
     }*/
 
     if (auto store = match<mem::store>(def)) {
-        auto ptr      = store->arg(1);
+        auto ptr = store->arg(1);
+        if (!has_gradient(ptr)) return;
         auto grad_ptr = grad_arr(ptr);
 
         if (grad_ptr) {
@@ -544,7 +545,8 @@ void AutoDiffEval::prop(const Def* def) {
     }
 
     if (auto alloc = match<mem::alloc>(def)) {
-        auto ptr      = alloc->proj(1);
+        auto ptr = alloc->proj(1);
+        if (!has_gradient(ptr)) return;
         auto grad_ptr = grad_arr(ptr);
 
         if (grad_ptr) { op_free(grad_ptr, w.dbg("free_" + grad_ptr->name())); }
@@ -555,7 +557,8 @@ void AutoDiffEval::prop(const Def* def) {
     if (gradient == nullptr) { return; }
 
     if (auto load = match<mem::load>(def)) {
-        auto arr  = load->arg(1);
+        auto arr = load->arg(1);
+        if (!has_gradient(arr)) return;
         auto val  = load->proj(1);
         auto grad = grad_arr(arr);
         if (grad) {

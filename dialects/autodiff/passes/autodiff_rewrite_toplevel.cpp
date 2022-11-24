@@ -1,5 +1,6 @@
 #include "thorin/analyses/deptree.h"
 
+#include "dialects/autodiff/autogen.h"
 #include "dialects/autodiff/passes/autodiff_eval.h"
 #include "dialects/autodiff/passes/def_inliner.h"
 #include "dialects/autodiff/utils/builder.h"
@@ -101,10 +102,78 @@ void AutoDiffEval::init_loop_frame() {
     current_loop     = root;
 }
 
+const Def* call_arg(const App* app) {
+    for (auto use : app->uses()) {
+        if (auto app = use->isa<App>()) {
+            return app->arg();
+            /*for( auto proj : app->args() ){
+                if( match<mem::Ptr>(proj->type()) && is_null(proj) ){
+                    proj->dump();
+                }
+            }*/
+        }
+    }
+
+    return nullptr;
+}
+
+bool is_null(const Def* def) {
+    if (auto lit = isa_lit(def)) {
+        return lit == 0;
+    } else if (auto bitcast = match<core::bitcast>(def)) {
+        return is_null(bitcast->arg());
+    }
+
+    return false;
+}
+
+void AutoDiffEval::init_grad_requirements(const App* ad) {
+    auto& gradient = factory->gradient();
+    auto lam       = factory->lam();
+    auto arg       = call_arg(ad);
+
+    size_t i = 0;
+    for (auto var : lam->vars()) {
+        if (match<mem::M>(var->type())) {
+            i++;
+            continue;
+        }
+
+        if (arg && match<mem::Ptr>(var->type())) {
+            i++;
+            if (is_null(arg->proj(i))) {
+                i++;
+                continue;
+            }
+        }
+
+        // gradients of input arguments are required
+        gradient.require(var);
+
+        // we have the gradients of all input pointers
+        if (match<mem::Ptr>(var->type())) { gradient.has(var); }
+
+        i++;
+    }
+
+    auto& cfa     = factory->cfa();
+    auto ret_node = cfa.node(lam->ret_var());
+    auto ret_wrap = ret_node->pred();
+    auto ret_app  = ret_wrap->def()->as_nom<Lam>()->body()->as<App>();
+    auto ret_arg  = ret_app->arg();
+
+    for (auto proj : ret_arg->projs()) {
+        if (match<mem::M>(proj->type())) continue;
+        gradient.has(proj);
+    }
+}
+
 const Def* AutoDiffEval::derive_(const Def* def) {
     auto& w = world();
 
-    auto diffee = def->isa_nom<Lam>();
+    auto ad_app = force<autodiff::ad>(def);
+
+    auto diffee = ad_app->arg()->isa_nom<Lam>();
     assert(diffee);
 
     DefInliner inliner(diffee);
@@ -115,6 +184,7 @@ const Def* AutoDiffEval::derive_(const Def* def) {
 
     init_loop_frame();
     build_branch_table(diffee);
+    init_grad_requirements(ad_app);
 
     auto diff_ty = autodiff_type_fun_pi(diffee->type());
 
