@@ -5,6 +5,7 @@
 /// ## Dependencies
 ///
 .import mem;
+.import compile;
 ///
 /// ## Operations
 ///

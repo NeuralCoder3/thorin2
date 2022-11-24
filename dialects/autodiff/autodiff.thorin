@@ -5,7 +5,10 @@
 /// ## Dependencies
 ///
 .import mem;
+// For compilation:
 .import compile;
+.import affine;
+.import direct;
 /// For derivatives:
 .import core;
 // .import matrix;
@@ -62,14 +65,61 @@
             (%compile.passes_to_phase 1 %autodiff.ad_ext_cleanup_pass)
         )
 };
-.let ad_phase = {
-    %compile.phases_to_phase (⊤:.Nat)
-        (
-            optimization_phase,
-            (%compile.passes_to_phase 1 %autodiff.ad_eval_pass),
-            (%compile.passes_to_phase 1 %autodiff.ad_zero_pass),
+.let ad_compact_phase = {
+    %compile.combined_phase 
+        (%compile.phase_list
+            optimization_phase
+            (%compile.single_pass_phase %autodiff.ad_eval_pass)
+            (%compile.single_pass_phase %autodiff.ad_zero_pass)
             ad_cleanup_phase
         )
+};
+.let ad_opt_phases = {
+    %compile.combined_phase 
+        (%compile.phase_list
+            (%compile.single_pass_phase %autodiff.ad_eval_pass)
+            (%compile.single_pass_phase %affine.lower_for_pass)
+            (%compile.single_pass_phase %autodiff.ad_zero_pass)
+            optimization_phase
+        )
+};
+/// 
+/// ### Pipelines
+/// 
+.let full_pipeline = {
+    %compile.pipe
+        // General
+        (%compile.single_pass_phase %compile.scalerize_no_arg_pass)
+        (%compile.single_pass_phase %compile.eta_red_pass)
+        (%compile.single_pass_phase %compile.tail_rec_elim_no_arg_pass)
+        // Optimization Phase (formerly known as "100")
+        (%compile.pass_phase 
+            (%compile.combine_pass_list (⊤:.Nat)
+                (optimization_pass_list,
+                // Memory
+                mem_opt_pass_list
+                // Affine
+                // (%compile.single_pass_phase %affine.lower_for_pass)
+                )
+            )
+        )
+        // AD Phases
+        ad_opt_phases
+        // Direct (including optimization)
+        direct_phases
+        // AD Cleanup
+        ad_cleanup_phase
+        // TODO: AD simplification
+        // TODO: Clos
+        // General PreCodeGenPrep (formerly known as "200")
+        // (%compile.single_pass_phase %compile.lam_spec_pass)
+        // General CodeGenPrep (formerly known as "300")
+        (%compile.pass_phase (%compile.pass_list
+            %compile.ret_wrap_pass
+            // Memory
+            %mem.remem_elim_pass
+            %mem.alloc2malloc_pass
+        ))
 };
 /// 
 /// ## Registered translations

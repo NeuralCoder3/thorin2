@@ -89,18 +89,19 @@
 /// 
 /// ### Phases
 /// 
-.let mem_opt_phase = {
+.let mem_opt_pass_list = {
     .let beta_red = %compile.beta_red_pass;
     .let eta_red  = %compile.eta_red_pass;
     .let eta_exp  = %compile.eta_exp_pass eta_red;
-    %compile.passes_to_phase (⊤:.Nat)
-    (
-        beta_red,
-        eta_red,
-        eta_exp,
-        %mem.ssa_pass eta_exp,
-        %mem.copy_prop_pass (beta_red, eta_exp)
-    )
+    %compile.pass_list
+        beta_red
+        eta_red
+        eta_exp
+        (%mem.ssa_pass eta_exp)
+        (%mem.copy_prop_pass (beta_red, eta_exp))
+};
+.let mem_opt_phase = {
+    %compile.pass_phase mem_opt_pass_list
 };
 .let mem_prep_phase = {
     %compile.passes_to_phase (⊤:.Nat)
