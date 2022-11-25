@@ -128,10 +128,14 @@ const Def* Reshape::wrap(const Def* def, const Def* target_ty) {
     w.DLOG("fun: {} : {}", def, def->type());
     w.DLOG("wrapper: {} : {}", wrapper, target_pi);
 
-    // TODO: cut out completely (beta apply?)
+    // TODO: reduce right here?
     wrapper->set_body(w.app(def, arg));
     wrapper->set_filter(true);
-    if (target_pi == convert_ty(target_pi)) { wrapper->set(def->as<Lam>()->reduce(arg)); }
+    // inline the function using beta reduction
+    if (target_pi == convert_ty(target_pi)) {
+        // TODO: set vs set_body
+        wrapper->set(def->as<Lam>()->reduce(arg));
+    }
     return wrapper;
     // return def;
 }
