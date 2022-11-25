@@ -34,7 +34,6 @@ private:
     const Def* reshape(const Def* arg, const Pi* target_pi);
 
     Def2Def old2new_;
-    std::stack<Lam*> worklist_;
     Mode mode_;
     Def2Def old2flatten_;
 };

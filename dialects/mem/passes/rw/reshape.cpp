@@ -9,19 +9,7 @@
 
 namespace thorin::mem {
 
-void Reshape::enter() {
-    rewrite(curr_nom());
-
-    while (!worklist_.empty()) {
-        auto lam = worklist_.top();
-        worklist_.pop();
-        if (lam->is_set()) {
-            auto app           = lam->body()->as<App>();
-            auto [callee, arg] = app->ops<2>();
-            lam->set(callee->reduce(arg));
-        }
-    }
-}
+void Reshape::enter() { rewrite(curr_nom()); }
 
 const Def* Reshape::rewrite(const Def* def) {
     if (auto i = old2new_.find(def); i != old2new_.end()) return i->second;
@@ -134,13 +122,18 @@ const Def* Reshape::wrap(const Def* def, const Def* target_ty) {
     if (target_pi == def_ty) return def;
 
     auto& w      = def->world();
-    auto wrapper = w.nom_lam(target_pi, def->dbg());
+    auto wrapper = w.nom_lam(target_pi, w.dbg(def->name() + "_wrapper"));
     auto arg     = reshape(wrapper->var(), def_ty);
 
+    w.DLOG("fun: {} : {}", def, def->type());
+    w.DLOG("wrapper: {} : {}", wrapper, target_pi);
+
+    // TODO: cut out completely (beta apply?)
     wrapper->set_body(w.app(def, arg));
     wrapper->set_filter(true);
-    if (target_pi == convert_ty(target_pi)) { worklist_.push(wrapper); }
+    if (target_pi == convert_ty(target_pi)) { wrapper->set(def->as<Lam>()->reduce(arg)); }
     return wrapper;
+    // return def;
 }
 
 const Def* Reshape::convert(const Def* def) {
@@ -170,7 +163,6 @@ const Def* Reshape::reshape(const Def* mem, const Def* ty, DefQueue& vars) {
     w.DLOG("Reshape next: {} : {}", next, next->type());
 
     return wrap(next, ty);
-    ;
 }
 
 const Def* fill_extract_mem(const Def* def, DefQueue& vars) {
