@@ -12,12 +12,11 @@
 
 namespace thorin::mem {
 
-void Reshape::enter() { rewrite(curr_nom()); }
+void Reshape::enter() { rewrite_def(curr_nom()); }
 
-const Def* Reshape::rewrite(const Def* def) {
-    // world().DLOG("rewrite {} : {} [{}]", def, def->type(), def->node_name());
+const Def* Reshape::rewrite_def(const Def* def) {
     if (auto i = old2new_.find(def); i != old2new_.end()) return i->second;
-    auto new_def  = rewrite_(def);
+    auto new_def  = rewrite_def_(def);
     old2new_[def] = new_def;
     return new_def;
 }
@@ -30,9 +29,8 @@ bool should_flatten(const Def* T) {
     return false;
 }
 
-// TODO: should be handled more generally
-const Def* Reshape::rewrite_(const Def* def) {
-    // ignore types
+const Def* Reshape::rewrite_def_(const Def* def) {
+    // We ignore types.
     switch (def->node()) {
         // TODO: check if bot: Cn[[A,B],Cn[Ret]] is handled correctly
         // case Node::Bot:
@@ -42,70 +40,43 @@ const Def* Reshape::rewrite_(const Def* def) {
         case Node::Nat: return def;
     }
 
+    // ignore axioms
+    if (def->isa<Axiom>()) { return def; }
+
+    // This is dead code for debugging purposes.
+    // It allows for inspection of the current def.
     std::stringstream ss;
     ss << def << " : " << def->type() << " [" << def->node_name() << "]";
     std::string str = ss.str();
-    // world().DLOG("rewrite_ {} : {} [{}]", def, def->type(), def->node_name());
 
-    // Var should be handled by memoization
-    // if (def->isa<Var>() || def->isa<Axiom>()) { return def; }
-    if (def->isa<Axiom>()) { return def; }
-
-    if (def->isa<Var>()) { world().DLOG("Var: {}", def); }
+    // vars are handled by association.
+    if (def->isa<Var>()) { world().ELOG("Var: {}", def); }
     assert(!def->isa<Var>());
 
-    // if (def->type()->isa<Sigma>()) {
-    //     world().DLOG("flatten {} : {}", def, def->type());
-    //     auto num = def->type()->num_projs();
-    //     world().DLOG("num_projs: {}", num);
-    //     DefArray projs(num, [&](int i) { return rewrite(def->proj(num, i)); });
-    //     return world().tuple(projs);
-    // }
-    // if (def->isa<Var>()) {
-    //     DefArray projs(def->projs(), [this](const Def* def) { return rewrite(def); });
-    //     return world().tuple(projs);
-    // }
-
     auto& w       = world();
-    auto new_type = rewrite(def->type());
-    auto new_dbg  = def->dbg() ? rewrite(def->dbg()) : nullptr;
+    auto new_type = rewrite_def(def->type());
+    auto new_dbg  = def->dbg() ? rewrite_def(def->dbg()) : nullptr;
 
     if (auto app = def->isa<App>()) {
-        // For applications, we shape the argument tuple according to the calle type.
-        auto callee = rewrite(app->callee());
-        auto arg    = rewrite(app->arg());
+        auto callee = rewrite_def(app->callee());
+        auto arg    = rewrite_def(app->arg());
 
-        // Axiom types are fixed
-        // TODO: callee should not change for axioms => remove if
-        // if (!callee->isa<Axiom>()) {
-        // arg = reshape(arg, callee->type()->as<Pi>());
         auto reshaped_arg = reshape(arg);
-        // }
-
-        auto new_app = w.app(callee, reshaped_arg);
+        auto new_app      = w.app(callee, reshaped_arg);
         return new_app;
     } else if (auto lam = def->isa_nom<Lam>()) {
-        // if (lam->is_set()) { new_lam = convert(lam)->as_nom<Lam>(); }
-
-        // old2new_[def] = new_lam;
-        // if (lam->is_set()) {
-        //     auto new_body = rewrite(lam->body());
-        //     new_lam->set_body(new_body);
-        // }
-
-        world().DLOG("rewrite lam {} : {}", def, def->type());
-        return reshapeLam(lam);
+        world().DLOG("rewrite_def lam {} : {}", def, def->type());
+        return reshape_lam(lam);
     } else {
-        auto new_ops = DefArray(def->num_ops(), [&](auto i) { return rewrite(def->op(i)); });
+        auto new_ops = DefArray(def->num_ops(), [&](auto i) { return rewrite_def(def->op(i)); });
         auto new_def = def->rebuild(w, new_type, new_ops, new_dbg);
         return new_def;
     }
 }
 
-Lam* Reshape::reshapeLam(Lam* def) {
+Lam* Reshape::reshape_lam(Lam* def) {
     auto pi_ty  = def->type();
     auto new_ty = reshape_type(pi_ty)->as<Pi>();
-    // if (new_ty == pi_ty) return def;
 
     auto& w       = def->world();
     Lam* new_lam  = w.nom_lam(new_ty, w.dbg(def->name() + "_reshaped"));
@@ -125,25 +96,20 @@ Lam* Reshape::reshapeLam(Lam* def) {
     auto new_arg = new_lam->var();
     // assert(num_projs == new_arg->num_projs() && "Reshape of lambda should agree with tuple reshape");
 
-    // old2new_[arg] = new_arg;
-    // for (unsigned int i = 0; i < num_projs; i++) {
-    //     w.DLOG("associate {} with {}", arg->proj(i), new_arg->proj(i));
-    //     old2new_[arg->proj(i)] = new_arg->proj(i);
-    // }
-    // TODO: deep associate def->var() with new_arg
-    // def->var with tuple(...) (reconstructed shape)
-    // idea: first make new_arg into "atomar" def list, then recrusively imitate def->var
-    auto reformed_new_arg = reshape(new_arg, def->var()->type()); // def->var()->type() = pi_ty
+    // We deeply associate `def->var()` with `new_arg` in a reconstructed shape.
+    // Idea: first make new_arg into "atomic" def list, then recrusively imitate `def->var`.
+    auto reformed_new_arg = reshape(new_arg, def->var()->type()); // `def->var()->type() = pi_ty`
     w.DLOG("var {} : {}", def->var(), def->var()->type());
     w.DLOG("new var {} : {}", new_arg, new_arg->type());
     w.DLOG("reshaped new_var {} : {}", reformed_new_arg, reformed_new_arg->type());
     w.DLOG("{}", def->var()->type());
     w.DLOG("{}", reformed_new_arg->type());
     old2new_[def->var()] = reformed_new_arg;
-    // TODO: why is this necessary?
-    old2new_[new_arg] = new_arg;
+    // TODO: add if necessary. This probably was an issue with unintended overriding due to bad previous naming.
+    // TODO: Remove after testing.
+    // old2new_[new_arg] = new_arg;
 
-    auto new_body = rewrite(def->body());
+    auto new_body = rewrite_def(def->body());
     new_lam->set_body(new_body);
     new_lam->set_filter(true);
 
@@ -200,7 +166,7 @@ const Def* Reshape::reshape_type(const Def* T) {
                 ret = new_types.back();
                 new_types.pop_back();
             }
-            // create form [[mem,args],ret]
+            // Create the arg form `[[mem,args],ret]`
             const Def* args = w.sigma(vec2array(new_types));
             if (mem) { args = w.sigma({mem, args}); }
             if (ret) { args = w.sigma({args, ret}); }
