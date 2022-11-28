@@ -22,7 +22,13 @@ const Def* Reshape::rewrite(const Def* def) {
     return new_def;
 }
 
-bool should_flatten(const Def* T) { return T->isa<Sigma>(); }
+bool should_flatten(const Def* T) {
+    // handle [] cases
+    if (T->isa<Sigma>()) return true;
+    // also handle normalized tuple-arrays ((a:I32,b:I32) : <<2;I32>>)
+    if (auto lit = T->arity()->isa<Lit>()) { return lit->get<u64>() > 1; }
+    return false;
+}
 
 // TODO: should be handled more generally
 const Def* Reshape::rewrite_(const Def* def) {
