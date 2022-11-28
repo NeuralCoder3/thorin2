@@ -7,6 +7,7 @@
 
 #include "thorin/check.h"
 #include "thorin/def.h"
+#include "thorin/tuple.h"
 
 #include "dialects/mem/mem.h"
 
@@ -27,6 +28,15 @@ bool should_flatten(const Def* T) {
     // also handle normalized tuple-arrays ((a:I32,b:I32) : <<2;I32>>)
     if (auto lit = T->arity()->isa<Lit>()) { return lit->get<u64>() > 1; }
     return false;
+}
+
+const Def* Reshape::update_type(const Def* T) {
+    if (should_flatten(T)) {
+        DefArray new_types(T->projs(), [&](const Def* t) { return update_type(t); });
+        return world().sigma(new_types);
+    }
+    if (T->isa<Pi>()) { return reshape_type(T); }
+    return T;
 }
 
 const Def* Reshape::rewrite_def_(const Def* def) {
@@ -53,23 +63,50 @@ const Def* Reshape::rewrite_def_(const Def* def) {
     if (def->isa<Var>()) { world().ELOG("Var: {}", def); }
     assert(!def->isa<Var>());
 
-    auto& w       = world();
-    auto new_type = rewrite_def(def->type());
-    auto new_dbg  = def->dbg() ? rewrite_def(def->dbg()) : nullptr;
+    auto& w = world();
 
     if (auto app = def->isa<App>()) {
         auto callee = rewrite_def(app->callee());
         auto arg    = rewrite_def(app->arg());
 
+        world().DLOG("callee: {} : {}", callee, callee->type());
+
+        // Not rust reshape because we might change empty tuples in the type of the callee.
         auto reshaped_arg = reshape(arg);
-        auto new_app      = w.app(callee, reshaped_arg);
+        // auto reshaped_arg = reshape(arg, callee->type());
+        // auto reshaped_arg = arg;
+        // if (!callee->isa<Axiom>()) { reshaped_arg = reshape(arg, callee->type()); }
+        auto new_app = w.app(callee, reshaped_arg);
         return new_app;
     } else if (auto lam = def->isa_nom<Lam>()) {
         world().DLOG("rewrite_def lam {} : {}", def, def->type());
-        return reshape_lam(lam);
+        auto new_lam = reshape_lam(lam);
+        world().DLOG("rewrote lam {} : {}", def, def->type());
+        world().DLOG("into lam {} : {}", new_lam, new_lam->type());
+        return new_lam;
     } else {
-        auto new_ops = DefArray(def->num_ops(), [&](auto i) { return rewrite_def(def->op(i)); });
+        auto new_ops  = DefArray(def->num_ops(), [&](auto i) { return rewrite_def(def->op(i)); });
+        auto new_type = rewrite_def(def->type());
+        // TODO: why necessary? (for tuples of functions)
+        // if (new_type->isa<Pi>()) { new_type = reshape_type(new_type); }
+        new_type     = update_type(new_type);
+        auto new_dbg = def->dbg() ? rewrite_def(def->dbg()) : nullptr;
+
         auto new_def = def->rebuild(w, new_type, new_ops, new_dbg);
+        if (def->isa<Extract>()
+            // || def->isa<Tuple>()
+        ) {
+            world().DLOG("new_ty: {} [{}]", new_type, new_type->node_name());
+            world().DLOG("new_def: {} : {}", new_def, new_def->type());
+        }
+
+        if (auto ext = new_def->isa<Extract>()) {
+            world().DLOG("  Tuple: {} : {}", ext->tuple(), ext->tuple()->type());
+            auto e0 = ext->tuple()->proj(0);
+            world().DLOG("  e0: {} : {}", e0, e0->type());
+            auto e1 = ext->tuple()->proj(1);
+            world().DLOG("  e1: {} : {}", e1, e1->type());
+        }
         return new_def;
     }
 }
@@ -82,8 +119,8 @@ Lam* Reshape::reshape_lam(Lam* def) {
     Lam* new_lam  = w.nom_lam(new_ty, w.dbg(def->name() + "_reshaped"));
     old2new_[def] = new_lam;
 
-    w.DLOG("Reshape: {} : {}", def, pi_ty);
-    w.DLOG("     to: {} : {}", new_lam, new_ty);
+    w.DLOG("Reshape lam: {} : {}", def, pi_ty);
+    w.DLOG("         to: {} : {}", new_lam, new_ty);
 
     // We associate the arguments (reshape the old vars).
     // Alternatively, we could use beta reduction (reduce) to do this for us.
@@ -146,9 +183,13 @@ const Def* Reshape::reshape_type(const Def* T) {
         auto new_cod = reshape_type(pi->codom());
         return w.pi(new_dom, new_cod);
     } else if (auto sigma = T->isa<Sigma>()) {
-        auto new_types = flatten_ty(sigma);
+        auto flat_types = flatten_ty(sigma);
+        std::vector<const Def*> new_types(flat_types.size());
+        std::transform(flat_types.begin(), flat_types.end(), new_types.begin(),
+                       [&](auto T) { return reshape_type(T); });
         if (mode_ == Mode::Flat) {
-            return w.sigma(vec2array(new_types));
+            auto reshaped_type = w.sigma(vec2array(new_types));
+            return reshaped_type;
         } else {
             if (new_types.size() == 0) return w.sigma();
             if (new_types.size() == 1) return new_types[0];
@@ -170,8 +211,12 @@ const Def* Reshape::reshape_type(const Def* T) {
             const Def* args = w.sigma(vec2array(new_types));
             if (mem) { args = w.sigma({mem, args}); }
             if (ret) { args = w.sigma({args, ret}); }
+            // reshaped_type = args;
             return args;
         }
+        // w.DLOG("reshape type {} [{}]", T, T->node_name());
+        // w.DLOG("to {} [{}]", reshaped_type, reshaped_type->node_name());
+        // return reshaped_type;
     } else {
         return T;
     }
@@ -192,14 +237,16 @@ std::vector<const Def*> flatten_def(const Def* def) {
 }
 
 const Def* Reshape::reshape(std::vector<const Def*>& defs, const Def* T) {
+    auto& world = T->world();
     if (should_flatten(T)) {
         DefArray tuples(T->projs(), [&](auto P) { return reshape(defs, P); });
-        return T->world().tuple(tuples);
+        return world.tuple(tuples);
     } else {
         assert(defs.size() > 0 && "Reshape: not enough arguments");
         auto def = defs.front();
         defs.erase(defs.begin());
-        assert(def->type() == T && "Reshape: argument type mismatch");
+        // if (def->type() != T) { world.ELOG("reconstruct T {} from def {}", T, def->type()); }
+        // assert(def->type() == T && "Reshape: argument type mismatch");
         return def;
     }
 }
