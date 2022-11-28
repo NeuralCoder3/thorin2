@@ -80,6 +80,9 @@ Lam* Reshape::reshapeLam(Lam* def) {
     Lam* new_lam  = w.nom_lam(new_ty, w.dbg(def->name() + "_reshaped"));
     old2new_[def] = new_lam;
 
+    w.DLOG("Reshape: {} : {}", def, pi_ty);
+    w.DLOG("     to: {} : {}", new_lam, new_ty);
+
     // We associate the arguments (reshape the old vars).
     // Alternatively, we could use beta reduction (reduce) to do this for us.
 
@@ -104,7 +107,7 @@ std::vector<const Def*> flatten_ty(const Def* T) {
     std::vector<const Def*> types;
     if (should_flatten(T)) {
         for (auto P : T->projs()) {
-            auto inner_types = flatten_ty(P->type());
+            auto inner_types = flatten_ty(P);
             types.insert(types.end(), inner_types.begin(), inner_types.end());
         }
     } else {
@@ -116,19 +119,20 @@ std::vector<const Def*> flatten_ty(const Def* T) {
 bool is_mem_ty(const Def* T) { return match<mem::M>(T); }
 DefArray vec2array(const std::vector<const Def*>& vec) { return DefArray(vec.begin(), vec.end()); }
 
-const Def* Reshape::reshape_type(const Def* ty) {
-    auto& w = ty->world();
+const Def* Reshape::reshape_type(const Def* T) {
+    auto& w = T->world();
 
-    if (auto pi = ty->isa<Pi>()) {
+    if (auto pi = T->isa<Pi>()) {
         auto new_dom = reshape_type(pi->dom());
         auto new_cod = reshape_type(pi->codom());
         return w.pi(new_dom, new_cod);
-    } else if (auto sigma = ty->isa<Sigma>()) {
+    } else if (auto sigma = T->isa<Sigma>()) {
         auto new_types = flatten_ty(sigma);
         if (mode_ == Mode::Flat) {
             return w.sigma(vec2array(new_types));
         } else {
             if (new_types.size() == 0) return w.sigma();
+            if (new_types.size() == 1) return new_types[0];
             const Def* mem;
             const Def* ret;
             // find mem, erase all mems
@@ -150,7 +154,7 @@ const Def* Reshape::reshape_type(const Def* ty) {
             return args;
         }
     } else {
-        return ty;
+        return T;
     }
 }
 
