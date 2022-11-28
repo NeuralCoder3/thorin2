@@ -30,15 +30,6 @@ bool should_flatten(const Def* T) {
     return false;
 }
 
-const Def* Reshape::update_type(const Def* T) {
-    if (should_flatten(T)) {
-        DefArray new_types(T->projs(), [&](const Def* t) { return update_type(t); });
-        return world().sigma(new_types);
-    }
-    if (T->isa<Pi>()) { return reshape_type(T); }
-    return T;
-}
-
 const Def* Reshape::rewrite_def_(const Def* def) {
     // We ignore types.
     switch (def->node()) {
@@ -84,29 +75,32 @@ const Def* Reshape::rewrite_def_(const Def* def) {
         world().DLOG("rewrote lam {} : {}", def, def->type());
         world().DLOG("into lam {} : {}", new_lam, new_lam->type());
         return new_lam;
+    } else if (auto tuple = def->isa<Tuple>()) {
+        DefArray elements(tuple->ops(), [&](const Def* op) { return rewrite_def(op); });
+        return w.tuple(elements);
     } else {
         auto new_ops  = DefArray(def->num_ops(), [&](auto i) { return rewrite_def(def->op(i)); });
         auto new_type = rewrite_def(def->type());
         // TODO: why necessary? (for tuples of functions)
         // if (new_type->isa<Pi>()) { new_type = reshape_type(new_type); }
-        new_type     = update_type(new_type);
+        // new_type     = update_type(new_type);
         auto new_dbg = def->dbg() ? rewrite_def(def->dbg()) : nullptr;
 
         auto new_def = def->rebuild(w, new_type, new_ops, new_dbg);
-        if (def->isa<Extract>()
-            // || def->isa<Tuple>()
-        ) {
-            world().DLOG("new_ty: {} [{}]", new_type, new_type->node_name());
-            world().DLOG("new_def: {} : {}", new_def, new_def->type());
-        }
+        // if (def->isa<Extract>()
+        //     // || def->isa<Tuple>()
+        // ) {
+        //     world().DLOG("new_ty: {} [{}]", new_type, new_type->node_name());
+        //     world().DLOG("new_def: {} : {}", new_def, new_def->type());
+        // }
 
-        if (auto ext = new_def->isa<Extract>()) {
-            world().DLOG("  Tuple: {} : {}", ext->tuple(), ext->tuple()->type());
-            auto e0 = ext->tuple()->proj(0);
-            world().DLOG("  e0: {} : {}", e0, e0->type());
-            auto e1 = ext->tuple()->proj(1);
-            world().DLOG("  e1: {} : {}", e1, e1->type());
-        }
+        // if (auto ext = new_def->isa<Extract>()) {
+        //     world().DLOG("  Tuple: {} : {}", ext->tuple(), ext->tuple()->type());
+        //     auto e0 = ext->tuple()->proj(0);
+        //     world().DLOG("  e0: {} : {}", e0, e0->type());
+        //     auto e1 = ext->tuple()->proj(1);
+        //     world().DLOG("  e1: {} : {}", e1, e1->type());
+        // }
         return new_def;
     }
 }

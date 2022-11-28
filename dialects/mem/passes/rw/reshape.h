@@ -52,8 +52,6 @@ private:
     /// Reconstructs the target type by taking defs out of the queue.
     const Def* reshape(std::vector<const Def*>& def, const Def* target);
 
-    const Def* update_type(const Def* T);
-
     /// Keeps track of the replacements.
     Def2Def old2new_;
     /// The mode to rewrite all lambas to. Either flat or arg.
