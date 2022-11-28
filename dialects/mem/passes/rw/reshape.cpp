@@ -2,6 +2,8 @@
 #include "dialects/mem/passes/rw/reshape.h"
 
 #include <functional>
+#include <sstream>
+#include <vector>
 
 #include "thorin/check.h"
 #include "thorin/def.h"
@@ -13,11 +15,10 @@ namespace thorin::mem {
 void Reshape::enter() { rewrite(curr_nom()); }
 
 const Def* Reshape::rewrite(const Def* def) {
+    // world().DLOG("rewrite {} : {} [{}]", def, def->type(), def->node_name());
     if (auto i = old2new_.find(def); i != old2new_.end()) return i->second;
     auto new_def  = rewrite_(def);
     old2new_[def] = new_def;
-    // TODO: necessary?
-    old2new_[new_def] = new_def;
     return new_def;
 }
 
@@ -35,10 +36,16 @@ const Def* Reshape::rewrite_(const Def* def) {
         case Node::Nat: return def;
     }
 
+    std::stringstream ss;
+    ss << def << " : " << def->type() << " [" << def->node_name() << "]";
+    std::string str = ss.str();
+    // world().DLOG("rewrite_ {} : {} [{}]", def, def->type(), def->node_name());
+
     // Var should be handled by memoization
     // if (def->isa<Var>() || def->isa<Axiom>()) { return def; }
     if (def->isa<Axiom>()) { return def; }
 
+    if (def->isa<Var>()) { world().DLOG("Var: {}", def); }
     assert(!def->isa<Var>());
 
     // if (def->type()->isa<Sigma>()) {
@@ -80,6 +87,7 @@ const Def* Reshape::rewrite_(const Def* def) {
         //     new_lam->set_body(new_body);
         // }
 
+        world().DLOG("rewrite lam {} : {}", def, def->type());
         return reshapeLam(lam);
     } else {
         auto new_ops = DefArray(def->num_ops(), [&](auto i) { return rewrite(def->op(i)); });
@@ -105,10 +113,12 @@ Lam* Reshape::reshapeLam(Lam* def) {
 
     // auto arg     = reshape(wrapper->var(), def_ty);
     // auto arg       = reshape(def->var(), new_ty->dom());
-    auto arg       = reshape(def->var());
-    auto num_projs = arg->num_projs();
-    auto new_arg   = new_lam->var();
-    assert(num_projs == new_arg->num_projs() && "Reshape of lambda should agree with tuple reshape");
+
+    // auto arg       = reshape(def->var());
+    // auto num_projs = arg->num_projs();
+    auto new_arg = new_lam->var();
+    // assert(num_projs == new_arg->num_projs() && "Reshape of lambda should agree with tuple reshape");
+
     // old2new_[arg] = new_arg;
     // for (unsigned int i = 0; i < num_projs; i++) {
     //     w.DLOG("associate {} with {}", arg->proj(i), new_arg->proj(i));
@@ -117,8 +127,15 @@ Lam* Reshape::reshapeLam(Lam* def) {
     // TODO: deep associate def->var() with new_arg
     // def->var with tuple(...) (reconstructed shape)
     // idea: first make new_arg into "atomar" def list, then recrusively imitate def->var
-    auto reformed_new_arg = reconstruct(new_arg, def->var()->type()); // def->var()->type() = pi_ty
-    old2new_[def->var()]  = reformed_new_arg;
+    auto reformed_new_arg = reshape(new_arg, def->var()->type()); // def->var()->type() = pi_ty
+    w.DLOG("var {} : {}", def->var(), def->var()->type());
+    w.DLOG("new var {} : {}", new_arg, new_arg->type());
+    w.DLOG("reshaped new_var {} : {}", reformed_new_arg, reformed_new_arg->type());
+    w.DLOG("{}", def->var()->type());
+    w.DLOG("{}", reformed_new_arg->type());
+    old2new_[def->var()] = reformed_new_arg;
+    // TODO: why is this necessary?
+    old2new_[new_arg] = new_arg;
 
     auto new_body = rewrite(def->body());
     new_lam->set_body(new_body);
@@ -129,6 +146,7 @@ Lam* Reshape::reshapeLam(Lam* def) {
         def->make_internal();
     }
 
+    w.DLOG("finished transforming: {} : {}", new_lam, new_ty);
     return new_lam;
 }
 
@@ -201,7 +219,28 @@ std::vector<const Def*> flatten_def(const Def* def) {
     return defs;
 }
 
+const Def* Reshape::reshape(std::vector<const Def*>& defs, const Def* T) {
+    if (should_flatten(T)) {
+        DefArray tuples(T->projs(), [&](auto P) { return reshape(defs, P); });
+        return T->world().tuple(tuples);
+    } else {
+        assert(defs.size() > 0 && "Reshape: not enough arguments");
+        auto def = defs.front();
+        defs.erase(defs.begin());
+        assert(def->type() == T && "Reshape: argument type mismatch");
+        return def;
+    }
+}
+
+const Def* Reshape::reshape(const Def* def, const Def* target) {
+    auto flat_defs = flatten_def(def);
+    return reshape(flat_defs, target);
+}
+
 // called for new lambda arguments, app arguments
+// We can not (directly) replace it with the more general version above due to the mem erasure.
+// TODO: ignore mem erase, replace with more general
+// TODO: capture names
 const Def* Reshape::reshape(const Def* def) {
     auto& w = def->world();
 

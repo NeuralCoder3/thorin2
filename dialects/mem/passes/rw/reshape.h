@@ -41,6 +41,8 @@ private:
 
     const Def* reshape_type(const Def* T);
     const Def* reshape(const Def* def);
+    const Def* reshape(std::vector<const Def*>& def, const Def* target);
+    const Def* reshape(const Def* def, const Def* target);
     // ignores mode and follows T for reshaping (we also need the inverse transformation)
     // const Def* reshape(const Def* def, const Def* T);
     // const Def* flatten_ty(const Def* ty);

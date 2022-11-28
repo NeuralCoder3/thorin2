@@ -85,6 +85,7 @@
 
 .lam .extern _compile [] -> Pipeline = {
     %compile.pipe
-        (%compile.single_pass_phase (%mem.reshape_pass %mem.reshape_flat))
+        // (%compile.single_pass_phase (%mem.reshape_pass %mem.reshape_flat))
+        (%compile.single_pass_phase (%mem.reshape_pass %mem.reshape_arg))
         // clos_phases
 };
