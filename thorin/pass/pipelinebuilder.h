@@ -10,14 +10,13 @@
 
 namespace thorin {
 
-typedef std::function<void(PassMan&)> PassBuilder;
-typedef std::function<void(Pipeline&)> PhaseBuilder;
-typedef std::pair<int, PassBuilder> PrioPassBuilder;
-typedef std::pair<int, PhaseBuilder> PrioPhaseBuilder;
-typedef std::vector<PrioPassBuilder> PassList;
-typedef std::vector<PrioPhaseBuilder> PhaseList;
-// using PassInstanceMap = absl::flat_hash_map<const Def*, Pass*>;
-using PassInstanceMap = std::map<const Def*, Pass*>;
+using PassBuilder      = std::function<void(PassMan&)>;
+using PhaseBuilder     = std::function<void(Pipeline&)>;
+using PrioPassBuilder  = std::pair<int, PassBuilder>;
+using PrioPhaseBuilder = std::pair<int, PhaseBuilder>;
+using PassList         = std::vector<PrioPassBuilder>;
+using PhaseList        = std::vector<PrioPhaseBuilder>;
+using PassInstanceMap  = absl::btree_map<const Def*, Pass*, GIDLt<const Def*>>;
 
 struct passCmp {
     constexpr bool operator()(PrioPassBuilder const& a, PrioPassBuilder const& b) const noexcept {
@@ -38,12 +37,9 @@ public:
     int last_phase();
 
     // Adds a pass and remembers it associated with the given def.
-    // template<class P, class... Args>
-    // void add_pass(const Def*, Args&&...);
     template<class P, class... Args>
     void add_pass(const Def* def, Args&&... args) {
         append_pass_in_end([&, def, ... args = std::forward<Args>(args)](PassMan& man) {
-            // auto pass = (Pass*)man.add<P>(std::forward<Args>(args)...);
             auto pass = (Pass*)man.add<P>(args...);
             remember_pass_instance(pass, def);
         });
@@ -76,7 +72,6 @@ private:
     PassInstanceMap pass_instances_;
 };
 
-// TODO: move somewhere better (for now here due to template restrictions)
 template<class A, class P, class... CArgs>
 void register_pass(Passes& passes, CArgs&&... args) {
     passes[flags_t(Axiom::Base<A>)] = [... args = std::forward<CArgs>(args)](World&, PipelineBuilder& builder,

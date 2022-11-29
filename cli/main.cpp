@@ -134,6 +134,8 @@ int main(int argc, char** argv) {
         PipelineBuilder builder;
         for (const auto& dialect : dialects) { dialect.add_passes(builder); }
 
+        if (os[H]) opt = std::min(opt, 1);
+
         // clang-format off
         switch (opt) {
             case 0:                             break;

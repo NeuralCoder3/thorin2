@@ -49,8 +49,7 @@ const Def* normalize_single_pass_phase(const Def* type, const Def* callee, const
 /// `combine_pass_list K (pass_list pass11 ... pass1N) ... (pass_list passK1 ... passKM) = pass_list pass11 ... p1N ...
 /// passK1 ... passKM`
 const Def* normalize_combine_pass_list(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
-    auto& world = type->world();
-    // world.DLOG("Normalize combine_pass_list: {} {}", callee, arg);
+    auto& world     = type->world();
     auto pass_lists = arg->projs();
     DefVec passes;
 

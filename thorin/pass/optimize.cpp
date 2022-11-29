@@ -15,42 +15,26 @@
 
 namespace thorin {
 
-/// The optimizations proceed in a pipeline ordered by priorities.
-/// Each phase is a sequence of passes that are run interleaved.
-/// The passes are added to the phase ordered by their priority.
-
-/// Order:
-/// * 1-10: initial passes
-/// * 100: Main optimization phase (default for extend_opt_phase)
-/// * 200: Pre-CodeGen Optimization
-/// * 300: CodeGen Preparation (default for extend_codegen_prep_phase)
-///
-/// concrete phases:
-/// * 0  : Scalarize
-/// * 1  : EtaRed
-/// * 2  : TailRecElim
-/// * 100: Optimize (Priority 50)
-///   * PartialEval
-///   * BetaRed
-///   * EtaRed
-///   * EtaExp
-///   * Scalarize
-///   * TailRecElim
-///   * + Custom (default priority 100)
-/// * 200: LamSpec
-/// * 300: RetWrap (Priority 50)
-///   * + Custom (default priority 100)
-
 /// See optimize.h for magic numbers
 void optimize(World& world, Passes& passes, PipelineBuilder& builder) {
-    if (auto compilation = world.lookup("_compile")) {
+    auto compilation_functions = {"_compile"};
+    const Def* compilation     = nullptr;
+    for (auto compilation_function : compilation_functions) {
+        if (auto compilation_ = world.lookup(compilation_function)) {
+            if (!compilation) { compilation = compilation_; }
+            compilation_->make_internal();
+        }
+    }
+    // TODO: reenable when default compilation is available
+    if (compilation) {
+        assert(compilation && "no compilation function found");
+
         // We found a compilation directive in the file and use it to build the compilation pipeline.
         // The general idea is that passes and phases are exposed as axioms.
-        // Each pass/phase axiom is associated with a handler function operating on the PipelineBuilder in the passes
-        // map. This registering is analogous to the normalizers (`code -> code`) but only operated using side effects
-        // that change the pipeline.
+        // Each pass/phase axiom is associated with a handler function operating on the PipelineBuilder in the
+        // passes map. This registering is analogous to the normalizers (`code -> code`) but only operated using
+        // side effects that change the pipeline.
         world.DLOG("compilation using {} : {}", compilation, compilation->type());
-        compilation->make_internal();
 
         // We can not directly access compile axioms here.
         // But the compile dialect has not the necessary communication pipeline.
@@ -76,6 +60,7 @@ void optimize(World& world, Passes& passes, PipelineBuilder& builder) {
         return;
     }
 
+    // TODO: remove together with the old compilation pipeline
     builder.extend_opt_phase(0, [](thorin::PassMan& man) { man.add<Scalerize>(); });
     builder.extend_opt_phase(1, [](thorin::PassMan& man) { man.add<EtaRed>(); });
     builder.extend_opt_phase(2, [](thorin::PassMan& man) { man.add<TailRecElim>(); });

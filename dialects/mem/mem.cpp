@@ -63,7 +63,7 @@ extern "C" THORIN_EXPORT DialectInfo thorin_get_dialect_info() {
                     auto br_pass = (BetaRed*)builder.get_pass_instance(br);
                     auto ee_pass = (EtaExp*)builder.get_pass_instance(ee);
                     auto bb_only = bb->as<Lit>()->get<u64>();
-                    // world.DLOG("registering copy_prop with br = {}, ee = {}, bb_only = {}", br, ee, bb_only);
+                    world.DLOG("registering copy_prop with br = {}, ee = {}, bb_only = {}", br, ee, bb_only);
                     builder.add_pass<mem::CopyProp>(app, br_pass, ee_pass, bb_only);
                 };
                 passes[flags_t(Axiom::Base<mem::reshape_pass>)] = [&](World&, PipelineBuilder& builder,
