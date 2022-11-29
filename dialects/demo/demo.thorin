@@ -10,4 +10,3 @@
 /// 
 /// The 42 constant, evaluated using a normalizer
 .ax %demo.constIdx: Π [n:.Nat] -> .Idx n, normalize_const;
-.ax %demo.id_fun: Π [A:*] -> A -> A, normalize_id_fun;
