@@ -1,3 +1,6 @@
+// RUN: rm -f %t.ll ; \
+// RUN: %thorin %s -o -
+// TODO: add filecheck
 .import compile;
 .import core;
 .import clos;
