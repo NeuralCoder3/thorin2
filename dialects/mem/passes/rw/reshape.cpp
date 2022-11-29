@@ -87,12 +87,24 @@ const Def* Reshape::rewrite_def_(const Def* def) {
 }
 
 Lam* Reshape::reshape_lam(Lam* def) {
+    auto& w = def->world();
+    if (!def->is_set()) {
+        w.DLOG("reshape_lam: {} is not a set", def);
+        return def;
+    }
     auto pi_ty  = def->type();
     auto new_ty = reshape_type(pi_ty)->as<Pi>();
 
-    auto& w       = def->world();
-    Lam* new_lam  = w.nom_lam(new_ty, w.dbg(def->name() + "_reshaped"));
-    old2new_[def] = new_lam;
+    Lam* new_lam;
+    auto name = def->name();
+
+    if (name != "main") {
+        name          = name + "_reshape";
+        new_lam       = w.nom_lam(new_ty, w.dbg(name));
+        old2new_[def] = new_lam;
+    } else {
+        new_lam = def;
+    }
 
     w.DLOG("Reshape lam: {} : {}", def, pi_ty);
     w.DLOG("         to: {} : {}", new_lam, new_ty);
@@ -119,8 +131,8 @@ Lam* Reshape::reshape_lam(Lam* def) {
     new_lam->set_filter(true);
 
     if (def->is_external()) {
-        new_lam->make_external();
         def->make_internal();
+        new_lam->make_external();
     }
 
     w.DLOG("finished transforming: {} : {}", new_lam, new_ty);
