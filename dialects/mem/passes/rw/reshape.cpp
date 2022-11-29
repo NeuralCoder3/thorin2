@@ -62,12 +62,9 @@ const Def* Reshape::rewrite_def_(const Def* def) {
 
         world().DLOG("callee: {} : {}", callee, callee->type());
 
-        // Not rust reshape because we might change empty tuples in the type of the callee.
+        // Reshape normally (not to callee) to ensure that callee is reshaped correctly.
         auto reshaped_arg = reshape(arg);
-        // auto reshaped_arg = reshape(arg, callee->type());
-        // auto reshaped_arg = arg;
-        // if (!callee->isa<Axiom>()) { reshaped_arg = reshape(arg, callee->type()); }
-        auto new_app = w.app(callee, reshaped_arg);
+        auto new_app      = w.app(callee, reshaped_arg);
         return new_app;
     } else if (auto lam = def->isa_nom<Lam>()) {
         world().DLOG("rewrite_def lam {} : {}", def, def->type());
@@ -79,28 +76,12 @@ const Def* Reshape::rewrite_def_(const Def* def) {
         DefArray elements(tuple->ops(), [&](const Def* op) { return rewrite_def(op); });
         return w.tuple(elements);
     } else {
-        auto new_ops  = DefArray(def->num_ops(), [&](auto i) { return rewrite_def(def->op(i)); });
+        auto new_ops = DefArray(def->num_ops(), [&](auto i) { return rewrite_def(def->op(i)); });
+        // Warning: if the new_type is not correct, inconcistencies will arise.
         auto new_type = rewrite_def(def->type());
-        // TODO: why necessary? (for tuples of functions)
-        // if (new_type->isa<Pi>()) { new_type = reshape_type(new_type); }
-        // new_type     = update_type(new_type);
-        auto new_dbg = def->dbg() ? rewrite_def(def->dbg()) : nullptr;
+        auto new_dbg  = def->dbg() ? rewrite_def(def->dbg()) : nullptr;
 
         auto new_def = def->rebuild(w, new_type, new_ops, new_dbg);
-        // if (def->isa<Extract>()
-        //     // || def->isa<Tuple>()
-        // ) {
-        //     world().DLOG("new_ty: {} [{}]", new_type, new_type->node_name());
-        //     world().DLOG("new_def: {} : {}", new_def, new_def->type());
-        // }
-
-        // if (auto ext = new_def->isa<Extract>()) {
-        //     world().DLOG("  Tuple: {} : {}", ext->tuple(), ext->tuple()->type());
-        //     auto e0 = ext->tuple()->proj(0);
-        //     world().DLOG("  e0: {} : {}", e0, e0->type());
-        //     auto e1 = ext->tuple()->proj(1);
-        //     world().DLOG("  e1: {} : {}", e1, e1->type());
-        // }
         return new_def;
     }
 }
@@ -118,14 +99,7 @@ Lam* Reshape::reshape_lam(Lam* def) {
 
     // We associate the arguments (reshape the old vars).
     // Alternatively, we could use beta reduction (reduce) to do this for us.
-
-    // auto arg     = reshape(wrapper->var(), def_ty);
-    // auto arg       = reshape(def->var(), new_ty->dom());
-
-    // auto arg       = reshape(def->var());
-    // auto num_projs = arg->num_projs();
     auto new_arg = new_lam->var();
-    // assert(num_projs == new_arg->num_projs() && "Reshape of lambda should agree with tuple reshape");
 
     // We deeply associate `def->var()` with `new_arg` in a reconstructed shape.
     // Idea: first make new_arg into "atomic" def list, then recrusively imitate `def->var`.
@@ -205,12 +179,8 @@ const Def* Reshape::reshape_type(const Def* T) {
             const Def* args = w.sigma(vec2array(new_types));
             if (mem) { args = w.sigma({mem, args}); }
             if (ret) { args = w.sigma({args, ret}); }
-            // reshaped_type = args;
             return args;
         }
-        // w.DLOG("reshape type {} [{}]", T, T->node_name());
-        // w.DLOG("to {} [{}]", reshaped_type, reshaped_type->node_name());
-        // return reshaped_type;
     } else {
         return T;
     }
@@ -239,8 +209,13 @@ const Def* Reshape::reshape(std::vector<const Def*>& defs, const Def* T) {
         assert(defs.size() > 0 && "Reshape: not enough arguments");
         auto def = defs.front();
         defs.erase(defs.begin());
-        // if (def->type() != T) { world.ELOG("reconstruct T {} from def {}", T, def->type()); }
-        // assert(def->type() == T && "Reshape: argument type mismatch");
+        // For inner function types, we override the type
+        if (!def->type()->isa<Pi>()) {
+            if (world.checker().equiv(def->type(), T, {})) {
+                world.ELOG("reconstruct T {} from def {}", T, def->type());
+            }
+            assert(world.checker().equiv(def->type(), T, {}) && "Reshape: argument type mismatch");
+        }
         return def;
     }
 }
