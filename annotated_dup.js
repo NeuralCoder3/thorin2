@@ -22,6 +22,9 @@ var annotated_dup =
         [ "LowerTypedClosPrep", "classthorin_1_1clos_1_1LowerTypedClosPrep.html", "classthorin_1_1clos_1_1LowerTypedClosPrep" ],
         [ "LowerTypedClosWrapper", "classthorin_1_1clos_1_1LowerTypedClosWrapper.html", "classthorin_1_1clos_1_1LowerTypedClosWrapper" ]
       ] ],
+      [ "compile", "namespacethorin_1_1compile.html", [
+        [ "DebugPrint", "classthorin_1_1compile_1_1DebugPrint.html", "classthorin_1_1compile_1_1DebugPrint" ]
+      ] ],
       [ "core", "namespacethorin_1_1core.html", [
         [ "Res", "classthorin_1_1core_1_1Res.html", "classthorin_1_1core_1_1Res" ]
       ] ],
@@ -58,6 +61,8 @@ var annotated_dup =
         [ "Res", "classthorin_1_1math_1_1Res.html", "classthorin_1_1math_1_1Res" ]
       ] ],
       [ "mem", "namespacethorin_1_1mem.html", [
+        [ "AddMem", "classthorin_1_1mem_1_1AddMem.html", "classthorin_1_1mem_1_1AddMem" ],
+        [ "AddMemWrapper", "classthorin_1_1mem_1_1AddMemWrapper.html", "classthorin_1_1mem_1_1AddMemWrapper" ],
         [ "Alloc2Malloc", "classthorin_1_1mem_1_1Alloc2Malloc.html", "classthorin_1_1mem_1_1Alloc2Malloc" ],
         [ "CopyProp", "classthorin_1_1mem_1_1CopyProp.html", "classthorin_1_1mem_1_1CopyProp" ],
         [ "RememElim", "classthorin_1_1mem_1_1RememElim.html", "classthorin_1_1mem_1_1RememElim" ],
@@ -136,6 +141,7 @@ var annotated_dup =
       [ "PassPhase", "classthorin_1_1PassPhase.html", "classthorin_1_1PassPhase" ],
       [ "PassTag", "namespacethorin.html#structthorin_1_1PassTag", null ],
       [ "Phase", "classthorin_1_1Phase.html", "classthorin_1_1Phase" ],
+      [ "phaseCmp", "structthorin_1_1phaseCmp.html", "structthorin_1_1phaseCmp" ],
       [ "Pi", "classthorin_1_1Pi.html", "classthorin_1_1Pi" ],
       [ "Pick", "classthorin_1_1Pick.html", "classthorin_1_1Pick" ],
       [ "Pipeline", "classthorin_1_1Pipeline.html", "classthorin_1_1Pipeline" ],

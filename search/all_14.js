@@ -12,7 +12,7 @@ var searchData=
   ['vel_9',['vel',['../classthorin_1_1World.html#aa73afcb4099190ef420e3073b98600dc',1,'thorin::World']]],
   ['vel_10',['Vel',['../namespacethorin_1_1Node.html#a8f9ce7cae6b718bac0ca504d3fe29afba8488f8c3464a90aa07238d6ae0bce35d',1,'thorin::Node']]],
   ['verbose_11',['Verbose',['../structthorin_1_1Log.html#ae8ff4129d521840f869d27c15ead3a1aad4a9fa383ab700c5bdd6f31cf7df0faf',1,'thorin::Log']]],
-  ['visit_12',['visit',['../classthorin_1_1ScopePhase.html#ab5d343426e274f0651af559ddb548880',1,'thorin::ScopePhase::visit()'],['../classthorin_1_1Emitter.html#acf85a272fcb781eff8982377732e561f',1,'thorin::Emitter::visit()'],['../namespacethorin.html#aca7a0dc87489d726385a61cdc1fde51c',1,'thorin::visit(IndexSet&lt; Indexer, Key &gt; &amp;set, const Key &amp;key)']]],
+  ['visit_12',['visit',['../classthorin_1_1mem_1_1AddMem.html#aff7ecd151b503845fdaecad247e2dc8d',1,'thorin::mem::AddMem::visit()'],['../classthorin_1_1ScopePhase.html#ab5d343426e274f0651af559ddb548880',1,'thorin::ScopePhase::visit()'],['../classthorin_1_1Emitter.html#acf85a272fcb781eff8982377732e561f',1,'thorin::Emitter::visit()'],['../namespacethorin.html#aca7a0dc87489d726385a61cdc1fde51c',1,'thorin::visit(IndexSet&lt; Indexer, Key &gt; &amp;set, const Key &amp;key)']]],
   ['visit_5ffirst_13',['visit_first',['../namespacethorin.html#a02f88714441141b4cafcf80c5e49f554',1,'thorin']]],
   ['vlog_14',['VLOG',['../log_8h.html#a35e71de09dfd64892a48e3f7c56c5619',1,'log.h']]],
   ['vmode_15',['VMode',['../namespacethorin_1_1core.html#a70d6ff6fb821b8e67ddb70da93401dc3',1,'thorin::core::VMode()'],['../namespacethorin_1_1math.html#a83a3bb75ae6a40aa4d5feb88d09bdcad',1,'thorin::math::VMode()']]]
