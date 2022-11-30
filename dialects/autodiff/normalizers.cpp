@@ -15,21 +15,21 @@ namespace thorin::autodiff {
 /// TODO: Maybe we want to handle trivial lookup replacements here.
 const Def* normalize_ad(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
     auto& world = type->world();
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 const Def* normalize_AD(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
     auto& world = type->world();
     auto ad_ty  = autodiff_type_fun(arg);
     if (ad_ty) return ad_ty;
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 const Def* normalize_Tangent(const Def*, const Def*, const Def* arg, const Def*) { return tangent_type_fun(arg); }
 
 const Def* normalize_zero(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
     auto& world = type->world();
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 const Def* normalize_add(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
@@ -95,7 +95,7 @@ const Def* normalize_add(const Def* type, const Def* callee, const Def* arg, con
     }
     // TODO: mem stays here (only resolved after direct simplification)
 
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 const Def* normalize_sum(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
@@ -116,7 +116,7 @@ const Def* normalize_sum(const Def* type, const Def* callee, const Def* arg, con
     }
     assert(0);
 
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 THORIN_autodiff_NORMALIZER_IMPL

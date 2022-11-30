@@ -21,7 +21,7 @@ inline const Def* op_zero(const Def* A) {
 inline const Def* op_sum(const Def* T, DefArray defs) {
     // TODO: assert all are of type T
     auto& world = T->world();
-    return world.raw_app(world.raw_app(world.ax<sum>(), {world.lit_nat(defs.size()), T}), world.tuple(defs));
+    return world.app(world.app(world.ax<sum>(), {world.lit_nat(defs.size()), T}), world.tuple(defs));
 }
 
 inline const Def* op_add(const Def* a, const Def* b) {
