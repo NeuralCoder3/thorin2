@@ -49,12 +49,6 @@ extern "C" THORIN_EXPORT DialectInfo thorin_get_dialect_info() {
                 register_pass<mem::remem_elim_pass, mem::RememElim>(passes);
                 register_pass<mem::alloc2malloc_pass, mem::Alloc2Malloc>(passes);
 
-                // passes[flags_t(Axiom::Base<mem::copy_prop_no_arg_pass>)] = [&](World&, PipelineBuilder& builder,
-                //                                                                const Def* app) {
-                //     auto bb_only = app->as<App>()->arg()->as<Lit>()->get<u64>();
-                //     builder.add_pass<mem::CopyProp>(app, nullptr, nullptr, bb_only);
-                // };
-
                 // TODO: generalize register_pass_with_arg
                 passes[flags_t(Axiom::Base<mem::copy_prop_pass>)] = [&](World& world, PipelineBuilder& builder,
                                                                         const Def* app) {
