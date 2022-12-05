@@ -82,12 +82,20 @@
           ))
         )
         (dialect_cond_phase (%opt.autodiff_dialect,
-          ad_opt_phases
+          %compile.combined_phase (%compile.phase_list
+            ad_opt_phases
+            (dialect_cond_phase (%opt.affine_dialect,
+            (%compile.single_pass_phase %affine.lower_for_pass)
+            ))
+          )
           // %compile.combined_phase (%compile.phase_list
           //   // (%compile.single_pass_phase %autodiff.ad_eval_pass)
           //   // // optimization_phase
           //   // (%compile.single_pass_phase %autodiff.ad_zero_pass)
           // )
+        ))
+        (dialect_cond_phase (%opt.autodiff_dialect,
+          ad_cleanup_phase
         ))
         (dialect_cond_phase (%opt.direct_dialect,
           direct_phases
@@ -97,9 +105,6 @@
           clos_phases
         ))
         (%compile.single_pass_phase %compile.lam_spec_pass)
-        (dialect_cond_phase (%opt.autodiff_dialect,
-          ad_cleanup_phase
-        ))
         // CodeGenPrep
         (%compile.pass_phase 
           (%compile.combine_pass_list (⊤:.Nat)
