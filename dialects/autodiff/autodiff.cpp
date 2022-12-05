@@ -25,37 +25,8 @@
 
 using namespace thorin;
 
-/// optimization idea:
-/// * optimize [100]
-/// * perform ad [105]
-/// * resolve unsolved zeros (not added) [111]
-/// * optimize further, cleanup direct style [115-120] (in direct)
-/// * cleanup (zeros, externals) [126]
 extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
     return {"autodiff",
-            [](thorin::PipelineBuilder& builder) {
-                builder.add_opt(110);
-
-                // builder.extend_opt_phase(104, [](PassMan& man) { man.add<mem::Reshape>(mem::Reshape::Arg); });
-                builder.extend_opt_phase(105, [](thorin::PassMan& man) { man.add<thorin::autodiff::AutoDiffEval>(); });
-                builder.extend_opt_phase(106, [](thorin::PassMan& man) { man.add<thorin::affine::LowerFor>(); });
-                builder.extend_opt_phase(107, [](thorin::PassMan& man) {
-                    // in theory only after partial eval (beta, ...)
-                    // but before other simplification
-                    // zero and add need to be close together
-                    man.add<thorin::autodiff::AutoDiffZero>();
-                });
-                builder.add_opt(125);
-                builder.extend_opt_phase(126, [](PassMan& man) {
-                    man.add<thorin::autodiff::AutoDiffZeroCleanup>();
-                    man.add<thorin::autodiff::AutoDiffExternalCleanup>();
-                });
-
-                builder.extend_opt_phase(127, [](thorin::PassMan& man) { man.add<Scalerize>(); });
-                builder.extend_opt_phase(128, [](thorin::PassMan& man) { man.add<EtaRed>(); });
-                builder.extend_opt_phase(129, [](thorin::PassMan& man) { man.add<TailRecElim>(); });
-                builder.add_opt(130);
-            },
             [](Passes& passes) {
                 register_pass<autodiff::ad_eval_pass, autodiff::AutoDiffEval>(passes);
                 register_pass<autodiff::ad_zero_pass, autodiff::AutoDiffZero>(passes);
