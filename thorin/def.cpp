@@ -266,7 +266,9 @@ void Def::set_debug_name(std::string_view n) const {
         // dbg_ = w.tuple({name, dbg_->proj(1), dbg_->proj(2)});
         // dbg_ = w.tuple({name, dbg_->proj(3, 1), dbg_->proj(3, 2)});
         // leads to divergence in combination with eta_reduction during opt phase and direct plugin
-        dbg_ = w.insert(dbg_, 3_s, 0_s, name);
+        // insert leads to :4294967295: error: expected type but got '.Nat' which is a term
+        // dbg_ = w.insert(dbg_, 3_s, 0_s, name);
+        dbg_ = w.tuple({name, dbg_->proj(3, 1), dbg_->proj(3, 2)});
     }
 }
 #endif
