@@ -98,15 +98,19 @@
         (dialect_cond_phase (%opt.autodiff_dialect,
           ad_cleanup_phase
         ))
+        // simplify 
+        (%compile.single_pass_phase %compile.internal_cleanup_pass)
+        (dialect_cond_phase (%opt.autodiff_dialect, optimize))
+        // direct
         (dialect_cond_phase (%opt.direct_dialect,
           %compile.combined_phase (%compile.phase_list
           direct_phases
           // optimization_phase
+          optimize
           )
         ))
-        (%compile.single_pass_phase %compile.internal_cleanup_pass)
         // simplify 
-        (dialect_cond_phase (%opt.autodiff_dialect, optimize))
+        // (dialect_cond_phase (%opt.autodiff_dialect, optimize))
         (dialect_cond_phase (%opt.clos_dialect,
           clos_phases
         ))

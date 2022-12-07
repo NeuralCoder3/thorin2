@@ -1,5 +1,10 @@
 // RUN: rm -f %t.ll ; \
-// RUN: %thorin -d autodiff %s --output-ll %t.ll --output-thorin - | FileCheck %s
+// RUN: %thorin -d direct -d clos -d autodiff %s --output-ll %t.ll --output-thorin - 
+// RUN: clang %S/lib.c %t.ll -o %t -Wno-override-module
+// RUN: %t ; test $? -eq 100
+// RUN: %t 1 ; test $? -eq 100
+// RUN: %t 1 2 ; test $? -eq 100
+
 
 .import core;
 .import autodiff;
@@ -37,12 +42,3 @@
     f_diff ((mem, argc),ret_cont)
 };
 
-
-
-// CHECK-DAG: .con .extern main _{{[0-9_]+}}::[mem_[[memId:[_0-9]*]]: %mem.M, (I32), %mem.Ptr (%mem.Ptr ((.Idx 256), 0:.Nat), 0:.Nat), return_[[returnId:[_0-9]*]]: .Cn [%mem.M, (I32)]] = {
-// CHECK-DAG: _[[appId:[_0-9]*]]: ⊥:★ = return_[[returnEtaId:[_0-9]*]] (mem_[[memId]], 42:(I32));
-// CHECK-DAG: _[[appId]]
-
-// CHECK-DAG: return_[[returnEtaId]] _[[returnEtaVarId:[0-9_]+]]: [%mem.M, (I32)] = {
-// CHECK-DAG: return_[[retAppId:[_0-9]*]]: ⊥:★ = return_[[returnId]] _[[returnEtaVarId]];
-// CHECK-DAG: return_[[retAppId]]
