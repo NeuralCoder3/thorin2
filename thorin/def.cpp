@@ -93,9 +93,9 @@ const Def* Var      ::rebuild(World& w, const Def* t, Defs o, const Def* dbg) co
 const Def* Vel      ::rebuild(World& w, const Def* t, Defs o, const Def* dbg) const { return w.vel(t, o[0], dbg); }
 
 const Def* Axiom    ::rebuild(World& w, const Def* t, Defs  , const Def* dbg) const {
-    auto res = w.axiom(normalizer(), t, dialect(), tag(), sub(), dbg);
-    assert(&w != &world() || gid() == res->gid());
-    return res;
+    if (&w != &world()) return w.axiom(normalizer(), curry(), trip(), t, dialect(), tag(), sub(), dbg);
+    assert(w.checker().equiv(t, type(), dbg));
+    return this;
 }
 
 template<bool up> const Def* TExt  <up>::rebuild(World& w, const Def* t, Defs  , const Def* dbg) const { return w.ext  <up>(t,    dbg); }
@@ -105,7 +105,7 @@ template<bool up> const Def* TBound<up>::rebuild(World& w, const Def*  , Defs o,
  * stub
  */
 
-Lam*    Lam   ::stub(World& w, const Def* t, const Def* dbg) { return w.nom_lam  (t->as<Pi>(), cc(), dbg); }
+Lam*    Lam   ::stub(World& w, const Def* t, const Def* dbg) { return w.nom_lam  (t->as<Pi>(), dbg); }
 Pi*     Pi    ::stub(World& w, const Def* t, const Def* dbg) { return w.nom_pi   (t, dbg); }
 Sigma*  Sigma ::stub(World& w, const Def* t, const Def* dbg) { return w.nom_sigma(t, num_ops(), dbg); }
 Arr*    Arr   ::stub(World& w, const Def* t, const Def* dbg) { return w.nom_arr  (t, dbg); }
@@ -137,13 +137,19 @@ const Sigma* Sigma::restructure() {
 
 const Def* Arr::restructure() {
     auto& w = world();
-    if (auto n = isa_lit(shape())) return w.sigma(DefArray(*n, [&](size_t i) { return reduce(w.lit_idx(*n, i)); }));
+    if (auto n = isa_lit(shape())) {
+        if (is_free(this, body())) return w.sigma(DefArray(*n, [&](size_t i) { return reduce(w.lit_idx(*n, i)); }));
+        return w.arr(shape(), body());
+    }
     return nullptr;
 }
 
 const Def* Pack::restructure() {
     auto& w = world();
-    if (auto n = isa_lit(shape())) return w.tuple(DefArray(*n, [&](size_t i) { return reduce(w.lit_idx(*n, i)); }));
+    if (auto n = isa_lit(shape())) {
+        if (is_free(this, body())) return w.tuple(DefArray(*n, [&](size_t i) { return reduce(w.lit_idx(*n, i)); }));
+        return w.pack(shape(), body());
+    }
     return nullptr;
 }
 
@@ -201,9 +207,9 @@ const Var* Def::var(const Def* dbg) {
     if (auto sig  = isa<Sigma>()) return w.var(sig,         sig, dbg);
     if (auto arr  = isa<Arr  >()) return w.var(w.type_idx(arr ->shape()), arr,  dbg); // TODO shapes like (2, 3)
     if (auto pack = isa<Pack >()) return w.var(w.type_idx(pack->shape()), pack, dbg); // TODO shapes like (2, 3)
-    if (isa_bound(this)) return w.var(this, this,  dbg);
-    if (isa<Infer >())   return nullptr;
-    if (isa<Global>())   return nullptr;
+    if (isa<Bound >()) return w.var(this, this,  dbg);
+    if (isa<Infer >()) return nullptr;
+    if (isa<Global>()) return nullptr;
     unreachable();
 }
 
@@ -326,19 +332,12 @@ void Def::unset_type() {
     type_ = nullptr;
 }
 
-// TODO Maybe we can speed is_set/is_unfinished up by setting some flags.
-// These tests can easily explode quadratically.
 bool Def::is_set() const {
-    auto all_set = std::ranges::all_of(ops(), [](auto op) { return op != nullptr; });
-    assert((!isa_structural() || all_set) && "structurals must be always set");
-
-    if (all_set) return true;
-    assert(std::ranges::all_of(ops(), [](auto op) { return op == nullptr; }) && "some operands are set, others aren't");
-    return false;
-}
-
-bool Def::is_unfinished() const {
-    return std::ranges::any_of(ops(), [](auto op) { return op == nullptr; });
+    if (num_ops() == 0) return true;
+    bool result = ops().back();
+    assert((!result || std::ranges::all_of(ops().skip_back(), [](auto op) { return op; })) &&
+           "the last operand is set but others in front of it aren't");
+    return result;
 }
 
 void Def::make_external() { return world().make_external(this); }
@@ -400,7 +399,7 @@ const Def* Def::proj(nat_t a, nat_t i, const Def* dbg) const {
         if (w.is_frozen() || uses().size() < Search_In_Uses_Threshold) {
             for (auto u : uses()) {
                 if (auto ex = u->isa<Extract>(); ex && ex->tuple() == this) {
-                    if (auto index = isa_lit(ex->index()); *index == i) return ex;
+                    if (auto index = isa_lit(ex->index()); index && *index == i) return ex;
                 }
             }
 
@@ -425,6 +424,12 @@ const Def* Idx::size(const Def* def) {
     return nullptr;
 }
 
+std::optional<nat_t> Idx::size2bitwidth(const Def* size) {
+    if (size->isa<Top>()) return 64;
+    if (auto s = isa_lit(size)) return size2bitwidth(*s);
+    return {};
+}
+
 /*
  * Global
  */
@@ -446,5 +451,18 @@ template TBound<false>* TBound<false>::stub(World&, const Def*, const Def*);
 template TBound<true >* TBound<true >::stub(World&, const Def*, const Def*);
 
 // clang-format on
+
+std::pair<const Def*, std::vector<const Def*>> collect_args(const Def* def) {
+    std::vector<const Def*> args;
+    if (auto app = def->isa<App>()) {
+        auto callee               = app->callee();
+        auto arg                  = app->arg();
+        auto [inner_callee, args] = collect_args(callee);
+        args.push_back(arg);
+        return {inner_callee, args};
+    } else {
+        return {def, args};
+    }
+}
 
 } // namespace thorin
