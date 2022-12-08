@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include <thorin/axiom.h>
 #include <thorin/def.h>
 #include <thorin/lam.h>
@@ -60,6 +62,34 @@ const Def* AutoDiffEval::autodiff_zero(const Def* mem, const Def* def) {
     assert(false && "unhandled type in autodiff_zero");
 }
 
+const Def* AutoDiffEval::preparePtr(const Def* mem, const Def* darg, Lam* f) {
+    auto& world = darg->world();
+    if (auto ptr = match<mem::Ptr>(darg->type())) {
+        auto [ptr_ty, addr_space] = ptr->args<2>();
+        // auto [mem2, gradient_ptr] = mem::op_alloc(ptr_ty, mem, world.dbg(darg->name() +
+        // "_gradient_arr"))->projs<2>(); mem                       = mem2; gradient_ptrs[darg]        = gradient_ptr;
+        world.DLOG("preparePtr: {} : {}", darg, darg->type());
+        world.DLOG(" pointer type: {}", ptr_ty);
+        auto pb_ty = shadow_array_type(ptr_ty, f->dom(0_s));
+        world.DLOG(" pb ptr type: {}", pb_ty);
+
+        auto [mem2, pullback_ptr] = mem::op_malloc(pb_ty, mem, world.dbg(darg->name() + "_pullback_alloc"))->projs<2>();
+        world.DLOG(" pb type: {}", pullback_ptr->type());
+        shadow_pullback[darg] = pullback_ptr;
+        world.DLOG(" set pb for {} : {}", darg, darg->type());
+        // TODO: init pullback
+        mem = mem2;
+    } else if (darg->num_projs() > 1) {
+        for (auto arg : darg->projs()) {
+            // auto arg_ty = arg->type();
+            mem = preparePtr(mem, arg, f);
+        }
+    } else {
+        // world.DLOG("flat type: {}", darg->type());
+    }
+    return mem;
+}
+
 void AutoDiffEval::prepareMemArguments(Lam* lam, Lam* deriv) {
     const Def* deriv_mem = mem::mem_var(deriv);
     if (!deriv_mem) return;
@@ -69,6 +99,11 @@ void AutoDiffEval::prepareMemArguments(Lam* lam, Lam* deriv) {
     const Def* deriv_arg = deriv->var((nat_t)0, world.dbg("arg"));
 
     // TODO: go deeper
+
+    world.DLOG("prepareMemArguments: {}", deriv_arg->type());
+
+    current_mem = preparePtr(current_mem, deriv_arg, lam);
+    // assert(0);
 
     // for (auto arg : deriv_arg->projs()) {
     //     auto arg_ty = arg->type();
@@ -86,7 +121,8 @@ void AutoDiffEval::prepareMemArguments(Lam* lam, Lam* deriv) {
     // TODO: test if this works as intended
     // deriv_mem |-> current_mem
     // Alternatively to replace_mem, a subst call could be used.
-    augmented[lam->var()] = mem::replace_mem(current_mem, deriv->var());
+    augmented[lam->var()]                  = mem::replace_mem(current_mem, deriv->var());
+    shadow_pullback[augmented[lam->var()]] = shadow_pullback[deriv->var()];
 }
 
 const Def* AutoDiffEval::wrap_call_pullbacks(const Def* arg_pb, const Def* arg) {

@@ -31,7 +31,7 @@ const Def* AutoDiffEval::augment_lea(const App* lea, Lam* f, Lam* f_diff) {
     if (gradient_array) {
         gradient_ptrs[aug_lea] = mem::op_lea(gradient_array, aug_idx, w.dbg("pullback_lea"));
     } else {
-        // TODO: incorporate gradient_ptrs in shadow, remove cases
+        w.DLOG("lea aug_ptr {} : {}", aug_ptr, aug_ptr->type());
         auto pullback_array = shadow_pullback[aug_ptr];
         assert(pullback_array);
         shadow_pullback[aug_lea] = mem::op_lea(pullback_array, aug_idx, w.dbg("pullback_lea"));
@@ -109,6 +109,9 @@ const Def* AutoDiffEval::augment_alloc(const App* alloc, Lam* f, Lam* f_diff) {
     allocated_memory.insert(pullback_ptr);
     // TODO: check if this should be gradient_ptrs
     shadow_pullback[alloc_ptr] = pullback_ptr;
+
+    // We do not need an init here as the pullback will be present iff data in the pointer is present.
+    // Therefore, a store will always happen befoire the first load.
 
     auto tup = world.tuple({alloc_mem_2, alloc_ptr});
 

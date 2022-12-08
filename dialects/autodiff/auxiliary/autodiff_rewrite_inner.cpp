@@ -112,7 +112,7 @@ const Def* AutoDiffEval::augment_extract(const Extract* ext, Lam* f, Lam* f_diff
     auto aug_tuple = augment(tuple, f, f_diff);
     auto aug_index = augment(index, f, f_diff);
 
-    world.DLOG("tuple was: {} : {}", tuple, tuple->type());
+    world.DLOG("tuple was: {} : {} [{}]", tuple, tuple->type(), tuple->node_name());
     world.DLOG("aug tuple: {} : {}", aug_tuple, aug_tuple->type());
     auto aug_ext = world.extract(aug_tuple, aug_index);
 

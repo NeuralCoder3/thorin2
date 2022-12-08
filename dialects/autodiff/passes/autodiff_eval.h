@@ -41,6 +41,8 @@ public:
     /// This function generates the structure for the function arguments.
     void prepareArguments(Lam* lam, Lam* deriv);
 
+    const Def* preparePtr(const Def* mem, const Def* arg, Lam* f);
+
     // TODO: comment
     const Def* buildAugmentedTuple(World& world, Defs aug_ops, const Pi* pb_ty, Lam* f, Lam* f_diff);
 
