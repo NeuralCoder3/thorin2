@@ -104,6 +104,10 @@
         // direct
         (dialect_cond_phase (%opt.direct_dialect,
           %compile.combined_phase (%compile.phase_list
+            // (%compile.single_pass_phase (%mem.reshape_pass %mem.reshape_flat))
+            // (%compile.single_pass_phase %mem.add_mem_pass)
+            // (%compile.single_pass_phase (%mem.reshape_pass %mem.reshape_arg))
+
           direct_phases
           // optimization_phase
           optimize
