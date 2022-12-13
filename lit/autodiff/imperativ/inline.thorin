@@ -14,10 +14,10 @@
 
 .con f [[mem : %mem.M, x: I32], ret: .Cn [mem : %mem.M, I32]] = {
     .let (alloc_mem, a) = %mem.alloc («100:.Nat; I32», 0) mem;
-    .let lea1 = %mem.lea (100:.Nat, <100:.Nat; I32>, 0) (a, 1:(.Idx 100));
+    .let lea1 = %mem.lea (100:.Nat, <100:.Nat; I32>, 0) (a, 3:(.Idx 100));
     .let store_mem = %mem.store (I32, 0) (alloc_mem, lea1, x);
 
-    .let lea = %mem.lea (100:.Nat, <100:.Nat; I32>, 0) (a, 1:(.Idx 100));
+    .let lea = %mem.lea (100:.Nat, <100:.Nat; I32>, 0) (a, 3:(.Idx 100));
     .let (load_mem, load_val) = %mem.load (I32, 0) (store_mem, lea);
     .let scaled = %core.wrap.mul 4294967296 0 (100:I32, load_val);
     ret (load_mem, scaled)
