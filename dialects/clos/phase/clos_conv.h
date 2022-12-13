@@ -45,6 +45,10 @@ private:
         unsigned pass_id; //
 
         auto add_fvs(const Def* def) {
+            if (match<mem::M>(def->type())) {
+                def->world().ELOG("memory def in free def analysis: {} : {}", def, def->type());
+                def->world().ELOG("  in nom {}", nom);
+            }
             assert(!match<mem::M>(def->type()));
             return fvs.emplace(def);
         }
