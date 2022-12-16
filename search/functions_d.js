@@ -65,7 +65,7 @@ var searchData=
   ['normalize_5fstore_62',['normalize_store',['../namespacethorin_1_1mem.html#a8876a3d55871c5572e77eebb66863fa3',1,'thorin::mem']]],
   ['normalize_5fsum_63',['normalize_sum',['../namespacethorin_1_1autodiff.html#a4a6c69b660a28849fe64d4712d60e48d',1,'thorin::autodiff']]],
   ['normalize_5ftangent_64',['normalize_Tangent',['../namespacethorin_1_1autodiff.html#ab2a562e173258c7c0d0aba2f8fc7fdf9',1,'thorin::autodiff']]],
-  ['normalize_5ftrait_65',['normalize_trait',['../namespacethorin_1_1core.html#ac0d1f9418484a71cb21980018a1cbeb4',1,'thorin::core']]],
+  ['normalize_5ftrait_65',['normalize_trait',['../namespacethorin_1_1core.html#a8441924598088461b63c0a14b1482b0d',1,'thorin::core']]],
   ['normalize_5ftri_66',['normalize_tri',['../namespacethorin_1_1math.html#ada65369cf52fe4dec9c2f4ab1ee4bb2a',1,'thorin::math']]],
   ['normalize_5fwrap_67',['normalize_wrap',['../namespacethorin_1_1core.html#aa2a8519281f2f3630acf8bc6b6b61108',1,'thorin::core']]],
   ['normalize_5fzero_68',['normalize_zero',['../namespacethorin_1_1autodiff.html#a2ba4143282cde5c7fce7b791b6e3f7e3',1,'thorin::autodiff']]],
