@@ -43,6 +43,9 @@ const Def* AutoDiffEval::input_mapping(Lam* forward) {
 
 Lam* AutoDiffEval::free_memory() {
     auto free_memory = create_block("free_memory");
+    for( auto ptr : need_free ){
+        op_free(ptr);
+    }
     ret(free_memory);
     return free_memory;
 }

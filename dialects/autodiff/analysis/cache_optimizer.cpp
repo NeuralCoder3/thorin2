@@ -138,9 +138,27 @@ void CacheOptimizer::search(std::shared_ptr<CacheState> current) {
     }
 }
 
+bool is_const(const Def* def) {
+    if(def->isa_nom<Lam>()){
+        return false;
+    }else if (auto lit = isa_lit(def)) {
+        return true;
+    }else{
+        for( auto op : def->ops() ){
+            if(!is_const(op)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 bool CacheOptimizer::needs_cache(const Def* def) {
     if (factory().utils().is_loop_index(def)) return false;
-    if (def->isa<Lit>()) return false;
+    if (is_const(def)) return false;
     if (utils.is_root_var(def)) return false;
     if (is_load_val(def) && !war.is_overwritten(def)) return false;
     return true;

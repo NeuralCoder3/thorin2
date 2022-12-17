@@ -216,6 +216,8 @@ void AutoDiffEval::preserve(const Def* target, const Def* value) {
         auto unsized_arr_ptr_ty = mem::type_ptr(w.arr(w.top(w.type_nat()), value->type()));
         cache_ptr               = core::op_bitcast(unsized_arr_ptr_ty, alloc_cache_ptr, alloc_cache_ptr->dbg());
         store_lea               = mem::op_lea(cache_ptr, cache_index, w.dbg("lea_cache"));
+
+        need_free.insert(alloc_cache_ptr);
     }
 
     op_store(store_lea, value, w.dbg("store_cache"));
@@ -522,20 +524,10 @@ void AutoDiffEval::prop(const Def* def) {
     if (!visited_prop.insert(def).second) { return; }
     auto& w = world();
 
-    /*if (def->isa<Var>()) {
-        DefVec result;
-        for( auto var : def->projs() ){
-            result.push_back(get_gradient(var, var->type()));
-        }
-        attach_gradient(def, w.tuple(result));
-        return;
-    }*/
-
     if (auto store = match<mem::store>(def)) {
         auto ptr = store->arg(1);
         if (!has_gradient(ptr)) return;
         auto grad_ptr = grad_arr(ptr);
-
         if (grad_ptr) {
             auto load_val = op_load(grad_ptr);
             op_store(grad_ptr, zero(load_val->type()));
@@ -559,7 +551,6 @@ void AutoDiffEval::prop(const Def* def) {
     if (auto load = match<mem::load>(def)) {
         auto arr = load->arg(1);
         if (!has_gradient(arr)) return;
-        auto val  = load->proj(1);
         auto grad = grad_arr(arr);
         if (grad) {
             assert(grad);
@@ -574,8 +565,6 @@ void AutoDiffEval::prop(const Def* def) {
     }
 
     if (auto tuple = def->isa<Tuple>()) {
-        auto ops  = tuple->ops();
-        auto ops2 = gradient->ops();
         for (size_t i = 0; i < tuple->num_ops(); i++) { attach_gradient(tuple->op(i), gradient->proj(i)); }
         return;
     }
@@ -602,6 +591,11 @@ void AutoDiffEval::prop(const Def* def) {
         if (exp.id() == math::exp::exp) {
             auto result_exp = resolve(exp);
             upstream_grad   = math::op(math::arith::mul, math::Mode::fast, result_exp, gradient);
+        } else if (exp.id() == math::exp::sigmoid) {
+            auto result_sigmoid = resolve(exp);
+            auto one_sub = math::op(math::arith::sub, math::Mode::fast, one(result_sigmoid->type()), result_sigmoid);
+            auto local_grad = math::op(math::arith::mul, math::Mode::fast, result_sigmoid, one_sub);
+            upstream_grad   = math::op(math::arith::mul, math::Mode::fast, local_grad, gradient);
         } else if (exp.id() == math::exp::log) {
             auto result_arg = resolve(exp->arg());
             upstream_grad   = math::op(math::arith::div, math::Mode::fast, gradient, result_arg);
@@ -680,6 +674,8 @@ void AutoDiffEval::prop(const Def* def) {
         }
     }
 
+    bool test = false;
+
     if (auto wrap = match<core::wrap>(def)) {
         auto [left, right] = wrap->args<2>();
 
@@ -720,24 +716,24 @@ void AutoDiffEval::prop(const Def* def) {
         } else if (rop.id() == math::arith::sub) {
             right_grad = math::op_rminus(math::Mode::fast, gradient);
         } else if (rop.id() == math::arith::mul) {
-            if (has_gradient(right)) {
+            if (test || has_gradient(right)) {
                 auto left_value = resolve(left);
                 right_grad      = math::op(math::arith::mul, math::Mode::fast, gradient, left_value);
             }
 
-            if (has_gradient(left)) {
+            if (test || has_gradient(left)) {
                 auto right_value = resolve(right);
                 left_grad        = math::op(math::arith::mul, math::Mode::fast, gradient, right_value);
             }
         } else if (rop.id() == math::arith::div) {
             const Def* right_value = nullptr;
 
-            if (has_gradient(left)) {
+            if (test || has_gradient(left)) {
                 right_value = resolve(right);
                 left_grad   = math::op(math::arith::div, math::Mode::fast, gradient, right_value);
             }
 
-            if (has_gradient(left)) {
+            if (test || has_gradient(right)) {
                 if (right_value == nullptr) { right_value = resolve(right); }
                 auto left_value = resolve(left);
                 right_grad      = math::op_rminus(math::Mode::fast, gradient);
@@ -791,7 +787,6 @@ Lam* AutoDiffEval::invert_lam(AffineCFNode* node, const Def* ret_var) {
     auto inv_arg     = current_lam->arg();
 
     for (auto load : requires_loading(caller_lam)) { resolve(load); }
-
     if (auto branch_index = lam2branch[caller_lam]) { resolve(branch_index); }
 
     lam2inv[node->def()] = current_lam;

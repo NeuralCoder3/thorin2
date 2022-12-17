@@ -234,6 +234,7 @@ private:
 
     Def2Def lam2branch;
 
+    DefSet need_free;
     Def2Def cache_map;
     DefMap<Lam*> lam2inv;
     DefMap<std::shared_ptr<LoopFrame>> cache_loop_assignment;

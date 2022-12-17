@@ -92,4 +92,23 @@ DefMap<Lam*>& LiveAnalysis::end_of_live() {
     return *end_of_live_;
 }
 
+/*
+ * Scheduler scheduler(utils.scope(root));
+    for (auto lam : utils.lams()) {
+
+        auto& scope = utils.scope(lam);
+
+
+
+//auto& result = utils.depends_on_loads(lam);
+
+for (auto def : scope.bound()) {
+auto alias_def = alias.get(def);
+auto target_lam = scheduler.smart(def)->as_nom<Lam>();
+def->dump();
+load2lams[alias_def].insert(target_lam);
+}
+}
+ * */
+
 } // namespace thorin::autodiff

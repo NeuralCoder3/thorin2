@@ -62,6 +62,7 @@ Res fold(u64 a) {
         else if constexpr (id == exp::exp2) return std::exp2(x);
         else if constexpr (id == exp::log ) return std::log (x);
         else if constexpr (id == exp::log2) return std::log2(x);
+        else if constexpr (id == exp::sigmoid) return 1 / (1 + std::exp (-x));
         else []<bool flag = false>() { static_assert(flag, "missing sub tag"); }();
     } else if constexpr (std::is_same_v<Id, er>) {
         if constexpr (false) {}

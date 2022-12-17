@@ -36,7 +36,6 @@ add_thorin_dialect(autodiff
         autodiff/utils/helper.cpp
         autodiff/utils/helper.h
         autodiff/normalizers.cpp
-        affine/passes/lower_for.cpp
     DEPENDS
         mem
         core
@@ -112,6 +111,7 @@ add_thorin_dialect(math
         math/math.cpp
         math/math.h
         math/normalizers.cpp
+        math/passes/lower_math.cpp
     INSTALL
 )
 

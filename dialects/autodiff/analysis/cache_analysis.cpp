@@ -22,8 +22,6 @@ CacheAnalysis::CacheAnalysis(AnalysisFactory& factory)
 }
 
 void CacheAnalysis::run() {
-    auto& utils = factory().utils();
-    auto& war   = factory().war();
     auto& live  = factory().live();
 
     for (auto def : gradient.defs()) { visit(def); }
@@ -31,7 +29,9 @@ void CacheAnalysis::run() {
     CacheOptimizer cache_optimizer(factory());
     targets_ = cache_optimizer.optimize(requirements);
 
-    for (auto requirement : requirements) { depends_on_loads(requirement, targets_, loads_); }
+    for (auto requirement : requirements) { 
+        depends_on_loads(requirement, targets_, loads_); 
+    }
 
     for (auto load : loads_) {
         Lam* lam = live.end_of_live(load);
@@ -75,10 +75,10 @@ void CacheAnalysis::visit(const Def* def) {
     }
 
     if (auto exp = match<math::exp>(def)) {
-        if (exp.id() == math::exp::exp) {
-            require(exp);
-        } else if (exp.id() == math::exp::log) {
+        if (exp.id() == math::exp::log) {
             require(exp->arg());
+        }else{
+            require(exp);
         }
     }
 

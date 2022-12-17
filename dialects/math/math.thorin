@@ -122,7 +122,7 @@
 /// | `Bl`   | `exp2`, `b` | x | o | exponential with base 2 | \f$2^x\f$      |
 /// | `BL`   | `log2`      | x | x | logarithm with base 2   | \f$\log_2 x\f$ |
 ///
-.ax %math.exp(bl = exp, bL = log, Bl = exp2 = b, BL = log2):
+.ax %math.exp(bl = exp, bL = log, Bl = exp2 = b, BL = log2, sg = sigmoid):
     Π [p: .Nat, e: .Nat] -> .Nat -> %math.F (p, e) -> %math.F (p, e), normalize_exp;
 ///
 /// ### %math.er

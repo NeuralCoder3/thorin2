@@ -3,7 +3,7 @@
 #include <thorin/lam.h>
 
 #include "dialects/affine/affine.h"
-#include "dialects/mem/mem.h"
+#include "dialects/core/core.h"
 
 namespace thorin::affine {
 
