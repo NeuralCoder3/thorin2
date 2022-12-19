@@ -1,8 +1,5 @@
 var clos_2autogen_8h =
 [
-    [ "thorin::Axiom::Match< clos::branch_clos_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1branch__clos__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#a30506ad337187cc6cf713c9bc72bc5a5", null ]
-    ] ],
     [ "thorin::Axiom::Match< clos::clos2sjlj_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1clos2sjlj__pass_01_4", [
       [ "type", "classthorin_1_1Axiom.html#a583701a1b6005be3e5b073398e113350", null ]
     ] ],
@@ -17,6 +14,9 @@ var clos_2autogen_8h =
     ] ],
     [ "thorin::Axiom::Match< clos::lower_typed_clos_prep_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1lower__typed__clos__prep__pass_01_4", [
       [ "type", "classthorin_1_1Axiom.html#acfcc47bf4110b009071da2779ee35caf", null ]
+    ] ],
+    [ "thorin::Axiom::Match< clos::branch_clos_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1branch__clos__pass_01_4", [
+      [ "type", "classthorin_1_1Axiom.html#a30506ad337187cc6cf713c9bc72bc5a5", null ]
     ] ],
     [ "THORIN_clos_NORMALIZER_IMPL", "clos_2autogen_8h.html#a2e487041387471b14c1a874a4453fbec", null ],
     [ "alloc_jmpbuf", "clos_2autogen_8h.html#a0aabdb9a4da6e16afb462b4ce783fec8", null ],
