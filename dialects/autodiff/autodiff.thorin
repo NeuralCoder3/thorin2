@@ -125,7 +125,10 @@
             )
             // (%compile.single_pass_phase %compile.lam_spec_pass)
 
-        clos_phases
+        // (dialect_cond_phase (%opt.clos_dialect,
+          clos_phases
+        // ))
+
         // General PreCodeGenPrep (formerly known as "200")
         // (%compile.single_pass_phase %compile.lam_spec_pass)
         // General CodeGenPrep (formerly known as "300")
