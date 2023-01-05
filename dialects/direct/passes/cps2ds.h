@@ -10,6 +10,20 @@
 
 namespace thorin::direct {
 
+// TODO: resolve Problem
+// Problem: We need to schedule the function calls dependent on the other functions
+// Conceptually, the functions depend on the result (res = cps2ds fun args).
+// However, these defs are not bound to a fixed position.
+// In reality, the function invocations depend mutually on each other.
+// The function depends on the replaced result (argument of call continuation).
+// The problem is that the continuation only exist after the function call is scheduled.
+// We either need to create dummy continuations first, memorize the calls, replace the cps2ds calls,
+// and then schedule/invoke the calls.
+// Or we need a more intelligent scheduling that finds a correct order of the functions.
+
+
+
+
 /// This is the second part of ds2cps.
 /// We replace all ds call sites of cps (or ds converted) functions with the cps calls.
 /// `b = f args` becomes `f (args,cont)` with a newly introduced continuation `cont : cn b`.
