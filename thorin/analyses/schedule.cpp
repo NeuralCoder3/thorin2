@@ -48,11 +48,24 @@ Scheduler::Scheduler(const Scope& s)
     }
 }
 
+// Returns the earliest point at which a definition is valid.
+// const -> scope entry
+// var -> defining function
+// _ -> outermost use
 Def* Scheduler::early(const Def* def) {
+    // If we have already calculated the earliest point for this definition,
+    // return the previously calculated result.
     if (auto i = early_.find(def); i != early_.end()) return i->second;
+
+    // If the definition is a constant or is not bound to a variable,
+    // then the definition is valid from the entry point.
     if (def->dep_const() || !scope().bound(def)) return early_[def] = scope().entry();
+
+    // If the definition is a variable, then the definition is valid at
+    // the point at which it is defined.
     if (auto var = def->isa<Var>()) return early_[def] = var->nom();
 
+    // Otherwise, the definition is valid at innermost (largest depth) early point of its operands (=> all operands have to be defined).
     auto result = scope().entry();
     for (auto op : def->extended_ops()) {
         if (!op->isa_nom() && def2uses_.find(op) != def2uses_.end()) {
@@ -64,6 +77,7 @@ Def* Scheduler::early(const Def* def) {
     return early_[def] = result;
 }
 
+// Returns the lowest common ancestor of all uses of a definition.
 Def* Scheduler::late(const Def* def) {
     if (auto i = late_.find(def); i != late_.end()) return i->second;
     if (def->dep_const() || !scope().bound(def)) return early_[def] = scope().entry();
@@ -83,6 +97,7 @@ Def* Scheduler::late(const Def* def) {
     return late_[def] = result;
 }
 
+// return nom of def with lowest depth between late and early
 Def* Scheduler::smart(const Def* def) {
     if (auto i = smart_.find(def); i != smart_.end()) return i->second;
 
