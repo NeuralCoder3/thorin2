@@ -21,7 +21,7 @@ extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
     return {"direct",
             [](Passes& passes) {
                 register_pass<direct::ds2cps_pass, direct::DS2CPS>(passes);
-                register_pass<direct::cps2ds_pass, direct::CPS2DS>(passes);
+                register_pass<direct::cps2ds_pass, direct::CPS2DSWrapper>(passes);
             },
             nullptr, [](Normalizers& normalizers) { direct::register_normalizers(normalizers); }};
 }
