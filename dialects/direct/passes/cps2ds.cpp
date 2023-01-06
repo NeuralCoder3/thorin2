@@ -301,20 +301,5 @@ void CPS2DSCollector::visit_def_(const Def* def) {
 
 
 
-const Def* CPS2DSRewriter::rewrite_structural(const Def* def) {
-    auto& world = def->world();
-
-    if(collector_->call_to_arg.contains(def)) {
-        auto arg = collector_->call_to_arg[def];
-        world.DLOG("  rewrite {} : {} to {} : {}", def, def->type(), arg, arg->type());
-        return arg;
-    }
-
-
-    // ignore unapplied axioms to avoid spurious type replacements
-    if (auto ax = def->isa<Axiom>()) { return def; }
-
-    return Rewriter::rewrite_structural(def); // continue recursive rewriting with everything else
-}
 
 } // namespace thorin::direct

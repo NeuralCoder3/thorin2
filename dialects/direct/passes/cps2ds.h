@@ -7,6 +7,7 @@
 
 #include "thorin/analyses/schedule.h"
 #include "thorin/phase/phase.h"
+#include "dialects/direct/passes/subst.h"
 
 namespace thorin::direct {
 
@@ -21,6 +22,10 @@ namespace thorin::direct {
 // and then schedule/invoke the calls.
 // Or we need a more intelligent scheduling that finds a correct order of the functions.
 
+// Attempt:
+// * Collect calls, create continuations
+// * Substitute cps2ds calls with continuation arguments
+// * schedule cps calls in place of continuations
 
 
 
@@ -74,21 +79,6 @@ private:
     // const Def* rewrite_body_(const Def*);
 };
 
-class CPS2DSRewriter : public RWPhase {
-public:
-    CPS2DSRewriter(World& world, CPS2DSCollector* collector)
-        : RWPhase(world, "cps2ds_rewrite")
-        , collector_(collector)
-        {}
-
-    const Def* rewrite_structural(const Def*) override;
-
-    static PassTag* ID();
-
-private:
-    Def2Def rewritten;
-    CPS2DSCollector* collector_;
-};
 
 class CPS2DSWrapper : public RWPass<CPS2DSWrapper, Lam> {
 public:
@@ -100,7 +90,7 @@ public:
         auto collector = CPS2DSCollector(world());
         collector.run();
         world().debug_dump();
-        CPS2DSRewriter(world(),&collector).run();
+        SubstPhase(world(),collector.call_to_arg).run();
         world().debug_dump();
         assert(false);
     }
