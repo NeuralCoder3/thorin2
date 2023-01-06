@@ -16,8 +16,7 @@ class SubstPhase : public RWPhase {
 public:
     SubstPhase(World& world, Def2Def& subst)
         : RWPhase(world, "cps2ds_rewrite")
-        , subst_(subst)
-        {}
+        , subst_(subst) {}
 
     const Def* rewrite_structural(const Def*) override;
 
@@ -27,6 +26,5 @@ private:
     Def2Def rewritten;
     Def2Def subst_;
 };
-
 
 } // namespace thorin::direct

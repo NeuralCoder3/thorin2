@@ -8,7 +8,6 @@
 
 namespace thorin::direct {
 
-
 void CPS2DSCollector::visit(const Scope& scope) {
     if (auto entry = scope.entry()->isa_nom<Lam>()) {
         scope.free_noms(); // cache this.
@@ -19,7 +18,8 @@ void CPS2DSCollector::visit(const Scope& scope) {
 }
 
 // void CPS2DSCollector::rewrite_lam(Lam* lam) {
-//     // TODO: only use if sure that no lambda needs to be rewritten twice (e.g. two calls are placed into the same lambda).
+//     // TODO: only use if sure that no lambda needs to be rewritten twice (e.g. two calls are placed into the same
+//     lambda).
 //     // if (rewritten_lams.contains(lam)) return;
 //     // rewritten_lams.insert(lam);
 //     if (!lam->isa_nom()) {
@@ -69,12 +69,11 @@ void CPS2DSCollector::visit_def(const Def* def) {
     visit_def_(def);
 }
 
-
 void CPS2DSCollector::visit_def_(const Def* def) {
     auto& world = def->world();
     if (auto app = def->isa<App>()) {
-        auto callee     = app->callee();
-        auto args       = app->arg();
+        auto callee = app->callee();
+        auto args   = app->arg();
         // world.DLOG("app callee {} : {}", callee, callee->type());
         // world.DLOG("app args {} : {}", args, args->type());
         visit_def(callee);
@@ -90,12 +89,11 @@ void CPS2DSCollector::visit_def_(const Def* def) {
                         // We want to generate a corresponding cps call to the function.
                         // This cps call redirects to a continuation that forwards the result.
 
-
                         // world.DLOG("rewrite callee {} : {}", callee, callee->type());
                         // world.DLOG("rewrite args {} : {}", args, args->type());
                         // world.DLOG("rewrite cps axiom {} : {}", ty_app, ty_app->type());
 
-                        if(call_to_arg.contains(app)) {
+                        if (call_to_arg.contains(app)) {
                             auto result = call_to_arg[app];
                             world.DLOG("found already rewritten call {} : {}", app, app->type());
                             world.DLOG("result {} : {}", result, result->type());
@@ -140,7 +138,8 @@ void CPS2DSCollector::visit_def_(const Def* def) {
                         const Def* inst_ret_ty;
                         if (auto ty_pi = ty->isa_nom<Pi>()) {
                             auto ty_dom = ty_pi->var();
-                            // world.DLOG("replace ty_dom: {} : {} <{};{}>", ty_dom, ty_dom->type(), ty_dom->unique_name(),
+                            // world.DLOG("replace ty_dom: {} : {} <{};{}>", ty_dom, ty_dom->type(),
+                            // ty_dom->unique_name(),
                             //            ty_dom->node_name());
 
                             Scope r_scope{ty->as_nom()}; // scope that surrounds ret_ty
@@ -174,15 +173,13 @@ void CPS2DSCollector::visit_def_(const Def* def) {
                         // rewritten_lams.insert(fun_cont);
                         // Generate the cps function call `f a` -> `f_cps(a,cont)`
                         // TODO: remove debug filter
-                        if(cps_fun->isa_nom<Lam>())
-                            cps_fun->as_nom<Lam>()->set_filter(false);
+                        if (cps_fun->isa_nom<Lam>()) cps_fun->as_nom<Lam>()->set_filter(false);
                         auto cps_call = world.app(cps_fun, {args, fun_cont}, world.dbg("cps_call"));
 
                         world.DLOG("continuation: {} : {}", fun_cont, fun_cont->type());
 
                         // `result` is the result of the cps function.
                         auto result = fun_cont->var();
-
 
                         // We have:
                         // `cps_call` as cps call for the ds call of `cps_fun`
@@ -210,11 +207,9 @@ void CPS2DSCollector::visit_def_(const Def* def) {
                         // curr_lam_ = place->as_nom<Lam>();
                         auto place_lam = place->as_nom<Lam>();
 
-
                         // world.DLOG("  curr_lam {}", curr_lam_->name());
                         auto place_body = place_lam->body();
                         place_lam->set_body(cps_call);
-
 
                         // Fixme: would be great to PE the newly added overhead away..
                         // The current PE just does not terminate on loops.. :/
@@ -244,10 +239,7 @@ void CPS2DSCollector::visit_def_(const Def* def) {
         return;
     }
 
-    
     // No call => iterate through body rewrite on the way.
-
-
 
     // TODO: are ops rewrites + app calle/arg rewrites all possible combinations?
     // TODO: check if lam is necessary or if var is enough
@@ -278,7 +270,7 @@ void CPS2DSCollector::visit_def_(const Def* def) {
     // // Just replace all ops by rewritten ops.
     // // DefArray new_ops{def->ops(), [&](const Def* op) { return rewrite_body(op); }};
 
-    // // There are issues with recursing/replacing debug and type. 
+    // // There are issues with recursing/replacing debug and type.
     // // However, we only change types of application callees. (And we ignore type level calls for the most parts.)
     // // Therefore, we are safe to ignore these rewrites.
 
@@ -298,8 +290,5 @@ void CPS2DSCollector::visit_def_(const Def* def) {
 
     // return def->rebuild(world, new_type, new_ops, new_dbg);
 }
-
-
-
 
 } // namespace thorin::direct

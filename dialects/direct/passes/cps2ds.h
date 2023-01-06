@@ -7,6 +7,7 @@
 
 #include "thorin/analyses/schedule.h"
 #include "thorin/phase/phase.h"
+
 #include "dialects/direct/passes/subst.h"
 
 namespace thorin::direct {
@@ -26,8 +27,6 @@ namespace thorin::direct {
 // * Collect calls, create continuations
 // * Substitute cps2ds calls with continuation arguments
 // * schedule cps calls in place of continuations
-
-
 
 /// This is the second part of ds2cps.
 /// We replace all ds call sites of cps (or ds converted) functions with the cps calls.
@@ -79,18 +78,16 @@ private:
     // const Def* rewrite_body_(const Def*);
 };
 
-
 class CPS2DSWrapper : public RWPass<CPS2DSWrapper, Lam> {
 public:
     CPS2DSWrapper(PassMan& man)
-        : RWPass(man, "cps2ds")
-        {}
+        : RWPass(man, "cps2ds") {}
 
     void prepare() override {
         auto collector = CPS2DSCollector(world());
         collector.run();
         world().debug_dump();
-        SubstPhase(world(),collector.call_to_arg).run();
+        SubstPhase(world(), collector.call_to_arg).run();
         world().debug_dump();
         assert(false);
     }
