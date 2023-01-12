@@ -357,6 +357,7 @@ void place_calls(std::vector<DSCallSite> call_sites) {
         // Get the place where the cps call should be placed.
         // The place depends on the uses of the result of the ds call (`fun_app`).
         auto place = sched_.smart(app);
+        // auto place = sched_.late(app);
         // auto place = sched_.early(app);
 
         world.DLOG("  call place {} : {} [{}]", place, place->type(), place->node_name());
