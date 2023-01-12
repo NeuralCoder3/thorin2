@@ -10,10 +10,18 @@
 
 namespace thorin::direct {
 
+DefSet subst_visited;
 const Def* subst_def_using_map(Def2Def& subst, const Def* def) {
     if (auto it = subst.find(def); it != subst.end()) return it->second;
 
     auto& world = def->world();
+
+    if (auto lam = def->isa_nom<Lam>(); lam && lam->is_set() && !subst_visited.contains(lam)) {
+        world.DLOG("  rewrite lam {} : {}", lam, lam->type());
+        subst_visited.insert(lam);
+        lam->set_body(subst_def_using_map(subst, lam->body()));
+        return lam;
+    }
 
     if (def->isa_nom()) return def;
 

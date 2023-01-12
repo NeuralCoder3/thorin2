@@ -93,6 +93,7 @@ private:
     // const Def* rewrite_body_(const Def*);
 };
 
+// TODO: handle state better
 const Def* subst_def_using_map(Def2Def& subst, const Def* def);
 void place_calls(std::vector<DSCallSite>);
 
@@ -114,7 +115,17 @@ public:
             call_to_arg[site.call] = arg;
         }
         world().DLOG("substituting call results in program");
-        SubstPhase(world(), call_to_arg).run();
+        // Alternative for problem below: inline change/ correspondence map
+        // TODO: wrong references in cps_calls due to subst
+        // SubstPhase(world(), call_to_arg).run();
+
+        // inline_subst
+        // subst_def_using_map(call_to_arg, const Def *def)
+        for (auto ext : world().externals()) {
+            world().DLOG("rewrite ext {} : {}", ext.second, ext.second->type());
+            subst_def_using_map(call_to_arg, ext.second);
+        }
+
         // only possible using recursive dumping
         // world().debug_dump();
         world().DLOG("substituting call results in calls");
