@@ -4,14 +4,36 @@
 
 #include <thorin/lam.h>
 
+#include "thorin/analyses/schedule.h"
+
 #include "dialects/direct/direct.h"
 
 namespace thorin::direct {
+
+const Def* subst_def_using_map(Def2Def& subst, const Def* def) {
+    if (auto it = subst.find(def); it != subst.end()) return it->second;
+
+    auto& world = def->world();
+
+    if (def->isa_nom()) return def;
+
+    DefArray new_ops{def->ops(), [&](const Def* op) { return subst_def_using_map(subst, op); }};
+
+    // auto new_dbg = rewrite_body(def->dbg());
+    // auto new_type = rewrite_body(def->type());
+    auto new_dbg  = def->dbg();
+    auto new_type = def->type();
+
+    if (def->isa<Infer>()) return def;
+
+    return def->rebuild(world, new_type, new_ops, new_dbg);
+}
 
 void CPS2DSCollector::visit(const Scope& scope) {
     if (auto entry = scope.entry()->isa_nom<Lam>()) {
         scope.free_noms(); // cache this.
         sched_ = Scheduler{scope};
+        // scope_ = &scope;
         visit_def(entry->body());
         // rewrite_lam(entry);
     }
@@ -93,10 +115,10 @@ void CPS2DSCollector::visit_def_(const Def* def) {
                         // world.DLOG("rewrite args {} : {}", args, args->type());
                         // world.DLOG("rewrite cps axiom {} : {}", ty_app, ty_app->type());
 
-                        if (call_to_arg.contains(app)) {
-                            auto result = call_to_arg[app];
+                        if (visited_sites.contains(app)) {
+                            // auto result = call_to_arg[app];
                             world.DLOG("found already rewritten call {} : {}", app, app->type());
-                            world.DLOG("result {} : {}", result, result->type());
+                            // world.DLOG("result {} : {}", result, result->type());
                             return;
                         }
 
@@ -192,7 +214,9 @@ void CPS2DSCollector::visit_def_(const Def* def) {
                         // This is no problem as we will arrive again at this point later on.
 
                         // Associate the ds call with the result of the cps call.
-                        call_to_arg[app] = result;
+                        // call_to_arg[app] = result;
+                        call_sites.push_back({app, fun_cont, cps_call, sched_.scope(), sched_.scope().entry()});
+                        visited_sites.insert(app);
 
                         // Get the place where the cps call should be placed.
                         // The place depends on the uses of the result of the ds call (`fun_app`).
@@ -209,7 +233,7 @@ void CPS2DSCollector::visit_def_(const Def* def) {
 
                         // world.DLOG("  curr_lam {}", curr_lam_->name());
                         auto place_body = place_lam->body();
-                        place_lam->set_body(cps_call);
+                        // place_lam->set_body(cps_call);
 
                         // Fixme: would be great to PE the newly added overhead away..
                         // The current PE just does not terminate on loops.. :/
@@ -218,8 +242,9 @@ void CPS2DSCollector::visit_def_(const Def* def) {
 
                         // The filter can only be set here (not earlier) as otherwise a debug print causes the "some
                         // operands are set" issue.
-                        fun_cont->set_filter(place_lam->filter());
-                        fun_cont->set_body(place_body);
+
+                        // fun_cont->set_filter(place_lam->filter());
+                        // fun_cont->set_body(place_body);
 
                         // TODO: how to abort rewriting inner lam and instead rewrite body of place?
 
@@ -289,6 +314,55 @@ void CPS2DSCollector::visit_def_(const Def* def) {
     // }
 
     // return def->rebuild(world, new_type, new_ops, new_dbg);
+}
+
+void place_calls(std::vector<DSCallSite> call_sites) {
+    for (auto site : call_sites) {
+        auto app      = site.cps_call;
+        auto fun_cont = site.continuation;
+        auto& world   = app->world();
+
+        world.DLOG("place call {} : {}", app, app->type());
+        world.DLOG("with continuation {} : {}", fun_cont, fun_cont->type());
+        if (auto app = site.cps_call->isa<App>()) {
+            world.DLOG("callee {} : {}", app->callee(), app->callee()->type());
+            world.DLOG("arg {} : {}", app->arg(), app->arg()->type());
+        }
+        world.DLOG("cont_var {} : {}", fun_cont->var(), fun_cont->var()->type());
+
+        // TODO: get current entry
+        // TODO: does not work in general as the entry does not have to be external
+        // auto entry = site.root;
+        Def* entry;
+        for (auto def : world.externals()) {
+            if (def.second->name() == site.root->name()) {
+                entry = def.second;
+                break;
+            }
+        }
+        world.DLOG("Build scope at {} : {}", entry, entry->type());
+        // auto& scope = site.scope;
+        Scope scope(entry);
+        world.DLOG("Scope constructed");
+        Scheduler sched_(scope);
+
+        // Get the place where the cps call should be placed.
+        // The place depends on the uses of the result of the ds call (`fun_app`).
+        auto place = sched_.smart(app);
+        // auto place = sched_.early(app);
+
+        world.DLOG("  call place {} : {} [{}]", place, place->type(), place->node_name());
+
+        // place in the call
+        auto place_lam = place->as_nom<Lam>();
+
+        auto place_body = place_lam->body();
+        place_lam->set_body(site.cps_call);
+
+        fun_cont->set_body(place_body);
+        // TODO: correct filter?
+        fun_cont->set_filter(place_lam->filter());
+    }
 }
 
 } // namespace thorin::direct

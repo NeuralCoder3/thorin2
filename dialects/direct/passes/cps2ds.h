@@ -6,6 +6,7 @@
 #include <thorin/pass/pass.h>
 
 #include "thorin/analyses/schedule.h"
+#include "thorin/analyses/scope.h"
 #include "thorin/phase/phase.h"
 
 #include "dialects/direct/passes/subst.h"
@@ -41,6 +42,17 @@ namespace thorin::direct {
 /// * Enter λC (as the current lambda).
 /// * Place the body of λ into λC with C replaced by the argument of λC.
 /// * Repeat for every ds call and function.
+
+struct DSCallSite {
+    const Def* call;
+    Lam* continuation;
+    const Def* cps_call;
+    // const Def* nom;
+    // const Def* root;
+    const Scope& scope;
+    Def* root;
+};
+
 class CPS2DSCollector : public ScopePhase {
 public:
     CPS2DSCollector(World& world)
@@ -52,9 +64,12 @@ public:
     // void enter() override;
 
     /// Associates old ds calls with the arguments of the cps continuation.
-    Def2Def call_to_arg;
+    // Def2Def call_to_arg;
+    std::vector<DSCallSite> call_sites;
+    DefSet visited_sites;
 
 private:
+    // const Scope* scope_;
     Scheduler sched_;
 
     /// Memoization for arbitrary defs (rewritten calls).
@@ -78,6 +93,9 @@ private:
     // const Def* rewrite_body_(const Def*);
 };
 
+const Def* subst_def_using_map(Def2Def& subst, const Def* def);
+void place_calls(std::vector<DSCallSite>);
+
 class CPS2DSWrapper : public RWPass<CPS2DSWrapper, Lam> {
 public:
     CPS2DSWrapper(PassMan& man)
@@ -86,8 +104,41 @@ public:
     void prepare() override {
         auto collector = CPS2DSCollector(world());
         collector.run();
+        world().DLOG("Print After Collection Functions, Placing them at Scope");
         world().debug_dump();
-        SubstPhase(world(), collector.call_to_arg).run();
+
+        Def2Def call_to_arg;
+        for (auto& site : collector.call_sites) {
+            auto cont              = site.continuation;
+            auto arg               = cont->var();
+            call_to_arg[site.call] = arg;
+        }
+        world().DLOG("substituting call results in program");
+        SubstPhase(world(), call_to_arg).run();
+        // only possible using recursive dumping
+        // world().debug_dump();
+        world().DLOG("substituting call results in calls");
+        for (auto& site : collector.call_sites) {
+            // substitute in call other (cps) calls away => correct arguments
+
+            Def2Def subst_map;
+            for (auto& site2 : collector.call_sites) {
+                if (site2.call == site.call) continue;
+                subst_map[site2.call] = site2.continuation->var();
+            }
+
+            // substitute without residing in a scope
+            auto cps_call = subst_def_using_map(subst_map, site.cps_call);
+            site.cps_call = cps_call;
+
+            // Scope r_scope{ty->as_nom()}; // scope that surrounds ret_ty
+            // inst_ret_ty = thorin::rewrite(ret_ty, ty_dom, args, r_scope);
+        }
+        world().DLOG("now placing calls");
+        place_calls(collector.call_sites);
+        // TODO: why is this necessary (rematerilization of cps2ds in continuation)
+        // => entry refers to old place => find current entry
+        // SubstPhase(world(), call_to_arg).run();
         world().debug_dump();
         assert(false);
     }
