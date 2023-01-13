@@ -116,6 +116,8 @@
         // TODO: AD simplification
             // optimization_phase
             // (%compile.pass_phase mem_opt_pass_list)
+            // also remove matrix internals
+        (%compile.single_pass_phase %compile.internal_cleanup_pass)
             (%compile.pass_phase 
                 (%compile.combine_pass_list (⊤:.Nat)
                     (optimization_pass_list,

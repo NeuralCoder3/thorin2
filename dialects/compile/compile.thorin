@@ -44,6 +44,7 @@
 .ax %compile.clos_dialect    : %compile.Dialect;
 .ax %compile.direct_dialect  : %compile.Dialect;
 .ax %compile.refly_dialect   : %compile.Dialect;
+.ax %compile.matrix_dialect  : %compile.Dialect;
 ///
 /// ### %opt.is_loaded
 /// 
