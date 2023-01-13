@@ -23,8 +23,6 @@ add_thorin_dialect(autodiff
         autodiff/passes/autodiff_zero.h
         autodiff/passes/autodiff_zero_cleanup.cpp
         autodiff/passes/autodiff_zero_cleanup.h
-        autodiff/passes/autodiff_ext_cleanup.cpp
-        autodiff/passes/autodiff_ext_cleanup.h
         autodiff/auxiliary/autodiff_aux.cpp
         autodiff/auxiliary/autodiff_aux.h
         autodiff/auxiliary/autodiff_rewrite_inner.cpp
@@ -129,6 +127,28 @@ add_thorin_dialect(math
         math/math.cpp
         math/math.h
         math/normalizers.cpp
+    INSTALL
+)
+
+add_thorin_dialect(matrix
+    SOURCES
+        matrix/matrix.cpp
+        matrix/matrix.h
+        matrix/normalizers.cpp
+        matrix/passes/lower_matrix_highlevel.cpp
+        matrix/passes/lower_matrix_highlevel.h
+        matrix/passes/lower_matrix_mediumlevel.cpp
+        matrix/passes/lower_matrix_mediumlevel.h
+        matrix/passes/lower_matrix_lowlevel.cpp
+        matrix/passes/lower_matrix_lowlevel.h
+        compile/passes/internal_cleanup.cpp
+    DEPENDS
+        refly
+        direct
+        affine
+        core
+        mem
+        compile
     INSTALL
 )
 
