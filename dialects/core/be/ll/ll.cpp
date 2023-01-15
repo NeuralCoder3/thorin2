@@ -722,10 +722,13 @@ std::string Emitter::emit_bb(BB& bb, const Def* def) {
         // this might happen when casting from int top to i64
         if (s_src == s_dst && (conv.id() == core::conv::s2s || conv.id() == core::conv::u2u)) return src;
 
+        if (s_src == s_dst) return src;
         switch (conv.id()) {
             case core::conv::s2s: op = s_src < s_dst ? "sext" : "trunc"; break;
             case core::conv::u2u: op = s_src < s_dst ? "zext" : "trunc"; break;
         }
+
+        if (src_t == dst_t) return src;
 
         return bb.assign(name, "{} {} {} to {}", op, src_t, src, dst_t);
     } else if (auto bitcast = match<core::bitcast>(def)) {
@@ -760,6 +763,7 @@ std::string Emitter::emit_bb(BB& bb, const Def* def) {
             if (src_size == dst_size) return src;
             op = (src_size < dst_size) ? "zext" : "trunc";
         }
+        if (src_t == dst_t) return src;
         return bb.assign(name, "{} {} {} to {}", op, src_t, src, dst_t);
     } else if (auto lea = match<mem::lea>(def)) {
         auto [ptr, i] = lea->args<2>();
