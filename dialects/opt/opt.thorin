@@ -52,7 +52,10 @@
           // )
         ))
         // simplify 
-        (%compile.single_pass_phase %compile.internal_cleanup_pass)
+        // (%compile.single_pass_phase %compile.internal_cleanup_pass)
+        (dialect_cond_phase (%compile.autodiff_dialect, 
+          (%compile.single_pass_phase %autodiff.ad_ext_cleanup_pass)
+        ))
         (dialect_cond_phase (%compile.autodiff_dialect, optimize))
         // direct
         (dialect_cond_phase (%compile.direct_dialect,
@@ -66,6 +69,7 @@
           optimize
           )
         ))
+        (dialect_cond_phase (%compile.autodiff_dialect, ad_cleanup_phase))
         (dialect_cond_phase (%compile.matrix_dialect,
           %compile.combined_phase (%compile.phase_list
             matrix_lower_phase

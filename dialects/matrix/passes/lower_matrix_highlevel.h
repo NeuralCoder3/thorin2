@@ -12,7 +12,7 @@ namespace thorin::matrix {
 class LowerMatrixHighLevelMapRed : public RWPass<LowerMatrixHighLevelMapRed, Lam> {
 public:
     LowerMatrixHighLevelMapRed(PassMan& man)
-        : RWPass(man, "lower_matrix_highlevel") {}
+        : RWPass(man, "lower_matrix_highlevel_map_reduce") {}
 
     /// custom rewrite function
     /// memoized version of rewrite_

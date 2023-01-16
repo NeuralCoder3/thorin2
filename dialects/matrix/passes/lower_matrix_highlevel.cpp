@@ -39,6 +39,9 @@ std::optional<const Def*> internal_function_of_axiom(const Axiom* axiom, const D
         auto spec_fun = world.app(replacement, meta_args);
         auto ds_fun   = direct::op_cps2ds_dep(spec_fun);
         return world.app(ds_fun, args);
+    } else if (axiom->name().find("matrix") != std::string::npos) {
+        world.ELOG("Could not find internal function for axiom: {}", axiom->name());
+        world.ELOG("Expected function: {}", name);
     }
     return std::nullopt;
 }
