@@ -25,7 +25,7 @@ std::pair<Lam*, const Def*> counting_for(const Def* bound, Defs acc, const Def* 
     auto body     = world.nom_lam(world.cn({
                                       world.type_int(32), // iterator
                                       acc_ty,             // acc = memory+extra
-                                      world.cn({acc_ty})  // exit = return
+                                      world.cn(acc_ty)    // exit = return
                               }),
                                   world.dbg(name));
     auto for_loop = affine::op_for(world, world.lit_int(32, 0), bound, world.lit_int(32, 1), acc, body, exit);

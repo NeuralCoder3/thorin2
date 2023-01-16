@@ -40,6 +40,7 @@ add_thorin_dialect(autodiff
         clos
         affine
         direct
+        matrix
     HEADER_DEPENDS
         mem
     INSTALL

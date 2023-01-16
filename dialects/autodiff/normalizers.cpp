@@ -91,7 +91,8 @@ const Def* normalize_add(const Def* type, const Def* callee, const Def* arg, con
         return real_add;
     } else if (auto app = T->isa<App>()) {
         auto callee = app->callee();
-        assert(0 && "not handled");
+        // assert(0 && "not handled");
+        world.ELOG("not handled: add app {} {} {}", T, a, b);
     }
     // TODO: mem stays here (only resolved after direct simplification)
 

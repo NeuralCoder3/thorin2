@@ -131,6 +131,8 @@ const Pi* autodiff_type_fun_pi(const Pi* pi) {
 // Performs the type transformation `A` => `A'`.
 // This is of special importance for functions: `P->Q` => `P'->Q' * (Q* -> P*)`.
 const Def* autodiff_type_fun(const Def* ty) {
+    // TODO: handle dependencies using memoization
+
     auto& world = ty->world();
     // TODO: handle DS (operators)
     if (auto pi = ty->isa<Pi>()) { return autodiff_type_fun_pi(pi); }
@@ -163,8 +165,29 @@ const Def* autodiff_type_fun(const Def* ty) {
         return ty;
     }
 
+    if (auto app = ty->isa<App>()) {
+        // axiom args
+        auto callee    = app->callee();
+        auto arg       = app->arg();
+        auto callee_ad = autodiff_type_fun(callee);
+        if (!callee_ad) return nullptr;
+        auto arg_ad = autodiff_type_fun(arg);
+        if (!arg_ad) return nullptr;
+        return world.app(callee_ad, arg_ad);
+    }
+    if (auto axiom = ty->isa<Axiom>()) { return ty; }
+    if (auto sig = ty->isa<Tuple>()) {
+        // Type argument
+        DefArray ops(sig->ops(), [&](const Def* op) { return autodiff_type_fun(op); });
+        return world.tuple(ops);
+    }
+    // TODO: extract
+    if (auto lit = ty->isa<Lit>()) { return ty; }
+    if (auto nat = ty->isa<Nat>()) { return ty; }
+
     world.WLOG("no-diff type: {}", ty);
     return nullptr;
+    // return ty;
 }
 
 const Def* zero_def(const Def* T) {

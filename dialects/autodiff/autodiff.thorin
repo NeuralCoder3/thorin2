@@ -12,7 +12,7 @@
 .import clos;
 /// For derivatives:
 .import core;
-// .import matrix;
+.import matrix;
 ///
 ///
 /// ## Types
@@ -303,7 +303,60 @@
 // };
 
 // (M × N)' = (S × Nᵀ, Mᵀ × S)
-// .lam .extern internal_diff_core_wrap_add!s:.Nat -> .Nat -> (.Cn[[.Idx s, .Idx s], .Cn[.Idx s, .Cn[.Idx s, .Cn[.Idx s, .Idx s]]]]) = 
+.lam .extern internal_diff_matrix_prod![m: .Nat, k: .Nat, l: .Nat, [p: .Nat, e:.Nat]] -> 
+    (.Cn[
+        [%mem.M,%matrix.Mat (2,(m, k),%math.F (p,e)), %matrix.Mat (2,(k, l),%math.F (p,e))], 
+        .Cn[
+            [%mem.M,%matrix.Mat (2,(m, l),%math.F (p,e))],  // output
+            .Cn[ // pullback
+                [%mem.M,%matrix.Mat (2,(m, l),%math.F (p,e))], // out tangent
+                .Cn [%mem.M,%matrix.Mat (2,(m, k),%math.F (p,e)), %matrix.Mat (2,(k, l),%math.F (p,e))] // input tangent
+            ]
+        ]
+    ]) = 
+    // .lm m: .Nat -> (.Cn[[.Idx s, .Idx s], .Cn[.Idx s, .Cn[.Idx s, .Cn[.Idx s, .Idx s]]]]) =
+        .cn ![
+            [mem:%mem.M,m1:%matrix.Mat (2,(m, k),%math.F (p,e)), m2:%matrix.Mat (2,(k, l),%math.F (p,e))], 
+            ret : 
+            .Cn[
+                [%mem.M,%matrix.Mat (2,(m, l),%math.F (p,e))],  // output
+                .Cn[ // pullback
+                    [%mem.M,%matrix.Mat (2,(m, l),%math.F (p,e))], // out tangent
+                    .Cn [%mem.M,%matrix.Mat (2,(m, k),%math.F (p,e)), %matrix.Mat (2,(k, l),%math.F (p,e))] // input tangent
+                ]
+            ]] = {
+                .con pb [
+                    [mem:%mem.M,ms:%matrix.Mat (2,(m, l),%math.F (p,e))], 
+                    pb_ret:.Cn [%mem.M,%matrix.Mat (2,(m, k),%math.F (p,e)), %matrix.Mat (2,(k, l),%math.F (p,e))] 
+                ] = {
+                    .let (mem1, m1_t) = %matrix.transpose ((m,k), %math.F (p,e)) (mem ,m1);
+                    .let (mem2, m2_t) = %matrix.transpose ((k,l), %math.F (p,e)) (mem1,m2);
+                    .let (mem3, m1_s) = %matrix.prod      (m,l,k, (p,e))         (mem2,ms,m2_t);
+                    .let (mem4, m2_s) = %matrix.prod      (k,m,l, (p,e))         (mem3,m1_t,ms);
+                    .let (mem5, result) = %matrix.prod    (m,k,l, (p,e))         (mem4,m1,m2);
+                    pb_ret (mem5,m1_s,m2_s)
+                };
+                .let result = %matrix.prod (m,k,l, (p,e)) (mem,m1,m2);
+                ret (result, pb)
+            };
+
+
+
+        //     (a b:.Idx s), ret:.Cn[.Idx s, .Cn[.Idx s, .Cn[.Idx s, .Idx s]]]) = {
+        //     .let result = %core.wrap.add s m (a,b);
+        //     ret (result, .cn ![i:(.Idx s), pb_ret:(.Cn [.Idx s, .Idx s])] = pb_ret (i,i))
+        // };
+// 
+// .lam .extern internal_diff_matrix_prod![m: .Nat, k: .Nat, l: .Nat, [p: .Nat, e:.Nat]] -> 
+//     (.Cn[
+//         [.Idx s, .Idx s], 
+//         .Cn[
+//             .Idx s, 
+//             .Cn[.Idx s, .Cn[.Idx s, .Idx s]]
+//         ]
+//     ]) = 
+// 
+// .lam .extern internal_diff_matrix_prod!s:.Nat -> .Nat -> (.Cn[[.Idx s, .Idx s], .Cn[.Idx s, .Cn[.Idx s, .Cn[.Idx s, .Idx s]]]]) = 
 //     .lm m: .Nat -> (.Cn[[.Idx s, .Idx s], .Cn[.Idx s, .Cn[.Idx s, .Cn[.Idx s, .Idx s]]]]) =
 //         .cn !((a b:.Idx s), ret:.Cn[.Idx s, .Cn[.Idx s, .Cn[.Idx s, .Idx s]]]) = {
 //             .let result = %core.wrap.add s m (a,b);
