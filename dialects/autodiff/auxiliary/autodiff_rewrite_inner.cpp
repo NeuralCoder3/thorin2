@@ -222,6 +222,14 @@ const Def* AutoDiffEval::augment_pack(const Pack* pack, Lam* f, Lam* f_diff) {
     return aug_pack;
 }
 
+/*
+Control flow:
+* old : ... -> B, new : ... -> \bot => wrap new in cps2ds (new is cps version of diffed axiom)
+* nested app => just follow
+* calle:Cn[E] => return new (e,e*)
+* old: A->B (direct style), handle it direct: let (e,new*) = new args in let e* = args* . new* in ...
+* else: aug_calle (args, aug* . args* . r*)
+*/
 const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
     auto& world = app->world();
 

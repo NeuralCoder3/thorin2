@@ -96,19 +96,19 @@
                 // print_double_matrix_wrap (mem, k, l, m1d, return_cont)
                 print_double_matrix_wrap (mem, l, n, m2d, return_cont)
 
-            // .con print_m2d [mem:%mem.M] = {
-                // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
-            // };
-            // .con print_m1d [mem:%mem.M] = {
-                // print_double_matrix_wrap (mem, k, l, m1d, print_m2d)
-            // };
-            // print_double_matrix_wrap (mem, k, n, m, print_m1d)
+                // .con print_m2d [mem:%mem.M] = {
+                    // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
+                // };
+                // .con print_m1d [mem:%mem.M] = {
+                    // print_double_matrix_wrap (mem, k, l, m1d, print_m2d)
+                // };
+                // print_double_matrix_wrap (mem, k, n, m, print_m1d)
 
-            // print_double_matrix_wrap (mem, k, n, m  , .cn [mem: %mem.M] = {
-            // print_double_matrix_wrap (mem, k, l, m1d, .cn [mem: %mem.M] = {
-            // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
-            // })
-            // })
+                // print_double_matrix_wrap (mem, k, n, m  , .cn [mem: %mem.M] = {
+                // print_double_matrix_wrap (mem, k, l, m1d, .cn [mem: %mem.M] = {
+                // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
+                // })
+                // })
         };
 
         pb ((mem2, ms_2), pb_cont)
@@ -145,7 +145,6 @@
 60.00, 60.00, 63.00, 
 
 Diff:
-
          0 0 3 
          0 0 3 
          0 0 4 
