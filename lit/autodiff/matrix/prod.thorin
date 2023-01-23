@@ -93,20 +93,21 @@
         .con pb_cont [mem:%mem.M, 
             [m1d: %matrix.Mat (2, (k, l), F64), m2d:%matrix.Mat (2, (l, n), F64)]
         ] = {
-
-            .con print_m2d [mem:%mem.M] = {
+                // print_double_matrix_wrap (mem, k, l, m1d, return_cont)
                 print_double_matrix_wrap (mem, l, n, m2d, return_cont)
-            };
-            .con print_m1d [mem:%mem.M] = {
-                print_double_matrix_wrap (mem, k, l, m1d, print_m2d)
-            };
-            print_double_matrix_wrap (mem, k, n, m, print_m1d)
+
+            // .con print_m2d [mem:%mem.M] = {
+                // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
+            // };
+            // .con print_m1d [mem:%mem.M] = {
+                // print_double_matrix_wrap (mem, k, l, m1d, print_m2d)
+            // };
+            // print_double_matrix_wrap (mem, k, n, m, print_m1d)
 
             // print_double_matrix_wrap (mem, k, n, m  , .cn [mem: %mem.M] = {
             // print_double_matrix_wrap (mem, k, l, m1d, .cn [mem: %mem.M] = {
             // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
             // })
-            // print_double_matrix_wrap (mem, l, n, m2d, return_cont)
             // })
         };
 
@@ -117,5 +118,47 @@
 
 };
 
-// CHECK: 65.00, 65.00, 68.00, 
-// CHECK: 60.00, 60.00, 63.00, 
+
+/*
+(
+3 3
+3 3
+4 3 
+3 3 
+)^T
+*
+(
+5 5 5 5
+5 5 5 5 
+5 6 5 5 
+)^T
+=
+         5   5  5 
+         5   5  6 
+         5   5  5 
+         5   5  5 
+        
+3 3 4 3  65 65 68
+3 3 3 3  60 60 63
+
+65.00, 65.00, 68.00, 
+60.00, 60.00, 63.00, 
+
+Diff:
+
+         0 0 3 
+         0 0 3 
+         0 0 4 
+         0 0 3 
+        
+5 6 5 5  0 0 1
+0 0 0 0  0 0 0
+*/
+
+// 5.00, 6.00, 5.00, 5.00,
+// 0.00, 0.00, 0.00, 0.00,
+
+// CHECK: 0.00, 0.00, 3.00, 
+// CHECK: 0.00, 0.00, 3.00, 
+// CHECK: 0.00, 0.00, 4.00, 
+// CHECK: 0.00, 0.00, 3.00, 
