@@ -10,12 +10,12 @@ void print_i32(int32_t i) { printf("%" PRId32 "\n", i); }
 void println_i32(int32_t i) { printf("%" PRId32 "\n", i); }
 void newline() { printf("\n"); }
 
-// void printInteger(int i) { printf("%d, ", i); }
-// void printIntegerNL(int i) { printf("%d\n", i); }
-// void printNL() { printf("\n"); }
-void printInteger(int i) {}
-void printIntegerNL(int i) {}
-void printNL() {}
+void printInteger(int i) { printf("%d, ", i); }
+void printIntegerNL(int i) { printf("%d\n", i); }
+void printNL() { printf("\n"); }
+// void printInteger(int i) {}
+// void printIntegerNL(int i) {}
+// void printNL() {}
 
 // long jmpbuf_size(){
 //     return _JBLEN; // for clos::sjlj
