@@ -163,15 +163,31 @@ const Def* AutoDiffEval::buildAugmentedTuple(World& world, Defs aug_ops, const P
     world.DLOG("shadow pb: {} : {}", shadow_pb, shadow_pb->type());
 
     auto pb_tangent = pb->var((nat_t)0, world.dbg("tup_s"));
+    auto pb_ret     = pb->var(1, world.dbg("tup_ret_cont"));
 
-    DefArray tangents(pbs.size(),
-                      [&](nat_t i) { return world.app(direct::op_cps2ds_dep(pbs[i]), world.extract(pb_tangent, i)); });
-    pb->app(true, pb->var(1),
-            // summed up tangents
-            op_sum(tangent_type_fun(continuation_dom(f->type())), tangents));
+    auto outer_cont    = pb;
+    auto tangent_types = tangent_type_fun(continuation_dom(f->type()));
+    DefArray tangents(pbs.size());
 
+    // DefArray tangents(pbs.size(),
+    //                   [&](nat_t i) { return world.app(direct::op_cps2ds_dep(pbs[i]), world.extract(pb_tangent, i));
+    //                   });
+    for (int i = 0; i < pbs.size(); i++) {
+        // Place call to pbs[i](pb_tangent[i]) in outer_cont.
+        // Continue in inner_cont (newly created nom_lam).
+        // remember result (inner_cont arg) as tangents[i].
+
+        auto pb         = pbs[i];
+        auto arg        = world.extract(pb_tangent, i);
+        auto inner_cont = world.nom_lam(world.cn(tangent_types), world.dbg("inner_cont"));
+        outer_cont->app(true, pb, {arg, inner_cont});
+        tangents[i] = inner_cont->var();
+        outer_cont  = inner_cont;
+    }
+
+    auto sum = op_sum(tangent_type_fun(continuation_dom(f->type())), tangents);
+    outer_cont->app(true, pb_ret, sum);
     partial_pullback[aug_tup] = pb;
-
     return aug_tup;
 
 // TODO: incorporate
