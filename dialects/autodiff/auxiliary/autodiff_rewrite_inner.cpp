@@ -206,7 +206,14 @@ const Def* AutoDiffEval::augment_pack(const Pack* pack, Lam* f, Lam* f_diff) {
     auto app_pb        = world.nom_pack(world.arr(aug_shape, f_arg_ty_diff));
 
     // TODO: special case for const width (special tuple)
+    //   p = << i:n; f i >> : <i:n; T i>
+    //   p* : <i:n; T i> -> A
+    //      = λ s. Σ f* (s#i)
+    //   p = << n; e >> : <n; T>
+    //   p* : <n; T> -> A
+    //      = λ s. Σ e* (s#i)
 
+    // cps2ds is the only way for dynamic size
     // <i:n, cps2ds body_pb (s#i)>
     app_pb->set(world.app(direct::op_cps2ds_dep(body_pb), world.extract(pb->var((nat_t)0), app_pb->var())));
 
