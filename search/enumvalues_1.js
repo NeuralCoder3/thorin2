@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b_0',['b',['../namespacethorin_1_1core.html#a70895f76bd16fdb3db2c75dd1fd38978acae4977ec0f9b75b8b665538afffd5b5',1,'thorin::core::b()'],['../namespacethorin_1_1math.html#a00e74d198c086fe1fb880c87ea3bb8fea142b727ea49fce05521e55d5137130a9',1,'thorin::math::b()']]],
+  ['b_0',['b',['../namespacethorin_1_1math.html#a00e74d198c086fe1fb880c87ea3bb8fea142b727ea49fce05521e55d5137130a9',1,'thorin::math']]],
   ['bl_1',['bl',['../namespacethorin_1_1math.html#a00e74d198c086fe1fb880c87ea3bb8fead9f2588c436d436d3f18a5dadac37efb',1,'thorin::math']]],
   ['bl_2',['bL',['../namespacethorin_1_1math.html#a00e74d198c086fe1fb880c87ea3bb8fea5e258b8b92a1188b1fcf39d2467cc91d',1,'thorin::math']]],
   ['bl_3',['Bl',['../namespacethorin_1_1math.html#a00e74d198c086fe1fb880c87ea3bb8fea4237abb58fd06eb53c5c9f5f8289ade1',1,'thorin::math']]],
