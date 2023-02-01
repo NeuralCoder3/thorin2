@@ -4,7 +4,6 @@
 #include <thorin/def.h>
 #include <thorin/lam.h>
 
-/// Helper function related to automatic differentiation.
 namespace thorin::autodiff {
 
 const Def* id_pullback(const Def*);
@@ -21,7 +20,6 @@ const Def* op_sum(const Def* T, DefArray defs);
 
 } // namespace thorin::autodiff
 
-/// Helper functions of general interest.
 namespace thorin {
 
 bool is_closed(Lam* lam);
@@ -31,16 +29,26 @@ bool is_continuation_type(const Def* E);
 bool is_continuation(const Def* e);
 // TODO: change name to returning_continuation
 bool is_returning_continuation(const Def* e);
+bool is_returning_continuation_type(const Def* E);
 bool is_open_continuation(const Def* e);
 bool is_direct_style_function(const Def* e);
 
-/// A wrapper to access parts of a cps function type.
 const Def* continuation_dom(const Def* E);
 const Def* continuation_codom(const Def* E);
 
 /// Computes the composition `λ x. f(g(x))`.
 /// The given functions `f` and `g` are expected to be in cps.
 const Def* compose_continuation(const Def* f, const Def* g);
+
+//// memory operations
+
+/// Adds memory types to a function type (and its return type).
+const Pi* cn_mem_wrap(const Pi* pi);
+/// Returns whether the type T contains a memory type.
+bool contains_mem(const Def* T);
+/// Adds a memory type to a sigma/pack/array as flat tuple.
+const Def* equip_mem(const Def* T);
+const Def* lam_mem_wrap(const Def* lam);
 
 } // namespace thorin
 

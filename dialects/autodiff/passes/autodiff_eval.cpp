@@ -35,11 +35,9 @@ const Def* AutoDiffEval::rewrite(const Def* def) {
         auto arg = ad_app->arg();
         world().DLOG("found a autodiff::autodiff of {}", arg);
 
-        if (arg->isa<Lam>()) { return derive(arg); }
-
+        assert(arg->isa<Lam>() && "Only functions can currently be differentiated via axiom");
         // TODO: handle operators analogous
-
-        assert(0 && "not implemented");
+        def = derive(arg);
         return def;
     }
 

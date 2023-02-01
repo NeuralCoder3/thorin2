@@ -23,11 +23,11 @@
     ![mode: .Nat] -> 
     (.Cn[[%math.F (p, e), %math.F (p, e)], .Cn[%math.F (p, e), .Cn[%math.F (p, e), .Cn[%math.F (p, e), %math.F (p, e)]]]])
     = { 
-        .cn inner_deriv
+        .con inner_deriv
             ![[a:%math.F (p, e), b:%math.F (p, e)], ret:.Cn[%math.F (p, e), .Cn[%math.F (p, e), .Cn[%math.F (p, e), %math.F (p, e)]]]]@(.tt)
             = { 
             .let result = %math.arith.mul (p,e) mode (a,b);
-            .cn pb ![s:(%math.F (p,e)), pb_ret:(.Cn [%math.F (p, e), %math.F (p, e)])]@(.tt) = { 
+            .con pb ![s:(%math.F (p,e)), pb_ret:(.Cn [%math.F (p, e), %math.F (p, e)])]@(.tt) = { 
                 .let lhs = %math.arith.mul (p,e) mode (s,b);
                 .let rhs = %math.arith.mul (p,e) mode (s,a);
                 pb_ret (lhs, rhs)
@@ -41,19 +41,19 @@
 
 
 
-.cn f [a:F64, ret: .Cn [F64]] = {
+.con f [a:F64, ret: .Cn [F64]] = {
     .let b = %math.arith.mul f64 0 (a, a);
     ret b
 };
 
-.cn g [a:F64, ret: .Cn [F64, .Cn [F64, .Cn [F64]]]] = {
+.con g [a:F64, ret: .Cn [F64, .Cn [F64, .Cn [F64]]]] = {
     .let f_diff = %autodiff.ad (.Cn [F64,.Cn[F64]]) f;
     f_diff (a,ret)
 };
 
-.cn .extern test [[], ret: .Cn [[F64,F64],[F64,F64]]] = {
-    .cn inner [r:F64, pb:.Cn [F64, .Cn [F64]]] = {
-        .cn pb_rec p::[F64] = {
+.con .extern test [[], ret: .Cn [[F64,F64],[F64,F64]]] = {
+    .con inner [r:F64, pb:.Cn [F64, .Cn [F64]]] = {
+        .con pb_rec p::[F64] = {
             // We return expected result and derivative together with the real values.
             // If both are the same, the normalizer creates a pack which is tested for.
             ret ((25.0:F64,10.0:F64),(r,p))

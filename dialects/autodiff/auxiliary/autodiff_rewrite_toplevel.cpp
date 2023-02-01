@@ -1,10 +1,42 @@
+#include "dialects/affine/affine.h"
+#include "dialects/affine/autogen.h"
 #include "dialects/autodiff/autodiff.h"
 #include "dialects/autodiff/auxiliary/autodiff_aux.h"
+#include "dialects/autodiff/auxiliary/mem/autodiff_mem_aux.h"
 #include "dialects/autodiff/passes/autodiff_eval.h"
+#include "dialects/mem/mem.h"
 
 namespace thorin::autodiff {
 
-/// Additionally to the derivation, the pullback is registered and the maps are initialized.
+void AutoDiffEval::prepareArguments(Lam* lam, Lam* deriv) {
+    auto& world = deriv->world();
+
+    auto [arg_ty, ret_pi] = lam->type()->doms<2>();
+
+    auto deriv_all_args  = deriv->var();
+    const Def* deriv_arg = deriv->var((nat_t)0, world.dbg("arg"));
+
+    // We generate the shadow pullbacks dynamically to save work and avoid code duplication.
+    // Only the toplevel pullback for arguments and return continuation is special cased.
+
+    // TODO: check identity: could use identity tangent(arg_ty) = tangent(augment(arg_ty)) with deriv_arg->type() =
+    // augment(arg_ty) We give the argument the identity pullback.
+    auto arg_id_pb              = id_pullback(arg_ty);
+    partial_pullback[deriv_arg] = arg_id_pb;
+    // The return continuation has to formally exist but should never be directly accessed.
+    auto ret_var = deriv->var(1);
+    // TODO: think about just returning bot instead of zero
+    auto ret_pb               = zero_pullback(lam->var(1)->type(), arg_ty);
+    partial_pullback[ret_var] = ret_pb;
+
+    shadow_pullback[deriv_all_args] = world.tuple({arg_id_pb, ret_pb});
+    world.DLOG("pullback for argument {} : {} is {} : {}", deriv_arg, deriv_arg->type(), arg_id_pb, arg_id_pb->type());
+    world.DLOG("args shadow pb is {} : {}", shadow_pullback[deriv_all_args], shadow_pullback[deriv_all_args]->type());
+
+    prepareMemArguments(lam, deriv);
+}
+
+/// side effect: register pullback
 const Def* AutoDiffEval::derive_(const Def* def) {
     auto& world = def->world();
     auto lam    = def->as_nom<Lam>(); // TODO check if nominal
@@ -18,26 +50,6 @@ const Def* AutoDiffEval::derive_(const Def* def) {
     // initialization.)
     derived[lam] = deriv;
 
-    auto [arg_ty, ret_pi] = lam->type()->doms<2>();
-    auto deriv_all_args   = deriv->var();
-    const Def* deriv_arg  = deriv->var((nat_t)0, world.dbg("arg"));
-
-    // We generate the shadow pullbacks dynamically to save work and avoid code duplication.
-    // Only the toplevel pullback for arguments and return continuation is special cased.
-
-    // TODO: check identity: could use identity tangent(arg_ty) = tangent(augment(arg_ty)) with deriv_arg->type() =
-    // augment(arg_ty) We give the argument the identity pullback.
-    auto arg_id_pb              = id_pullback(arg_ty);
-    partial_pullback[deriv_arg] = arg_id_pb;
-    // The return continuation has to formally exist but should never be directly accessed.
-    auto ret_var              = deriv->var(1);
-    auto ret_pb               = zero_pullback(lam->var(1)->type(), arg_ty);
-    partial_pullback[ret_var] = ret_pb;
-
-    shadow_pullback[deriv_all_args] = world.tuple({arg_id_pb, ret_pb});
-    world.DLOG("pullback for argument {} : {} is {} : {}", deriv_arg, deriv_arg->type(), arg_id_pb, arg_id_pb->type());
-    world.DLOG("args shadow pb is {} : {}", shadow_pullback[deriv_all_args], shadow_pullback[deriv_all_args]->type());
-
     // We pre-register the augment replacements.
     // The function and its variables are replaced by their new derived versions.
     // TODO: maybe leave out function call (duplication with derived)
@@ -47,6 +59,8 @@ const Def* AutoDiffEval::derive_(const Def* def) {
     world.DLOG("  {} : {}", deriv, deriv->type());
     augmented[lam->var()] = deriv->var();
     world.DLOG("Associate vars {} with {}", lam->var(), deriv->var());
+
+    prepareArguments(lam, deriv);
 
     // already contains the correct application of
     // deriv->ret_var() by specification

@@ -5,11 +5,15 @@
 
 #include "thorin/util/assert.h"
 
+#include "dialects/affine/affine.h"
 #include "dialects/autodiff/autodiff.h"
+#include "dialects/autodiff/autogen.h"
 #include "dialects/autodiff/auxiliary/autodiff_aux.h"
+#include "dialects/autodiff/auxiliary/mem/autodiff_mem_aux.h"
 #include "dialects/autodiff/passes/autodiff_eval.h"
 #include "dialects/core/core.h"
 #include "dialects/direct/direct.h"
+#include "dialects/mem/mem.h"
 
 namespace thorin::autodiff {
 
@@ -108,9 +112,18 @@ const Def* AutoDiffEval::augment_extract(const Extract* ext, Lam* f, Lam* f_diff
     auto aug_tuple = augment(tuple, f, f_diff);
     auto aug_index = augment(index, f, f_diff);
 
-    const Def* pb;
-    world.DLOG("tuple was: {} : {}", tuple, tuple->type());
+    world.DLOG("tuple was: {} : {} [{}]", tuple, tuple->type(), tuple->node_name());
     world.DLOG("aug tuple: {} : {}", aug_tuple, aug_tuple->type());
+    auto aug_ext = world.extract(aug_tuple, aug_index);
+
+    // TODO: check, but this case should be handled by shadow pullbacks (or id pb for argument which handles memory
+    // correctly)
+    // R if (match<mem::M>(ext->type())) {
+    // R     partial_pullback[aug_ext] = zero_pullback_fun(ext->type(), f);
+    // R     return aug_ext;
+    // R }
+
+    const Def* pb;
     if (shadow_pullback.count(aug_tuple)) {
         auto shadow_tuple_pb = shadow_pullback[aug_tuple];
         world.DLOG("Shadow pullback: {} : {}", shadow_tuple_pb, shadow_tuple_pb->type());
@@ -126,22 +139,27 @@ const Def* AutoDiffEval::augment_extract(const Extract* ext, Lam* f, Lam* f_diff
         auto pb_ty    = pullback_type(ext->type(), f_arg_ty);
         auto pb_fun   = world.nom_lam(pb_ty, world.dbg("extract_pb"));
         world.DLOG("Pullback: {} : {}", pb_fun, pb_fun->type());
+
         world.DLOG("Tuple pb is {} : {}", tuple_pb, tuple_pb->type());
         auto pb_tangent = pb_fun->var((nat_t)0, world.dbg("s"));
-        // R auto tuple_tan  = world.insert(op_zero(aug_tuple->type()), aug_index, pb_tangent, world.dbg("tup_s"));
-        //  we create a uni vector of E^T (not to be confused with (E')^T)
+        // We create a unit vector of `E^T` (not to be confused with `(E')^T`)
         auto tuple_tan_type = tuple_pb->type()->as<Pi>()->dom(0);
-        auto tuple_tan      = world.insert(op_zero(tuple_tan_type), aug_index, pb_tangent, world.dbg("tup_s"));
+
+        // We want a lazy zero here (this is more efficient as we only care about the insert index and
+        // read(insert index _) is index)
+        auto zero_vec  = op_zero(tuple_tan_type);
+        auto tuple_tan = world.insert(zero_vec, aug_index, pb_tangent, world.dbg("tup_s"));
         world.DLOG("Unit Vector: {} : {}", tuple_tan, tuple_tan->type());
+
         pb_fun->app(true, tuple_pb,
                     {
                         tuple_tan,
                         pb_fun->var(1) // ret_var but make sure to select correct one
                     });
+
         pb = pb_fun;
     }
-
-    auto aug_ext              = world.extract(aug_tuple, aug_index);
+    assert(pb);
     partial_pullback[aug_ext] = pb;
 
     return aug_ext;
@@ -150,36 +168,14 @@ const Def* AutoDiffEval::augment_extract(const Extract* ext, Lam* f, Lam* f_diff
 const Def* AutoDiffEval::augment_tuple(const Tuple* tup, Lam* f, Lam* f_diff) {
     auto& world = tup->world();
 
+    // augment ops
+
+    auto projs = tup->projs();
     // TODO: should use ops instead?
-    DefArray aug_ops(tup->projs(), [&](const Def* op) { return augment(op, f, f_diff); });
-    auto aug_tup = world.tuple(aug_ops);
+    DefArray aug_ops(projs, [&](const Def* op) { return augment(op, f, f_diff); });
 
-    DefArray pbs(aug_ops, [&](const Def* op) { return partial_pullback[op]; });
-    world.DLOG("tuple pbs {,}", pbs);
-    // shadow pb = tuple of pbs
-    auto shadow_pb           = world.tuple(pbs);
-    shadow_pullback[aug_tup] = shadow_pb;
-
-    // ```
-    // \lambda (s:[E0,...,Em]).
-    //    sum (m,A)
-    //      ((cps2ds e0*) (s#0), ..., (cps2ds em*) (s#m))
-    // ```
-    auto pb_ty = pullback_type(tup->type(), f_arg_ty);
-    auto pb    = world.nom_lam(pb_ty, world.dbg("tup_pb"));
-    world.DLOG("Augmented tuple: {} : {}", aug_tup, aug_tup->type());
-    world.DLOG("Tuple Pullback: {} : {}", pb, pb->type());
-    world.DLOG("shadow pb: {} : {}", shadow_pb, shadow_pb->type());
-
-    auto pb_tangent = pb->var((nat_t)0, world.dbg("tup_s"));
-
-    DefArray tangents(pbs.size(),
-                      [&](nat_t i) { return world.app(direct::op_cps2ds_dep(pbs[i]), world.extract(pb_tangent, i)); });
-    pb->app(true, pb->var(1),
-            // summed up tangents
-            op_sum(tangent_type_fun(f_arg_ty), tangents));
-    partial_pullback[aug_tup] = pb;
-
+    auto pb_ty   = pullback_type(tup->type(), f_arg_ty);
+    auto aug_tup = buildAugmentedTuple(world, aug_ops, pb_ty, f, f_diff);
     return aug_tup;
 }
 
@@ -210,27 +206,45 @@ const Def* AutoDiffEval::augment_pack(const Pack* pack, Lam* f, Lam* f_diff) {
     auto app_pb        = world.nom_pack(world.arr(aug_shape, f_arg_ty_diff));
 
     // TODO: special case for const width (special tuple)
+    //   p = << i:n; f i >> : <i:n; T i>
+    //   p* : <i:n; T i> -> A
+    //      = λ s. Σ f* (s#i)
+    //   p = << n; e >> : <n; T>
+    //   p* : <n; T> -> A
+    //      = λ s. Σ e* (s#i)
 
+    // cps2ds is the only way for dynamic size
     // <i:n, cps2ds body_pb (s#i)>
-    app_pb->set(world.raw_app(direct::op_cps2ds_dep(body_pb), world.extract(pb->var((nat_t)0), app_pb->var())));
+    app_pb->set(world.app(direct::op_cps2ds_dep(body_pb), world.extract(pb->var((nat_t)0), app_pb->var())));
 
     world.DLOG("app pb of pack: {} : {}", app_pb, app_pb->type());
 
-    auto sumup = world.raw_app(world.ax<sum>(), {aug_shape, f_arg_ty_diff});
+    auto sumup = world.app(world.ax<sum>(), {aug_shape, f_arg_ty_diff});
     world.DLOG("sumup: {} : {}", sumup, sumup->type());
 
-    pb->app(true, pb->var(1), world.raw_app(sumup, app_pb));
+    pb->app(true, pb->var(1), world.app(sumup, app_pb));
 
     partial_pullback[aug_pack] = pb;
 
     return aug_pack;
 }
 
+/*
+Control flow:
+* old : ... -> B, new : ... -> \bot => wrap new in cps2ds (new is cps version of diffed axiom)
+* nested app => just follow
+* calle:Cn[E] => return new (e,e*)
+* old: A->B (direct style), handle it direct: let (e,new*) = new args in let e* = args* . new* in ...
+* else: aug_calle (args, aug* . args* . r*)
+*/
 const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
     auto& world = app->world();
 
     auto callee = app->callee();
     auto arg    = app->arg();
+
+    // callee->type()->dump();
+    // arg->type()->dump();
 
     auto aug_arg    = augment(arg, f, f_diff);
     auto aug_callee = augment(callee, f, f_diff);
@@ -263,8 +277,21 @@ const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
         // ret(e) => ret'(e, e*)
 
         world.DLOG("continuation {} : {} => {} : {}", callee, callee->type(), aug_callee, aug_callee->type());
+#if 0
+        bool isa = aug_arg->isa<Extract>();
+        if (!partial_pullback[aug_arg]) {
+            augmented.erase(arg);
+            augment(arg, f, f_diff);
+        }
+        auto arg_pb = partial_pullback[aug_arg];
 
-        auto arg_pb  = partial_pullback[aug_arg];
+        if (callee == f->ret_var()) {
+            arg_pb = wrap_call_pullbacks(arg_pb, arg);
+            arg_pb = wrap_append_app(arg_pb, free_memory_lam());
+        }
+#endif
+        auto arg_pb = partial_pullback[aug_arg];
+
         auto aug_app = world.app(aug_callee, {aug_arg, arg_pb});
         world.DLOG("Augmented application: {} : {}", aug_app, aug_app->type());
         return aug_app;
@@ -289,11 +316,11 @@ const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
         auto res_pb = compose_continuation(arg_pb, fun_pb);
         world.DLOG("result pullback: {} : {}", res_pb, res_pb->type());
         partial_pullback[aug_res] = res_pb;
-        world.debug_dump();
+        // world.debug_dump();
         return aug_res;
     }
-
     // TODO: dest with a function such that f args != g args
+
     {
         // normal function app
         // ```
@@ -330,6 +357,7 @@ const Def* AutoDiffEval::augment_app(const App* app, Lam* f, Lam* f_diff) {
         // The result is * => no pb needed, no composition needed.
         return aug_app;
     }
+
     assert(false && "should not be reached");
 }
 
@@ -340,6 +368,8 @@ const Def* AutoDiffEval::augment_(const Def* def, Lam* f, Lam* f_diff) {
     // TODO: Alternative: Use class instances to rewrite inside a function and save such values (f, f_diff, f_arg_ty).
 
     world.DLOG("Augment def {} : {}", def, def->type());
+
+    if (auto aug_def = handle_memory(def, f, f_diff)) { return *aug_def; }
 
     // Applications are continuations, operators, or full functions
     if (auto app = def->isa<App>()) {
@@ -392,7 +422,7 @@ const Def* AutoDiffEval::augment_(const Def* def, Lam* f, Lam* f_diff) {
             world.ELOG("expected: {} : {}", diff_name, expected_type);
             assert(false && "unhandled axiom");
         }
-        // TODO: why does this cause a depth error?
+        // TODO: why cant we set the filter of diff_fun (if lam) without depth error?
         return diff_fun;
     }
 

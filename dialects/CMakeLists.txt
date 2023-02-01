@@ -1,14 +1,48 @@
-add_thorin_dialect(core
+# must be registered before `add_thorin_dialect` calls
+add_custom_target(thorin_all_dialects)
+
+add_thorin_dialect(affine
     SOURCES
-        core/core.cpp
-        core/core.h
-        core/normalizers.cpp
-        core/be/ll/ll.cpp
-        core/be/ll/ll.h
+        affine/affine.cpp
+        affine/affine.h
+        affine/passes/lower_for.cpp
+        affine/passes/lower_for.h
     DEPENDS
-        math
         mem
+        core
+    INSTALL
+)
+
+add_thorin_dialect(autodiff
+    SOURCES
+        autodiff/autodiff.cpp
+        autodiff/autodiff.h
+        autodiff/passes/autodiff_eval.cpp
+        autodiff/passes/autodiff_eval.h
+        autodiff/passes/autodiff_zero.cpp
+        autodiff/passes/autodiff_zero.h
+        autodiff/passes/autodiff_zero_cleanup.cpp
+        autodiff/passes/autodiff_zero_cleanup.h
+        compile/passes/internal_cleanup.cpp
+        autodiff/auxiliary/autodiff_aux.cpp
+        autodiff/auxiliary/autodiff_aux.h
+        autodiff/auxiliary/autodiff_rewrite_inner.cpp
+        autodiff/auxiliary/autodiff_rewrite_toplevel.cpp
+        autodiff/auxiliary/mem/autodiff_mem_aux.cpp
+        autodiff/auxiliary/mem/autodiff_mem_aux.h
+        autodiff/auxiliary/mem/autodiff_mem_axioms.cpp
+        autodiff/auxiliary/mem/autodiff_mem.cpp
+        autodiff/normalizers.cpp
+        affine/passes/lower_for.cpp
+    DEPENDS
+        mem
+        core
         clos
+        affine
+        direct
+        matrix
+    HEADER_DEPENDS
+        mem
     INSTALL
 )
 
@@ -25,11 +59,14 @@ add_thorin_dialect(clos
         clos/pass/rw/clos2sjlj.h
         clos/pass/rw/clos_conv_prep.cpp
         clos/pass/rw/clos_conv_prep.h
+        clos/pass/rw/phase_wrapper.h
         clos/phase/clos_conv.cpp
         clos/phase/clos_conv.h
         clos/phase/lower_typed_clos.cpp
         clos/phase/lower_typed_clos.h
         mem/passes/fp/copy_prop.cpp
+        mem/passes/rw/reshape.cpp
+        mem/phases/rw/add_mem.cpp
     DEPENDS
         mem
         affine
@@ -38,11 +75,38 @@ add_thorin_dialect(clos
     INSTALL
 )
 
+add_thorin_dialect(compile
+    SOURCES
+        compile/compile.cpp
+        compile/compile.h
+        compile/normalizers.cpp
+        compile/passes/debug_print.cpp
+        compile/passes/debug_print.h
+        compile/passes/internal_cleanup.cpp
+        compile/passes/internal_cleanup.h
+    INSTALL
+)
+
+add_thorin_dialect(core
+    SOURCES
+        core/core.cpp
+        core/core.h
+        core/normalizers.cpp
+        core/be/ll/ll.cpp
+        core/be/ll/ll.h
+    DEPENDS
+        math
+        mem
+    INSTALL
+)
+
 add_thorin_dialect(demo
     SOURCES
         demo/demo.cpp
         demo/demo.h
         demo/normalizers.cpp
+    DEPENDS
+        compile
     INSTALL
 )
 
@@ -55,6 +119,8 @@ add_thorin_dialect(direct
         direct/passes/cps2ds.cpp
         direct/passes/cps2ds.h
         direct/normalizers.cpp
+    DEPENDS
+        compile
     INSTALL
 )
 
@@ -63,6 +129,28 @@ add_thorin_dialect(math
         math/math.cpp
         math/math.h
         math/normalizers.cpp
+    INSTALL
+)
+
+add_thorin_dialect(matrix
+    SOURCES
+        matrix/matrix.cpp
+        matrix/matrix.h
+        matrix/normalizers.cpp
+        matrix/passes/lower_matrix_highlevel.cpp
+        matrix/passes/lower_matrix_highlevel.h
+        matrix/passes/lower_matrix_mediumlevel.cpp
+        matrix/passes/lower_matrix_mediumlevel.h
+        matrix/passes/lower_matrix_lowlevel.cpp
+        matrix/passes/lower_matrix_lowlevel.h
+        compile/passes/internal_cleanup.cpp
+    DEPENDS
+        refly
+        direct
+        affine
+        core
+        mem
+        compile
     INSTALL
 )
 
@@ -79,7 +167,24 @@ add_thorin_dialect(mem
         mem/passes/rw/alloc2malloc.h
         mem/passes/rw/remem_elim.cpp
         mem/passes/rw/remem_elim.h
+        mem/passes/rw/reshape.cpp
+        mem/passes/rw/reshape.h
+        mem/phases/rw/add_mem.cpp
+        mem/phases/rw/add_mem.h
+    DEPENDS
+        compile
     HEADER_DEPENDS
+        core
+    INSTALL
+)
+
+add_thorin_dialect(opt
+    SOURCES
+        opt/opt.cpp
+        opt/opt.h
+    DEPENDS
+        compile
+        mem
         core
     INSTALL
 )
@@ -90,46 +195,9 @@ add_thorin_dialect(refly
         refly/refly.cpp
         refly/passes/remove_perm.h
         refly/passes/remove_perm.cpp
+        refly/passes/debug_dump.h
         refly/normalizers.cpp
-    INSTALL
-)
-
-add_thorin_dialect(affine
-    SOURCES
-        affine/affine.cpp
-        affine/affine.h
-        affine/passes/lower_for.cpp
-        affine/passes/lower_for.h
     DEPENDS
-        mem
-    INSTALL
-)
-
-add_thorin_dialect(autodiff
-    SOURCES
-        autodiff/autodiff.cpp
-        autodiff/autodiff.h
-        autodiff/passes/autodiff_eval.cpp
-        autodiff/passes/autodiff_eval.h
-        autodiff/passes/autodiff_zero.cpp
-        autodiff/passes/autodiff_zero.h
-        autodiff/passes/autodiff_zero_cleanup.cpp
-        autodiff/passes/autodiff_zero_cleanup.h
-        autodiff/passes/autodiff_ext_cleanup.cpp
-        autodiff/passes/autodiff_ext_cleanup.h
-        autodiff/auxiliary/autodiff_aux.cpp
-        autodiff/auxiliary/autodiff_aux.h
-        autodiff/auxiliary/autodiff_rewrite_inner.cpp
-        autodiff/auxiliary/autodiff_rewrite_toplevel.cpp
-        autodiff/normalizers.cpp
-    DEPENDS
-        mem
-        math
-        core
-        clos
-        affine
-        direct
-    HEADER_DEPENDS
-        mem
+        compile
     INSTALL
 )

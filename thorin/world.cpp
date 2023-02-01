@@ -77,36 +77,46 @@ const Type* World::type(const Def* level, const Def* dbg) {
 const Def* World::app(const Def* callee, const Def* arg, const Def* dbg) {
     auto pi = callee->type()->isa<Pi>();
 
+    // (a, b)#i arg     where a = A -> B; b = A -> B
+    if (auto extract = callee->type()->isa<Extract>()) {
+        if (auto tuple = extract->tuple()->isa<Tuple>()) {
+            if (auto uni = checker().is_uniform(tuple->ops(), dbg)) pi = uni->isa<Pi>();
+        }
+    }
+
     if (err()) {
         if (!pi)
             err()->err(dbg->loc(), "called expression '{}' : '{}' is not of function type", callee, callee->type());
         if (!checker().assignable(pi->dom(), arg, dbg)) err()->ill_typed_app(callee, arg, dbg);
     }
 
-    auto type           = pi->reduce(arg).back();
-    auto [axiom, curry] = Axiom::get(callee);
-    if (axiom && curry == 1) {
-        if (auto normalize = axiom->normalizer()) return normalize(type, callee, arg, dbg);
-    }
-
     if (auto lam = callee->isa<Lam>(); lam && lam->is_set() && lam->codom()->sort() > Sort::Type)
         return lam->reduce(arg).back();
 
-    return unify<App>(2, axiom, curry - 1, type, callee, arg, dbg);
+    auto type = pi->reduce(arg).back();
+    return raw_app<true>(type, callee, arg, dbg);
 }
 
-const Def* World::raw_app(const Def* callee, const Def* arg, const Def* dbg) {
-    auto pi             = callee->type()->as<Pi>();
-    auto type           = pi->reduce(arg).back();
-    auto [axiom, curry] = Axiom::get(callee);
-    return unify<App>(2, axiom, curry - 1, type, callee, arg, dbg);
+template<bool Normalize>
+const Def* World::raw_app(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
+    auto [axiom, curry, trip] = Axiom::get(callee);
+    if (axiom) {
+        curry = curry == 0 ? trip : curry;
+        curry = curry == Axiom::Trip_End ? curry : curry - 1;
+
+        if (auto normalize = axiom->normalizer(); Normalize && normalize && curry == 0)
+            return normalize(type, callee, arg, dbg);
+    }
+
+    return unify<App>(2, axiom, curry, trip, type, callee, arg, dbg);
 }
 
 const Def* World::sigma(Defs ops, const Def* dbg) {
     auto n = ops.size();
     if (n == 0) return sigma();
     if (n == 1) return ops[0];
-    if (auto uni = checker().is_uniform(ops, dbg)) return arr(n, uni, dbg);
+    auto front = ops.front();
+    if (std::ranges::all_of(ops.skip_front(), [front](auto op) { return front == op; })) return arr(n, front, dbg);
     return unify<Sigma>(ops.size(), infer_type_level(*this, ops), ops, dbg);
 }
 
@@ -136,7 +146,8 @@ const Def* World::tuple(const Def* type, Defs ops, const Def* dbg) {
     if (!type->isa_nom<Sigma>()) {
         if (n == 0) return tuple();
         if (n == 1) return ops[0];
-        if (auto uni = checker().is_uniform(ops, dbg)) return pack(n, uni, dbg);
+        auto front = ops.front();
+        if (std::ranges::all_of(ops.skip_front(), [front](auto op) { return front == op; })) return pack(n, front, dbg);
     }
 
     if (n != 0) {
@@ -171,6 +182,7 @@ const Def* World::tuple_str(std::string_view s, const Def* dbg) {
 }
 
 const Def* World::extract(const Def* d, const Def* index, const Def* dbg) {
+    assert(d);
     if (index->isa<Tuple>()) {
         auto n = index->num_ops();
         DefArray idx(n, [&](size_t i) { return index->op(i); });
@@ -222,6 +234,7 @@ const Def* World::extract(const Def* d, const Def* index, const Def* dbg) {
     else
         elem_t = extract(tuple(type->as<Sigma>()->ops(), dbg), index, dbg);
 
+    assert(d);
     return unify<Extract>(2, elem_t, d, index, dbg);
 }
 
@@ -229,7 +242,15 @@ const Def* World::insert(const Def* d, const Def* index, const Def* val, const D
     auto type = d->unfold_type();
     auto size = Idx::size(index->type());
 
-    if (err() && !checker().equiv(type->arity(), size, dbg)) err()->index_out_of_range(type->arity(), index, dbg);
+    if (err()) {
+        if (!checker().equiv(type->arity(), size, dbg)) err()->index_out_of_range(type->arity(), index, dbg);
+
+        // The value type does not match the type in the tuple at position index.
+        if (auto index_lit = isa_lit(index)) {
+            auto target_type = type->proj(*index_lit);
+            if (!checker().assignable(target_type, val, dbg)) err()->expected_type(target_type, dbg);
+        }
+    }
 
     if (auto l = isa_lit(size); l && *l == 1)
         return tuple(d, {val}, dbg); // d could be nom - that's why the tuple ctor is needed
@@ -434,6 +455,10 @@ const Def* World::gid2def(u32 gid) {
  * instantiate templates
  */
 
+#ifndef DOXYGEN // Doxygen doesn't like this
+template const Def* World::raw_app<true>(const Def*, const Def*, const Def*, const Def*);
+template const Def* World::raw_app<false>(const Def*, const Def*, const Def*, const Def*);
+#endif
 template const Def* World::ext<true>(const Def*, const Def*);
 template const Def* World::ext<false>(const Def*, const Def*);
 template const Def* World::bound<true>(Defs, const Def*);
