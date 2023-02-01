@@ -1,0 +1,92 @@
+.import core;
+.import mem;
+.con _5577173 _5577174::[_5577207: .Idx 4294967296, _5577176: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+    .let _5577201: [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] = %mem.malloc (.Idx 4294967296, 0) (⊤:%mem.M, 4);
+    .let _5577214: %mem.M = %mem.store (.Idx 4294967296, 0) (_5577201#0:(.Idx 2), _5577201#1:(.Idx 2), _5577207);
+    _5577176 (_5577214, _5577201#1:(.Idx 2))
+};
+.lam internal_diff_core_wrap_mul_5577316 !s_5577329: .Nat → Π .Nat → Π «2; .Idx s_5577329» → [.Idx s_5577329, .Cn [.Idx s_5577329, .Cn «2; .Idx s_5577329»]] = {
+    .lam __5577361 m_5577391: .Nat → Π «2; .Idx s_5577329» → [.Idx s_5577329, .Cn [.Idx s_5577329, .Cn «2; .Idx s_5577329»]] = {
+        .lam __5577366 __5577393::[_5577397: .Idx s_5577329, _5577401: .Idx s_5577329] → [.Idx s_5577329, .Cn [.Idx s_5577329, .Cn «2; .Idx s_5577329»]] = {
+            .con __5577409 __5577426::[i_5577441: .Idx s_5577329, pb_ret_5577428: .Cn «2; .Idx s_5577329»] @(1:(.Idx 2)) = {
+                .let _5577446: .Idx s_5577329 = %core.wrap.mul s_5577329 m_5577391 (_5577401, i_5577441);
+                .let _5577456: .Idx s_5577329 = %core.wrap.mul s_5577329 m_5577391 (_5577397, i_5577441);
+                pb_ret_5577428 (_5577446, _5577456)
+            };
+            .let _5577404: .Idx s_5577329 = %core.wrap.mul s_5577329 m_5577391 __5577393;
+            (_5577404, __5577409)
+        };
+        __5577366
+    };
+    __5577361
+};
+.con id_pb_5577514 _5577515::[s_5577520: [%mem.M, %mem.Ptr (.Idx 4294967296, 0)], _5577517: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+    _5577517 s_5577520
+};
+.con extract_pb_5577504 _5577522::[s_5577524: %mem.M, _5577528: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+    id_pb_5577514 ((s_5577524, ⊥:(%mem.Ptr (.Idx 4294967296, 0))), _5577528)
+};
+.con zero_pb_5577565 _5577566::[.Idx 4294967296, _5577568: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+    _5577568 (⊥:%mem.M, ⊥:(%mem.Ptr (.Idx 4294967296, 0)))
+};
+.con f_deriv_5577084 _5577085::[arg_5577164::[_5577166: %mem.M, _5577225: %mem.Ptr (.Idx 4294967296, 0)], _5577087: .Cn [[%mem.M, .Idx 4294967296], .Cn [[%mem.M, .Idx 4294967296], .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]]]] @(0:(.Idx 2)) = {
+    .let _pullback_alloc_5577168: [%mem.M, %mem.Ptr (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0)] = %mem.malloc (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0) (arg_5577164#0:(.Idx 2), 8);
+    .let _5577223: %mem.M = %mem.store (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0) (_pullback_alloc_5577168#0:(.Idx 2), _pullback_alloc_5577168#1:(.Idx 2), _5577173);
+    .let aug_load_5577233: [%mem.M, .Idx 4294967296] = %mem.load (.Idx 4294967296, 0) (_5577223, arg_5577164#1:(.Idx 2));
+    .let pullback_load_5577243: [%mem.M, .Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]]] = %mem.load (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0) (aug_load_5577233#0:(.Idx 2), _pullback_alloc_5577168#1:(.Idx 2));
+    .con tup_pb_5577562 _5577572::[tup_s_5577574::[_5577575: .Idx 4294967296, _5577579: .Idx 4294967296], tup_ret_cont_5577584: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+        .con inner_cont_5577576 _5577585::[%mem.M, _5577587: %mem.Ptr (.Idx 4294967296, 0)] @(1:(.Idx 2)) = {
+            .con inner_cont_5577580 [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] @(1:(.Idx 2)) = {
+                tup_ret_cont_5577584 (⊤:%mem.M, _5577587)
+            };
+            pullback_load_5577243#1:(.Idx 2) (tup_s_5577574#1:(.Idx 2), inner_cont_5577580)
+        };
+        zero_pb_5577565 (tup_s_5577574#0:(.Idx 2), inner_cont_5577576)
+    };
+    .let _5577485: [.Idx 4294967296, .Cn [.Idx 4294967296, .Cn «2; .Idx 4294967296»]] = internal_diff_core_wrap_mul_5577316 4294967296 0 (2:(.Idx 4294967296), aug_load_5577233#1:(.Idx 2));
+    .con comp_tup_pb__5577546 _5577549::[_5577551: .Idx 4294967296, _5577596: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+        .con comp_tup_pb__cont_5577557 [_5577594: «2; .Idx 4294967296»] @(1:(.Idx 2)) = {
+            tup_pb_5577562 (_5577594, _5577596)
+        };
+        _5577485#1:(.Idx 2) (_5577551, comp_tup_pb__cont_5577557)
+    };
+    .con tup_pb_5577494 _5577533::[tup_s_5577535::[_5577537: %mem.M, _5577602: .Idx 4294967296], tup_ret_cont_5577605: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+        .con inner_cont_5577540 _5577606::[%mem.M, _5577608: %mem.Ptr (.Idx 4294967296, 0)] @(1:(.Idx 2)) = {
+            .con inner_cont_5577603 [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] @(1:(.Idx 2)) = {
+                tup_ret_cont_5577605 (⊤:%mem.M, _5577608)
+            };
+            comp_tup_pb__5577546 (tup_s_5577535#1:(.Idx 2), inner_cont_5577603)
+        };
+        extract_pb_5577504 (tup_s_5577535#0:(.Idx 2), inner_cont_5577540)
+    };
+    _5577087 ((pullback_load_5577243#0:(.Idx 2), _5577485#0:(.Idx 2)), tup_pb_5577494)
+};
+.con printIntegerNL [%mem.M, .Idx 4294967296, .Cn %mem.M];
+.con .extern main __5577659::[mem_5577661: %mem.M, argc_5577675: .Idx 4294967296, %mem.Ptr (%mem.Ptr (.Idx 256, 0), 0), return_5577845: .Cn [%mem.M, .Idx 4294967296]] @(0:(.Idx 2)) = {
+    .con __5577835 [__5577849: %mem.M] @(0:(.Idx 2)) = {
+        return_5577845 (__5577849, 0:(.Idx 4294967296))
+    };
+    .con ret_cont_5577694 __5577704::[__5577717::[mem_5577719: %mem.M, a_5577806: .Idx 4294967296], pb_5577706: .Cn [[%mem.M, .Idx 4294967296], .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]]] @(0:(.Idx 2)) = {
+        .con pb_ret_cont_5577734 __5577780::[_5577786: %mem.M, _5577791: %mem.Ptr (.Idx 4294967296, 0)] @(0:(.Idx 2)) = {
+            .let _5577796: [%mem.M, .Idx 4294967296] = %mem.load (.Idx 4294967296, 0) __5577780;
+            .con __5577811 [__5577819: %mem.M] @(0:(.Idx 2)) = {
+                printIntegerNL (__5577819, _5577796#1:(.Idx 2), __5577835)
+            };
+            printIntegerNL (_5577796#0:(.Idx 2), __5577717#1:(.Idx 2), __5577811)
+        };
+        pb_5577706 ((__5577717#0:(.Idx 2), 1:(.Idx 4294967296)), pb_ret_cont_5577734)
+    };
+    .let _5577662: [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] = %mem.alloc (.Idx 4294967296, 0) mem_5577661;
+    .let _5577682: %mem.M = %mem.store (.Idx 4294967296, 0) (_5577662#0:(.Idx 2), _5577662#1:(.Idx 2), argc_5577675);
+    f_deriv_5577084 ((_5577682, _5577662#1:(.Idx 2)), ret_cont_5577694)
+};
+
+.lam .extern _compile [] -> Pipeline = {
+    %compile.pipe
+        (%compile.single_pass_phase %compile.internal_cleanup_pass)
+        (%compile.single_pass_phase %mem.add_mem_pass)
+        (%compile.single_pass_phase (%mem.reshape_pass %mem.reshape_flat))
+        // (%compile.single_pass_phase %mem.add_mem_pass)
+        // clos_phases
+};
+

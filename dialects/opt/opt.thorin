@@ -56,6 +56,7 @@
         (dialect_cond_phase (%compile.autodiff_dialect, 
           (%compile.single_pass_phase %autodiff.ad_ext_cleanup_pass)
         ))
+        // TODO: probably want reshape, add_mem here after ad to inline created memory operations
         (dialect_cond_phase (%compile.autodiff_dialect, optimize))
         // direct
         (dialect_cond_phase (%compile.direct_dialect,

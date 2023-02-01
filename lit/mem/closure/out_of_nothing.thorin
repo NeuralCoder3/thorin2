@@ -1,0 +1,27 @@
+.import core;
+.import mem;
+.con _reshape_5663327 _5663328::[_5663346: .Idx 4294967296, _5663330: .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]] @(1:(.Idx 2)) = {
+    .let _5663340: [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] = %mem.malloc (.Idx 4294967296, 0) (⊤:%mem.M, 4);
+    .let _5663353: %mem.M = %mem.store (.Idx 4294967296, 0) (_5663340#0:(.Idx 2), _5663340#1:(.Idx 2), _5663346);
+    _5663330 (_5663353, _5663340#1:(.Idx 2))
+};
+.con printIntegerNL [%mem.M, .Idx 4294967296, .Cn %mem.M];
+.con .extern main __5663292::[mem_5663294: %mem.M, argc_5663308: .Idx 4294967296, %mem.Ptr (%mem.Ptr (.Idx 256, 0), 0), return_5663461: .Cn [%mem.M, .Idx 4294967296]] @(1:(.Idx 2)) = {
+    .con __reshape_5663455 [_5663462: %mem.M] @(1:(.Idx 2)) = {
+        return_5663461 (_5663462, 0:(.Idx 4294967296))
+    };
+    .con __reshape_5663452 [_5663453: %mem.M] @(1:(.Idx 2)) = {
+        printIntegerNL (_5663453, ⊥:.Idx 4294967296, __reshape_5663455)
+    };
+    .let _5663295: [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] = %mem.alloc (.Idx 4294967296, 0) mem_5663294;
+    .let _5663315: %mem.M = %mem.store (.Idx 4294967296, 0) (_5663295#0:(.Idx 2), _5663295#1:(.Idx 2), argc_5663308);
+    .let _pullback_alloc_5663317: [%mem.M, %mem.Ptr (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0)] = %mem.malloc (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0) (_5663315, 8);
+    .let _5663362: %mem.M = %mem.store (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0) (_pullback_alloc_5663317#0:(.Idx 2), _pullback_alloc_5663317#1:(.Idx 2), _reshape_5663327);
+    .let _5663370: [%mem.M, .Idx 4294967296] = %mem.load (.Idx 4294967296, 0) (_5663362, _5663295#1:(.Idx 2));
+    .let _5663446: .Idx 4294967296 = %core.wrap.mul 4294967296 0 (2:(.Idx 4294967296), _5663370#1:(.Idx 2));
+    .con inner_cont_reshape_5663396 [%mem.M, %mem.Ptr (.Idx 4294967296, 0)] @(1:(.Idx 2)) = {
+        printIntegerNL (⊤:%mem.M, _5663446, __reshape_5663452)
+    };
+    .let _5663380: [%mem.M, .Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]]] = %mem.load (.Cn [.Idx 4294967296, .Cn [%mem.M, %mem.Ptr (.Idx 4294967296, 0)]], 0) (_5663370#0:(.Idx 2), _pullback_alloc_5663317#1:(.Idx 2));
+    _5663380#1:(.Idx 2) (2:(.Idx 4294967296), inner_cont_reshape_5663396)
+};

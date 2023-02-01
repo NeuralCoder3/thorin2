@@ -62,7 +62,8 @@ const Def* AutoDiffEval::autodiff_zero(const Def* mem, const Def* def) {
     assert(false && "unhandled type in autodiff_zero");
 }
 
-const Def* AutoDiffEval::preparePtr(const Def* mem, const Def* darg, Lam* f) {
+const Def*
+AutoDiffEval::preparePtr(const Def* mem, const Def* darg, Lam* f, std::vector<std::pair<int, const Def*>> indices) {
     auto& world = darg->world();
     if (auto ptr = match<mem::Ptr>(darg->type())) {
         auto [ptr_ty, addr_space] = ptr->args<2>();
@@ -78,11 +79,52 @@ const Def* AutoDiffEval::preparePtr(const Def* mem, const Def* darg, Lam* f) {
         shadow_pullback[darg] = pullback_ptr;
         world.DLOG(" set pb for {} : {}", darg, darg->type());
         // TODO: init pullback
-        mem = mem2;
+
+        auto pb_mem = world.top(mem->type());
+        // p† [i] : Ptr X -> A
+        // p† [i] = λ s. zero : Array, insert s i zero, insert zero in larger zero : A
+
+        // auto result = op_zero(darg->type());
+        auto inner_pb_ty = inner_shadow_pb_type(ptr_ty, f->dom(0_s));
+        world.DLOG(" inner pb type: {}", inner_pb_ty);
+        world.DLOG(" depth: {}", indices.size());
+        for (auto [idx, parent] : indices) { world.DLOG(" parent: {} -> {} : {}", idx, parent, parent->type()); }
+        auto pb = world.nom_lam(inner_pb_ty->as<Pi>());
+        const Def* result;
+        if (auto arr = ptr_ty->isa<Arr>()) {
+            // TODO: one for each index
+        } else {
+            // lambda s. s but insert into nested structure
+
+            auto [pb_mem2, ptr] = mem::op_malloc(pb->var(0_n)->type(), pb_mem)->projs<2>();
+            auto pb_mem3        = mem::op_store(pb_mem2, ptr, pb->var(0_n));
+            pb_mem              = pb_mem3;
+            result              = ptr;
+            // result = pb->var(0_n);
+        }
+        for (auto [idx, parent] : indices) {
+            auto parent_zero = autodiff_zero(mem, parent);
+            result           = world.insert(parent_zero, idx, result);
+        }
+        result = mem::replace_mem(pb_mem, result);
+        world.DLOG(" result: {} : {}", result, result->type());
+        pb->app(true, pb->var(1), result);
+
+        auto pb_store_mem = mem::op_store(mem2, pullback_ptr, pb);
+
+        // TODO: insert
+        // auto [pb_mem2,result] = mem::op_malloc(ptr_ty, pb_mem)->projs<2>();
+        // auto idx_lea = mem::op_lea(result, world.lit(world.type_idx(arr_size), 0));
+
+        mem = pb_store_mem;
     } else if (darg->num_projs() > 1) {
+        int pos = 0;
         for (auto arg : darg->projs()) {
             // auto arg_ty = arg->type();
-            mem = preparePtr(mem, arg, f);
+            auto new_indices(indices);
+            new_indices.push_back({pos, darg});
+            mem = preparePtr(mem, arg, f, new_indices);
+            pos += 1;
         }
     } else {
         // world.DLOG("flat type: {}", darg->type());
@@ -102,7 +144,7 @@ void AutoDiffEval::prepareMemArguments(Lam* lam, Lam* deriv) {
 
     world.DLOG("prepareMemArguments: {}", deriv_arg->type());
 
-    current_mem = preparePtr(current_mem, deriv_arg, lam);
+    current_mem = preparePtr(current_mem, deriv_arg, lam, {});
     // assert(0);
 
     // for (auto arg : deriv_arg->projs()) {

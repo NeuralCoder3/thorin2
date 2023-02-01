@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "thorin/analyses/schedule.h"
+#include "thorin/analyses/scope.h"
 
 #include "dialects/mem/mem.h"
 
@@ -100,12 +101,31 @@ const Def* AddMem::rewrite_pi(const Pi* pi) {
 
     auto dom = pi->dom();
     DefArray new_dom{dom->num_projs(), [&](size_t i) { return rewrite_type(dom->proj(i)); }};
-    if (pi->num_doms() == 0 || !match<mem::M>(pi->dom(0_s))) {
+    if (
+        // !pi->codom()->isa<Pi>() &&
+        (pi->num_doms() == 0 || !match<mem::M>(pi->dom(0_s)))) {
         new_dom =
             DefArray{dom->num_projs() + 1, [&](size_t i) { return i == 0 ? mem::type_mem(world()) : new_dom[i - 1]; }};
     }
 
-    return mem_rewritten_[pi] = world().pi(new_dom, pi->codom(), pi->dbg());
+    auto codom = pi->codom();
+    // if (pi->isa_nom()) {
+    //     Scope scope(pi->as_nom());
+    //     codom = thorin::rewrite(codom, pi->dom(), world().sigma(new_dom), scope);
+    // }
+    // auto new_pi = world().nom_pi(world().nom_infer_univ(), pi->dbg());
+    auto new_pi = world().nom_pi(codom->unfold_type(), pi->dbg());
+    new_pi->set_dom(world().sigma(new_dom));
+    new_pi->set_codom(codom);
+
+    Scope scope(new_pi);
+    new_pi->set_codom(thorin::rewrite(new_pi->codom(), pi->dom(), new_pi->codom(), scope));
+    // new_pi->set_codom(thorin::rewrite(new_pi->codom(),
+    if (auto nom_pi = pi->isa_nom<Pi>()) {
+        new_pi->set_codom(thorin::rewrite(new_pi->codom(), nom_pi->var(), new_pi->var(), scope));
+    }
+
+    return mem_rewritten_[pi] = new_pi;
 }
 
 const Def* AddMem::add_mem_to_lams(Lam* curr_lam, const Def* def) {
@@ -199,6 +219,14 @@ const Def* AddMem::add_mem_to_lams(Lam* curr_lam, const Def* def) {
 
     // call-site of a nominal lambda
     if (auto apped_nom = isa_apped_nom_lam_in_tuple(def); apped_nom.first) {
+        world().DLOG("rewrite apped nom lam {} in {}", apped_nom.first, curr_lam);
+        // if (def->type()->isa<Pi>()) {
+        //     return mem_rewritten_[def] = rewrite_apped_nom_lam_in_tuple(
+        //                def, std::move(rewrite_lam),
+        //                //    std::move(rewrite_arg),
+        //                [&](const Def* def) { return add_mem_to_lams(place, def); },
+        //                [&](const Def* def) { return add_mem_to_lams(place, def); });
+        // }
         return mem_rewritten_[def] =
                    rewrite_apped_nom_lam_in_tuple(def, std::move(rewrite_lam), std::move(rewrite_arg),
                                                   [&](const Def* def) { return add_mem_to_lams(place, def); });
@@ -212,6 +240,7 @@ const Def* AddMem::add_mem_to_lams(Lam* curr_lam, const Def* def) {
 
     // call-site of an axiom (assuming mems are only in the final app..)
     // assume all "negative" curry depths are fully applied axioms, so we do not want to rewrite those here..
+    // if (auto app = def->isa<App>(); app && ((app->axiom() && app->curry() ^ 0x8001) || app->type()->isa<Pi>())) {
     if (auto app = def->isa<App>(); app && app->axiom() && app->curry() ^ 0x8000) {
         auto arg = app->arg();
         DefArray new_args(arg->num_projs());

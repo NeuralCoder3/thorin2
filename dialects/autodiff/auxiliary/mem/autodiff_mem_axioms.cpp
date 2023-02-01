@@ -73,12 +73,16 @@ const Def* AutoDiffEval::augment_load(const App* load, Lam* f, Lam* f_diff) {
 }
 
 const Def* AutoDiffEval::augment_store(const App* store, Lam* f, Lam* f_diff) {
+    auto& world                      = store->world();
     auto aug_arg                     = augment(store->arg(), f, f_diff);
     auto [aug_mem, aug_ptr, aug_val] = aug_arg->projs<3>();
 
     auto shadow_pb_ptr = shadow_pullback[aug_ptr];
 
     auto pb = partial_pullback[aug_val];
+    // world.DLOG("store pb {} : {}", pb, pb->type());
+    // world.DLOG("for val {} : {}", aug_val, aug_val->type());
+    // world.DLOG("into ptr {} : {}", aug_ptr, aug_ptr->type());
     // store the element pb
     auto pb_store = mem::op_store(aug_mem, shadow_pb_ptr, pb);
     // store the element in forward pass

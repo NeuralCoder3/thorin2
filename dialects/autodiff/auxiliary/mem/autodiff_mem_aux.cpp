@@ -9,6 +9,16 @@
 
 namespace thorin::autodiff {
 
+const Def* inner_shadow_pb_type(const Def* def, const Def* arg_ty) {
+    if (auto arr = def->isa<Arr>()) {
+        auto body = shadow_array_type(arr->body(), arg_ty);
+        return body;
+    }
+
+    auto pb_ty = pullback_type(def, arg_ty);
+    return pb_ty;
+}
+
 const Def* shadow_array_type(const Def* def, const Def* arg_ty) {
     if (auto arr = def->isa<Arr>()) {
         auto& world = def->world();

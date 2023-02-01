@@ -1,10 +1,14 @@
 #pragma once
 
+#include <utility>
+#include <vector>
+
 #include <thorin/def.h>
 #include <thorin/pass/pass.h>
 
 namespace thorin::autodiff {
 
+const Def* inner_shadow_pb_type(const Def* def, const Def* arg_ty);
 const Def* shadow_array_type(const Def* def, const Def* arg_ty);
 
 /// This pass is the heart of AD.
@@ -41,7 +45,7 @@ public:
     /// This function generates the structure for the function arguments.
     void prepareArguments(Lam* lam, Lam* deriv);
 
-    const Def* preparePtr(const Def* mem, const Def* arg, Lam* f);
+    const Def* preparePtr(const Def* mem, const Def* arg, Lam* f, std::vector<std::pair<int, const Def*>>);
 
     // TODO: comment
     const Def* buildAugmentedTuple(World& world, Defs aug_ops, const Pi* pb_ty, Lam* f, Lam* f_diff);
