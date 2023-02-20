@@ -20,6 +20,13 @@ const Def* normalize_autodiff_type(const Def* type, const Def* callee, const Def
     return world.raw_app(callee, arg, dbg);
 }
 
+const Def* normalize_autodiff(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
+    // callee = autodiff T
+    // arg    = f:T
+
+    return op_autodiff(arg);
+}
+
 const Def* normalize_tangent_type(const Def* type, const Def* callee, const Def* arg, const Def* dbg) {
     auto& world = type->world();
     return tangent_type_fun(arg);

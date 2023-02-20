@@ -64,6 +64,9 @@
 /// | `Im`   | `ieee754min` | x | o |
 /// | `IM`   | `ieee754max` | x | x |
 ///
+// .ax %math.extrema(nm = minimum, nM = maximum,
+//                   Nm = minnum,  NM = maxnum): 
+//     Π [p: .Nat, e: .Nat] -> .Nat -> [%math.F (p, e), %math.F (p, e)] -> %math.F (p, e), normalize_extrema;
 .ax %math.extrema(im = fmin,       iM = fmax,
                   Im = ieee754min, IM = ieee754max): 
     Π [p: .Nat, e: .Nat] -> .Nat -> [%math.F (p, e), %math.F (p, e)] -> %math.F (p, e), normalize_extrema;

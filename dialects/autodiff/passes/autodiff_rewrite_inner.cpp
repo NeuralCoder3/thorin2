@@ -593,7 +593,7 @@ void AutoDiffEval::prop(const Def* def) {
             upstream_grad   = math::op(math::arith::mul, math::Mode::fast, result_exp, gradient);
         } else if (exp.id() == math::exp::sigmoid) {
             auto result_sigmoid = resolve(exp);
-            auto one_sub = math::op(math::arith::sub, math::Mode::fast, one(result_sigmoid->type()), result_sigmoid);
+            auto one_sub    = math::op(math::arith::sub, math::Mode::fast, one(result_sigmoid->type()), result_sigmoid);
             auto local_grad = math::op(math::arith::mul, math::Mode::fast, result_sigmoid, one_sub);
             upstream_grad   = math::op(math::arith::mul, math::Mode::fast, local_grad, gradient);
         } else if (exp.id() == math::exp::log) {
@@ -655,7 +655,7 @@ void AutoDiffEval::prop(const Def* def) {
     }
 
     if (auto extrema = match<math::extrema>(def)) {
-        if (extrema.id() == math::extrema::maximum) {
+        if (extrema.id() == math::extrema::fmax) {
             auto [left, right] = extrema->args<2>();
             auto left_value    = resolve(left);
             auto right_value   = resolve(right);

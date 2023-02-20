@@ -43,9 +43,7 @@ const Def* AutoDiffEval::input_mapping(Lam* forward) {
 
 Lam* AutoDiffEval::free_memory() {
     auto free_memory = create_block("free_memory");
-    for( auto ptr : need_free ){
-        op_free(ptr);
-    }
+    for (auto ptr : need_free) { op_free(ptr); }
     ret(free_memory);
     return free_memory;
 }
@@ -174,7 +172,7 @@ void AutoDiffEval::init_grad_requirements(const App* ad) {
 const Def* AutoDiffEval::derive_(const Def* def) {
     auto& w = world();
 
-    auto ad_app = force<autodiff::ad>(def);
+    auto ad_app = force<ad>(def);
 
     auto diffee = ad_app->arg()->isa_nom<Lam>();
     assert(diffee);

@@ -29,6 +29,8 @@
 /// `autodiff f = f' = λ args. (f args, f*)` 
 .ax %autodiff.ad: Π [T: *] -> T -> 
     %autodiff.autodiff_type (T);
+.ax %autodiff.autodiff: Π [T: *] -> T -> 
+    %autodiff.autodiff_type (T), normalize_autodiff;
 ///
 /// ## Compilation Passes and Phases
 /// 
