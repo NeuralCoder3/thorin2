@@ -52,7 +52,7 @@ protected:
     void visit(const Scope& scope) override {
         if (entry_ = scope.entry()->isa_nom<Lam>(); !entry_) return;
 
-        if (entry_->is_unset()) {
+        if (!entry_->is_set()) {
             child().emit_imported(entry_);
             return;
         }

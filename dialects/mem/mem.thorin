@@ -2,6 +2,10 @@
 ///
 /// [TOC]
 ///
+/// ## Dependencies
+///
+.import compile;
+///
 /// ## Types
 ///
 /// ### %mem.M
@@ -78,3 +82,47 @@
 /// The reserved slot will be `size` bytes large.
 /// `id` has to be provided an unique id.
 .ax %mem.memset: Π [T: *, as: .Nat] -> [%mem.M, %mem.Ptr(T, as), size: .Nat, val: (.Idx 256)] -> %mem.M;
+/// ## Compilation Passes and Phases
+/// 
+/// ### Misc
+/// 
+/// Reshape mode enum.
+///
+.ax %mem.reshape_mode: *;
+.ax %mem.reshape_flat: %mem.reshape_mode;
+.ax %mem.reshape_arg: %mem.reshape_mode;
+/// 
+/// ### Passes
+/// 
+/// The SSA expects the eta expansion as argument
+.ax %mem.ssa_pass: %compile.Pass -> %compile.Pass;
+/// Copy propagation expects beta reduction and etra expansion.
+.ax %mem.copy_prop_pass: [%compile.Pass,%compile.Pass, .Bool] -> %compile.Pass;
+.ax %mem.remem_elim_pass: %compile.Pass;
+.ax %mem.alloc2malloc_pass: %compile.Pass;
+.ax %mem.reshape_pass: %mem.reshape_mode -> %compile.Pass;
+.ax %mem.add_mem_pass: %compile.Pass;
+/// 
+/// ### Phases
+/// 
+.let mem_opt_pass_list = {
+    .let beta_red = %compile.beta_red_pass;
+    .let eta_red  = %compile.eta_red_pass;
+    .let eta_exp  = %compile.eta_exp_pass eta_red;
+    %compile.pass_list
+        beta_red
+        eta_red
+        eta_exp
+        (%mem.ssa_pass eta_exp)
+        (%mem.copy_prop_pass (beta_red, eta_exp, (0:.Bool)))
+};
+.let mem_opt_phase = {
+    %compile.pass_phase mem_opt_pass_list
+};
+.let mem_prep_phase = {
+    %compile.passes_to_phase (⊤:.Nat)
+    (
+        %mem.remem_elim_pass,
+        %mem.alloc2malloc_pass
+    )
+};

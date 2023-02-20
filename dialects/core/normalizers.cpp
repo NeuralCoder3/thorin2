@@ -102,24 +102,21 @@ Res fold(u64 a, u64 b, [[maybe_unused]] bool nsw, [[maybe_unused]] bool nuw) {
 
 /// @attention Note that @p a and @p b are passed by reference as fold also commutes if possible. @sa commute().
 template<class Id, Id id>
-static const Def* fold(World& world, const Def* type, const App* callee, const Def*& a, const Def*& b, const Def* dbg) {
+static const Def*
+fold(World& world, const Def* type, const Def*& a, const Def*& b, const Def* dbg, const Def* mode = {}) {
     auto la = a->isa<Lit>(), lb = b->isa<Lit>();
 
     if (a->isa<Bot>() || b->isa<Bot>()) return world.bot(type, dbg);
 
     if (la && lb) {
-        nat_t width;
+        auto size  = as_lit(Idx::size(a->type()));
+        auto width = Idx::size2bitwidth(size);
         bool nsw = false, nuw = false;
         if constexpr (std::is_same_v<Id, wrap>) {
-            auto [mode, w] = callee->args<2>(as_lit<nat_t>);
-            nsw            = mode & Mode::nsw;
-            nuw            = mode & Mode::nuw;
-            width          = w;
-        } else if (auto size = Idx::size(a->type())) {
-            width = as_lit(size);
+            auto m = as_lit(mode);
+            nsw    = m & Mode::nsw;
+            nuw    = m & Mode::nuw;
         }
-
-        width = *size2bitwidth(width);
 
         Res res;
         switch (width) {
@@ -193,7 +190,7 @@ const Def* normalize_nop(const Def* type, const Def* callee, const Def* arg, con
         }
     }
 
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 template<ncmp id>
@@ -222,7 +219,7 @@ const Def* normalize_ncmp(const Def* type, const Def* callee, const Def* arg, co
         }
     }
 
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 template<icmp id>
@@ -231,7 +228,7 @@ const Def* normalize_icmp(const Def* type, const Def* c, const Def* arg, const D
     auto callee = c->as<App>();
     auto [a, b] = arg->projs<2>();
 
-    if (auto result = fold<icmp, id>(world, type, callee, a, b, dbg)) return result;
+    if (auto result = fold<icmp, id>(world, type, a, b, dbg)) return result;
     if (id == icmp::f) return world.lit_ff();
     if (id == icmp::t) return world.lit_tt();
     if (a == b) {
@@ -239,26 +236,27 @@ const Def* normalize_icmp(const Def* type, const Def* c, const Def* arg, const D
         if (id == icmp::ne) return world.lit_ff();
     }
 
-    return world.raw_app(callee, {a, b}, dbg);
+    return world.raw_app(type, callee, {a, b}, dbg);
 }
 
 template<bit1 id>
 const Def* normalize_bit1(const Def* type, const Def* c, const Def* a, const Def* dbg) {
     auto& world = type->world();
     auto callee = c->as<App>();
-    auto s      = isa_lit(callee->arg());
     auto l      = isa_lit(a);
 
-    switch (id) {
-        case bit1::f: return world.lit_idx(*s, 0);
-        case bit1::t: return world.lit_idx(*s, *s - 1_u64);
-        case bit1::id: return a;
-        default: break;
+    if (auto ls = isa_lit(callee->arg())) {
+        switch (id) {
+            case bit1::f: return world.lit_idx(*ls, 0);
+            case bit1::t: return world.lit_idx(*ls, *ls - 1_u64);
+            case bit1::id: return a;
+            default: break;
+        }
+
+        if (l) return world.lit_idx_mod(*ls, ~*l);
     }
 
-    if (l) return world.lit_idx_mod(*s, ~*l);
-
-    return world.raw_app(callee, a, dbg);
+    return world.raw_app(type, callee, a, dbg);
 }
 
 template<class Id>
@@ -292,7 +290,7 @@ const Def* normalize_bit2(const Def* type, const Def* c, const Def* arg, const D
     auto& world = type->world();
     auto callee = c->as<App>();
     auto [a, b] = arg->projs<2>();
-    auto s      = isa_lit(callee->arg());
+    auto ls     = isa_lit(callee->arg());
 
     commute(id, a, b);
 
@@ -306,7 +304,7 @@ const Def* normalize_bit2(const Def* type, const Def* c, const Def* arg, const D
     // clang-format off
     switch (id) {
         case bit2::    f: return world.lit(type,        0);
-        case bit2::    t: if (s) return world.lit(type, *s-1_u64); break;
+        case bit2::    t: if (ls) return world.lit(type, *ls-1_u64); break;
         case bit2::    a: return a;
         case bit2::    b: return b;
         case bit2::   na: return op_negate(a, dbg);
@@ -316,23 +314,24 @@ const Def* normalize_bit2(const Def* type, const Def* c, const Def* arg, const D
         default:         break;
     }
 
-    if (la && lb) {
+    if (la && lb && ls) {
         switch (id) {
-            case bit2::and_: return world.lit_idx    (*s,   *la &  *lb);
-            case bit2:: or_: return world.lit_idx    (*s,   *la |  *lb);
-            case bit2::xor_: return world.lit_idx    (*s,   *la ^  *lb);
-            case bit2::nand: return world.lit_idx_mod(*s, ~(*la &  *lb));
-            case bit2:: nor: return world.lit_idx_mod(*s, ~(*la |  *lb));
-            case bit2::nxor: return world.lit_idx_mod(*s, ~(*la ^  *lb));
-            case bit2:: iff: return world.lit_idx_mod(*s, ~ *la |  *lb);
-            case bit2::niff: return world.lit_idx    (*s,   *la & ~*lb);
+            case bit2::and_: return world.lit_idx    (*ls,   *la &  *lb);
+            case bit2:: or_: return world.lit_idx    (*ls,   *la |  *lb);
+            case bit2::xor_: return world.lit_idx    (*ls,   *la ^  *lb);
+            case bit2::nand: return world.lit_idx_mod(*ls, ~(*la &  *lb));
+            case bit2:: nor: return world.lit_idx_mod(*ls, ~(*la |  *lb));
+            case bit2::nxor: return world.lit_idx_mod(*ls, ~(*la ^  *lb));
+            case bit2:: iff: return world.lit_idx_mod(*ls, ~ *la |  *lb);
+            case bit2::niff: return world.lit_idx    (*ls,   *la & ~*lb);
             default: unreachable();
         }
     }
 
+    // TODO rewrite using bit2
     auto unary = [&](bool x, bool y, const Def* a) -> const Def* {
         if (!x && !y) return world.lit(type, 0);
-        if ( x &&  y) return s ? world.lit(type, *s-1_u64) : nullptr;
+        if ( x &&  y) return ls ? world.lit(type, *ls-1_u64) : nullptr;
         if (!x &&  y) return a;
         if ( x && !y && id != bit2::xor_) return op_negate(a, dbg);
         return nullptr;
@@ -346,7 +345,7 @@ const Def* normalize_bit2(const Def* type, const Def* c, const Def* arg, const D
     if (la) {
         if (*la == 0) {
             if (auto res = unary(tab[0][0], tab[0][1], b)) return res;
-        } else if (*la == *s - 1_u64) {
+        } else if (ls && *la == *ls - 1_u64) {
             if (auto res = unary(tab[1][0], tab[1][1], b)) return res;
         }
     }
@@ -354,14 +353,14 @@ const Def* normalize_bit2(const Def* type, const Def* c, const Def* arg, const D
     if (lb) {
         if (*lb == 0) {
             if (auto res = unary(tab[0][0], tab[1][0], a)) return res;
-        } else if (*lb == *s - 1_u64) {
+        } else if (ls && *lb == *ls - 1_u64) {
             if (auto res = unary(tab[0][1], tab[1][1], a)) return res;
         }
     }
 
     if (auto res = reassociate<bit2>(id, world, callee, a, b, dbg)) return res;
 
-    return world.raw_app(callee, {a, b}, dbg);
+    return world.raw_app(type, callee, {a, b}, dbg);
 }
 
 template<shr id>
@@ -369,9 +368,10 @@ const Def* normalize_shr(const Def* type, const Def* c, const Def* arg, const De
     auto& world = type->world();
     auto callee = c->as<App>();
     auto [a, b] = arg->projs<2>();
-    auto w      = isa_lit(callee->arg());
+    auto s      = Idx::size(arg->type());
+    auto ls     = isa_lit(s);
 
-    if (auto result = fold<shr, id>(world, type, callee, a, b, dbg)) return result;
+    if (auto result = fold<shr, id>(world, type, a, b, dbg)) return result;
 
     if (auto la = a->isa<Lit>()) {
         if (la == world.lit(type, 0)) {
@@ -390,10 +390,10 @@ const Def* normalize_shr(const Def* type, const Def* c, const Def* arg, const De
             }
         }
 
-        if (lb->get() > *w) return world.bot(type, dbg);
+        if (ls && lb->get() > *ls) return world.bot(type, dbg);
     }
 
-    return world.raw_app(callee, {a, b}, dbg);
+    return world.raw_app(type, callee, {a, b}, dbg);
 }
 
 template<wrap id>
@@ -401,9 +401,11 @@ const Def* normalize_wrap(const Def* type, const Def* c, const Def* arg, const D
     auto& world = type->world();
     auto callee = c->as<App>();
     auto [a, b] = arg->projs<2>();
-    auto [m, w] = callee->args<2>(isa_lit<nat_t>); // mode and width
+    auto mode   = callee->arg();
+    auto s      = Idx::size(a->type());
+    auto ls     = isa_lit(s);
 
-    if (auto result = fold<wrap, id>(world, type, callee, a, b, dbg)) return result;
+    if (auto result = fold<wrap, id>(world, type, a, b, dbg, mode)) return result;
 
     // clang-format off
     if (auto la = a->isa<Lit>()) {
@@ -437,15 +439,15 @@ const Def* normalize_wrap(const Def* type, const Def* c, const Def* arg, const D
         }
 
         if (id == wrap::sub)
-            return op(wrap::add, *m, a, world.lit_idx_mod(*w, ~lb->get() + 1_u64)); // a - lb -> a + (~lb + 1)
-        else if (id == wrap::shl && lb->get() > *w)
+            return op(wrap::add, mode, a, world.lit_idx_mod(*ls, ~lb->get() + 1_u64)); // a - lb -> a + (~lb + 1)
+        else if (id == wrap::shl && ls && lb->get() > *ls)
             return world.bot(type, dbg);
     }
 
     if (a == b) {
         switch (id) {
-            case wrap::add: return op(wrap::mul, *m, world.lit(type, 2), a, dbg); // a + a -> 2 * a
-            case wrap::sub: return world.lit(type, 0);                            // a - a -> 0
+            case wrap::add: return op(wrap::mul, mode, world.lit(type, 2), a, dbg); // a + a -> 2 * a
+            case wrap::sub: return world.lit(type, 0);                              // a - a -> 0
             case wrap::mul: break;
             case wrap::shl: break;
         }
@@ -454,18 +456,18 @@ const Def* normalize_wrap(const Def* type, const Def* c, const Def* arg, const D
 
     if (auto res = reassociate<wrap>(id, world, callee, a, b, dbg)) return res;
 
-    return world.raw_app(callee, {a, b}, dbg);
+    return world.raw_app(type, callee, {a, b}, dbg);
 }
 
 template<div id>
-const Def* normalize_div(const Def* type, const Def* c, const Def* arg, const Def* dbg) {
-    auto& world      = type->world();
+const Def* normalize_div(const Def* full_type, const Def* c, const Def* arg, const Def* dbg) {
+    auto& world      = full_type->world();
     auto callee      = c->as<App>();
     auto [mem, a, b] = arg->projs<3>();
-    type             = type->as<Sigma>()->op(1); // peel off actual type
+    auto [_, type]   = full_type->projs<2>(); // peel off actual type
     auto make_res    = [&, mem = mem](const Def* res) { return world.tuple({mem, res}, dbg); };
 
-    if (auto result = fold<div, id>(world, type, callee, a, b, dbg)) return make_res(result);
+    if (auto result = fold<div, id>(world, type, a, b, dbg)) return make_res(result);
 
     if (auto la = a->isa<Lit>()) {
         if (la == world.lit(type, 0)) return make_res(la); // 0 / b -> 0 and 0 % b -> 0
@@ -493,50 +495,48 @@ const Def* normalize_div(const Def* type, const Def* c, const Def* arg, const De
         }
     }
 
-    return world.raw_app(callee, {mem, a, b}, dbg);
+    return world.raw_app(full_type, callee, {mem, a, b}, dbg);
 }
 
 template<conv id>
-const Def* normalize_conv(const Def* dst_ty, const Def* c, const Def* x, const Def* dbg) {
-    auto& world = dst_ty->world();
+const Def* normalize_conv(const Def* dst_t, const Def* c, const Def* x, const Def* dbg) {
+    auto& world = dst_t->world();
     auto callee = c->as<App>();
-    auto s_ty   = x->type()->as<App>();
-    auto d_ty   = dst_ty->as<App>();
-    auto s      = s_ty->arg();
-    auto d      = d_ty->arg();
+    auto s_t    = x->type()->as<App>();
+    auto d_t    = dst_t->as<App>();
+    auto s      = s_t->arg();
+    auto d      = d_t->arg();
     auto ls     = isa_lit(s);
     auto ld     = isa_lit(d);
 
-    if (s_ty == d_ty) return x;
-    if (x->isa<Bot>()) return world.bot(d_ty, dbg);
+    if (s_t == d_t) return x;
+    if (x->isa<Bot>()) return world.bot(d_t, dbg);
     if constexpr (id == conv::s2s) {
-        if (ls && ld && *ld < *ls) return op(conv::u2u, d_ty, x, dbg); // just truncate - we don't care for signedness
+        if (ls && ld && *ld < *ls) return op(conv::u2u, d_t, x, dbg); // just truncate - we don't care for signedness
     }
 
     if (auto l = isa_lit(x); l && ls && ld) {
         if constexpr (id == conv::u2u) {
-            if (*ld == 0) return world.lit(d_ty, *l); // I64
-            return world.lit(d_ty, *l % *ld);
+            if (*ld == 0) return world.lit(d_t, *l); // I64
+            return world.lit(d_t, *l % *ld);
         }
 
-        auto sw = size2bitwidth(*ls);
-        auto dw = size2bitwidth(*ld);
+        auto sw = Idx::size2bitwidth(*ls);
+        auto dw = Idx::size2bitwidth(*ld);
 
-        if (sw && dw) {
-            // clang-format off
-            if (false) {}
+        // clang-format off
+        if (false) {}
 #define M(S, D) \
-            else if (S == *sw && D == *dw) return world.lit(d_ty, w2s<D>(thorin::bitcast<w2s<S>>(*l)), dbg);
-            M( 1,  8) M( 1, 16) M( 1, 32) M( 1, 64)
-                      M( 8, 16) M( 8, 32) M( 8, 64)
-                                M(16, 32) M(16, 64)
-                                          M(32, 64)
-            else unreachable();
-            // clang-format on
-        }
+        else if (S == sw && D == dw) return world.lit(d_t, w2s<D>(thorin::bitcast<w2s<S>>(*l)), dbg);
+        M( 1,  8) M( 1, 16) M( 1, 32) M( 1, 64)
+                  M( 8, 16) M( 8, 32) M( 8, 64)
+                            M(16, 32) M(16, 64)
+                                      M(32, 64)
+        else assert(false && "TODO: conversion between different Idx sizes");
+        // clang-format on
     }
 
-    return world.raw_app(callee, x, dbg);
+    return world.raw_app(dst_t, callee, x, dbg);
 }
 
 const Def* normalize_bitcast(const Def* dst_t, const Def* callee, const Def* src, const Def* dbg) {
@@ -553,7 +553,7 @@ const Def* normalize_bitcast(const Def* dst_t, const Def* callee, const Def* src
         if (Idx::size(dst_t)) return world.lit(dst_t, lit->get(), dbg);
     }
 
-    return world.raw_app(callee, src, dbg);
+    return world.raw_app(dst_t, callee, src, dbg);
 }
 
 // TODO I guess we can do that with C++20 <bit>
@@ -568,7 +568,7 @@ inline u64 pad(u64 offset, u64 align) {
 // and every occurance of these types in a later phase
 // TODO Pi and others
 template<trait id>
-const Def* normalize_trait(const Def*, const Def* callee, const Def* type, const Def* dbg) {
+const Def* normalize_trait(const Def* nat, const Def* callee, const Def* type, const Def* dbg) {
     assert(!match<mem::M>(type));
     auto& world = type->world();
     if (auto ptr = match<mem::Ptr>(type)) {
@@ -576,14 +576,7 @@ const Def* normalize_trait(const Def*, const Def* callee, const Def* type, const
     } else if (type->isa<Pi>()) {
         return world.lit_nat(8); // Gets lowered to function ptr
     } else if (auto size = Idx::size(type)) {
-        if (size->isa<Top>()) return world.lit_nat(8);
-        if (auto w = isa_lit(size)) {
-            if (*w == 0) return world.lit_nat(8);
-            if (*w <= 0x0000'0000'0000'0100_u64) return world.lit_nat(1);
-            if (*w <= 0x0000'0000'0001'0000_u64) return world.lit_nat(2);
-            if (*w <= 0x0000'0001'0000'0000_u64) return world.lit_nat(4);
-            return world.lit_nat(8);
-        }
+        if (auto w = Idx::size2bitwidth(size)) return world.lit_nat(std::max(1_n, std::bit_ceil(*w) / 8_n));
     } else if (auto w = math::isa_f(type)) {
         switch (*w) {
             case 16: return world.lit_nat(2);
@@ -619,7 +612,7 @@ const Def* normalize_trait(const Def*, const Def* callee, const Def* type, const
     }
 
 out:
-    return world.raw_app(callee, type, dbg);
+    return world.raw_app(nat, callee, type, dbg);
 }
 
 const Def* normalize_zip(const Def* type, const Def* c, const Def* arg, const Def* dbg) {
@@ -641,7 +634,7 @@ const Def* normalize_zip(const Def* type, const Def* c, const Def* arg, const De
     if (auto l_in = isa_lit(n_i)) {
         auto args = arg->projs(*l_in);
 
-        if (lr && std::ranges::all_of(args, [](auto arg) { return is_tuple_or_pack(arg); })) {
+        if (lr && std::ranges::all_of(args, [](const Def* arg) { return arg->isa<Tuple, Pack>(); })) {
             auto shapes = s->projs(*lr);
             auto s_n    = isa_lit(shapes.front());
 
@@ -660,7 +653,7 @@ const Def* normalize_zip(const Def* type, const Def* c, const Def* arg, const De
         }
     }
 
-    return w.raw_app(callee, arg, dbg);
+    return w.raw_app(type, callee, arg, dbg);
 }
 
 template<pe id>
@@ -672,7 +665,7 @@ const Def* normalize_pe(const Def* type, const Def* callee, const Def* arg, cons
         if (arg->dep_const()) return world.lit_tt();
     }
 
-    return world.raw_app(callee, arg, dbg);
+    return world.raw_app(type, callee, arg, dbg);
 }
 
 THORIN_core_NORMALIZER_IMPL

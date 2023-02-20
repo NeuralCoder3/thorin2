@@ -1,5 +1,9 @@
 #include "thorin/pass/optimize.h"
 
+#include <vector>
+
+#include "thorin/dialects.h"
+
 #include "thorin/pass/fp/beta_red.h"
 #include "thorin/pass/fp/eta_exp.h"
 #include "thorin/pass/fp/eta_red.h"
@@ -13,51 +17,59 @@
 
 namespace thorin {
 
-/// The optimizations proceed in a pipeline ordered by priorities.
-/// Each phase is a sequence of passes that are run interleaved.
-/// The passes are added to the phase ordered by their priority.
-
-/// Order:
-/// * 1-10: initial passes
-/// * 100: Main optimization phase (default for extend_opt_phase)
-/// * 200: Pre-CodeGen Optimization
-/// * 300: CodeGen Preparation (default for extend_codegen_prep_phase)
-///
-/// concrete phases:
-/// * 0  : Scalarize
-/// * 1  : EtaRed
-/// * 2  : TailRecElim
-/// * 100: Optimize (Priority 50)
-///   * PartialEval
-///   * BetaRed
-///   * EtaRed
-///   * EtaExp
-///   * Scalarize
-///   * TailRecElim
-///   * + Custom (default priority 100)
-/// * 200: LamSpec
-/// * 300: RetWrap (Priority 50)
-///   * + Custom (default priority 100)
-
 /// See optimize.h for magic numbers
-void optimize(World& world, PipelineBuilder& builder) {
-    builder.extend_opt_phase(0, [](thorin::PassMan& man) { man.add<Scalerize>(); });
-    builder.extend_opt_phase(1, [](thorin::PassMan& man) { man.add<EtaRed>(); });
-    builder.extend_opt_phase(2, [](thorin::PassMan& man) { man.add<TailRecElim>(); });
+void optimize(World& world, Passes& passes, std::vector<Dialect>& dialects) {
+    auto compilation_functions = {"_compile", "_default_compile", "_core_compile", "_fallback_compile"};
+    const Def* compilation     = nullptr;
+    for (auto compilation_function : compilation_functions) {
+        if (auto compilation_ = world.lookup(compilation_function)) {
+            if (!compilation) { compilation = compilation_; }
+            compilation_->make_internal();
+        }
+    }
+    // make all functions `[] -> Pipeline` internal
+    std::vector<Def*> make_internal;
+    for (auto ext : world.externals()) {
+        auto def = ext.second;
+        if (auto lam = def->isa<Lam>(); lam && lam->num_doms() == 0) {
+            if (lam->codom()->name() == "Pipeline") {
+                if (!compilation) { compilation = lam; }
+                make_internal.push_back(def);
+            }
+        }
+    }
+    for (auto def : make_internal) { def->make_internal(); }
+    assert(compilation && "no compilation function found");
 
-    // main phase
-    builder.add_opt(Opt_Phase);
-    builder.extend_opt_phase(200, [](thorin::PassMan& man) { man.add<LamSpec>(); });
-    // codegen prep phase
-    builder.extend_opt_phase(
-        Codegen_Prep_Phase, [](thorin::PassMan& man) { man.add<RetWrap>(); }, Pass_Internal_Priority);
+    // We found a compilation directive in the file and use it to build the compilation pipeline.
+    // The general idea is that passes and phases are exposed as axioms.
+    // Each pass/phase axiom is associated with a handler function operating on the PipelineBuilder in the
+    // passes map. This registering is analogous to the normalizers (`code -> code`) but only operated using
+    // side effects that change the pipeline.
+    world.DLOG("compilation using {} : {}", compilation, compilation->type());
 
-    Pipeline pipe(world);
+    // We can not directly access compile axioms here.
+    // But the compile dialect has not the necessary communication pipeline.
+    // Therefore, we register the handlers and let the compile dialect call them.
 
-    auto passes = builder.passes();
-    for (auto p : passes) pipe.add<PassManPhase>(builder.opt_phase(p, world));
+    PipelineBuilder pipe_builder(world);
+    // TODO: remove indirections of pipeline builder. Just add passes and phases directly to the pipeline.
+    for (auto& dialect : dialects) { pipe_builder.register_dialect(dialect); }
 
-    pipe.run();
+    auto pipeline     = compilation->as<Lam>()->body();
+    auto [ax, phases] = collect_args(pipeline);
+
+    // handle pipeline like all other pass axioms
+    auto pipeline_axiom = ax->as<Axiom>();
+    auto pipeline_flags = pipeline_axiom->flags();
+    assert(passes.contains(pipeline_flags));
+    world.DLOG("Building pipeline");
+    passes[pipeline_flags](world, pipe_builder, pipeline);
+
+    world.DLOG("Executing pipeline");
+    pipe_builder.run_pipeline();
+
+    return;
 }
 
 } // namespace thorin

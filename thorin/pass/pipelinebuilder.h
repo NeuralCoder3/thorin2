@@ -1,39 +1,79 @@
 #pragma once
 
-#include <functional>
-#include <vector>
+#include "thorin/world.h"
 
 #include "thorin/pass/optimize.h"
 #include "thorin/pass/pass.h"
+#include "thorin/phase/phase.h"
 
 namespace thorin {
 
-typedef std::function<void(PassMan&)> PassBuilder;
-typedef std::pair<int, PassBuilder> PrioPassBuilder;
-typedef std::vector<PrioPassBuilder> PassList;
-
-struct passCmp {
-    constexpr bool operator()(PrioPassBuilder const& a, PrioPassBuilder const& b) const noexcept {
-        return a.first < b.first;
-    }
-};
+using PassInstanceMap = absl::btree_map<const Def*, Pass*, GIDLt<const Def*>>;
 
 class PipelineBuilder {
 public:
-    explicit PipelineBuilder() {}
+    PipelineBuilder(World& world)
+        : pipe(std::make_unique<Pipeline>(world))
+        , world_(world) {}
 
-    void extend_opt_phase(int i, std::function<void(PassMan&)>, int priority = Pass_Default_Priority);
-    void extend_opt_phase(std::function<void(PassMan&)>&&);
-    void add_opt(int i);
-    void extend_codegen_prep_phase(std::function<void(PassMan&)>&&);
+    // Adds a pass and remembers it associated with the given def.
+    template<class P, class... Args>
+    void add_pass(const Def* def, Args&&... args) {
+        auto pass = (Pass*)man->add<P>(std::forward<Args>(args)...);
+        remember_pass_instance(pass, def);
+    }
+    // TODO: add remembered entry
+    template<class P, class... Args>
+    void add_phase(Args&&... args) {
+        assert(!man && "cannot add phase while in pass phase");
+        pipe->add<P>(std::forward<Args>(args)...);
+    }
 
-    std::unique_ptr<PassMan> opt_phase(int i, World& world);
-    void add_opt(PassMan man);
+    void begin_pass_phase();
+    void end_pass_phase();
 
-    std::vector<int> passes();
+    void remember_pass_instance(Pass* p, const Def*);
+    Pass* get_pass_instance(const Def*);
+
+    void register_dialect(Dialect& d);
+    bool is_registered_dialect(std::string name);
+
+    void run_pipeline();
 
 private:
-    std::map<int, PassList> phase_extensions_;
+    std::set<std::string> registered_dialects_;
+    std::vector<Dialect*> dialects_;
+    PassInstanceMap pass_instances_;
+    std::unique_ptr<PassMan> man;
+    std::unique_ptr<Pipeline> pipe;
+    World& world_;
 };
+
+template<class A, class P, class... CArgs>
+void register_pass(Passes& passes, CArgs&&... args) {
+    passes[flags_t(Axiom::Base<A>)] = [... args = std::forward<CArgs>(args)](World&, PipelineBuilder& builder,
+                                                                             const Def* app) {
+        builder.add_pass<P>(app, args...);
+    };
+}
+
+
+template<class A, class P, class... CArgs>
+void register_phase(Passes& passes, CArgs&&... args) {
+    passes[flags_t(Axiom::Base<A>)] = [... args = std::forward<CArgs>(args)](World&, PipelineBuilder& builder,
+                                                                             const Def* app) {
+        builder.add_phase<P>(args...);
+    };
+}
+
+template<class A, class P, class Q>
+void register_pass_with_arg(Passes& passes) {
+    passes[flags_t(Axiom::Base<A>)] = [](World& world, PipelineBuilder& builder, const Def* app) {
+        auto pass_arg = (Q*)(builder.get_pass_instance(app->as<App>()->arg()));
+        world.DLOG("register using arg: {} of type {} for gid {}", pass_arg, typeid(Q).name(),
+                   app->as<App>()->arg()->gid());
+        builder.add_pass<P>(app, pass_arg);
+    };
+}
 
 } // namespace thorin
