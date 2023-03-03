@@ -128,6 +128,7 @@ std::string Emitter::id(const Def* def, bool force_bb /*= false*/) const {
 }
 
 std::string Emitter::convert(const Def* type) {
+    // printf("convert\n");
     if (auto i = types_.find(type); i != types_.end()) return i->second;
 
     assert(!match<mem::M>(type));
@@ -228,6 +229,7 @@ void Emitter::emit_imported(Lam* lam) {
 }
 
 std::string Emitter::prepare(const Scope& scope) {
+    // printf("prepare\n");
     auto lam = scope.entry()->as_nom<Lam>();
 
     print(func_impls_, "define {} {}(", convert_ret_pi(lam->type()->ret_pi()), id(lam));
@@ -247,6 +249,7 @@ std::string Emitter::prepare(const Scope& scope) {
 }
 
 void Emitter::finalize(const Scope& scope) {
+    // printf("finalize\n");
     for (auto& [lam, bb] : lam2bb_) {
         for (const auto& [phi, args] : bb.phis) {
             print(bb.head().emplace_back(), "{} = phi {} ", id(phi), convert(phi->type()));
@@ -278,6 +281,7 @@ void Emitter::finalize(const Scope& scope) {
 }
 
 void Emitter::emit_epilogue(Lam* lam) {
+    // printf("emit epilogue\n");
     auto app = lam->body()->as<App>();
     auto& bb = lam2bb_[lam];
 
@@ -438,6 +442,7 @@ static const char* llvm_suffix(const Def* type) {
 }
 
 std::string Emitter::emit_bb(BB& bb, const Def* def) {
+    // printf("emit_bb\n");
     if (def->isa<Var>()) return {};
     if (auto lam = def->isa<Lam>()) return id(lam);
 
