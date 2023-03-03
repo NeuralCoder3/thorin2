@@ -1,32 +1,34 @@
 // RUN: rm -f %t.ll ; \
-// RUN: %thorin %s --output-ll %t.ll --output-thorin - | FileCheck %s
+// RUN: %thorin %s --output-ll %t.ll --output-thorin - 
 // RUN: clang %t.ll -o %t -Wno-override-module
 // RUN: %t ; test $? -eq 0
 // RUN: %t 1 2 3 ; test $? -eq 6
 
+// %thorin %s --output-ll %t.ll --output-thorin - | FileCheck %s
+
 .import core;
 .import mem;
 
-.cn .extern main (mem: %mem.M, argc: %Int 4294967296, argv: %mem.Ptr (%mem.Ptr (%Int 256, 0:.Nat), 0:.Nat), return: .Cn [%mem.M, %Int 4294967296]) = {
-    .cn loop (mem: %mem.M, i: %Int 4294967296, acc: %Int 4294967296, cn: .Cn [%mem.M, %Int 4294967296]) = {
-        .let cond: (%Int 2) = %core.icmp.ul 4294967296:.Nat (i, argc);
+.con .extern main (mem: %mem.M, argc: .Idx 4294967296, argv: %mem.Ptr (%mem.Ptr (.Idx 256, 0:.Nat), 0:.Nat), return: .Cn [%mem.M, .Idx 4294967296]) = {
+    .con loop (mem: %mem.M, i: .Idx 4294967296, acc: .Idx 4294967296, cn: .Cn [%mem.M, .Idx 4294967296]) = {
+        .let cond: (.Idx 2) = %core.icmp.ul 4294967296 (i, argc);
 
-        .cn exit (mem: %mem.M, cn: .Cn [%mem.M, %Int 4294967296]) =
+        .con exit (mem: %mem.M, cn: .Cn [%mem.M, .Idx 4294967296]) =
             cn (mem, acc);
 
-        .cn body (mem: %mem.M, cn: .Cn [%mem.M, %Int 4294967296]) = {
-            .let inc: (%Int 4294967296) = %Wrap_add (0:.Nat, 4294967296:.Nat) (1:(%Int 4294967296), i);
-            .let acci: (%Int 4294967296) = %Wrap_add (0:.Nat, 4294967296:.Nat) (i, acc);
+        .con body (mem: %mem.M, cn: .Cn [%mem.M, .Idx 4294967296]) = {
+            .let inc: (.Idx 4294967296) = %core.wrap.add 4294967296 0 (1:(.Idx 4294967296), i);
+            .let acci: (.Idx 4294967296) = %core.wrap.add 4294967296 0 (i, acc);
             loop (mem, inc, acci, cn)
         };
         (exit, body)#cond (mem, cn)
     };
 
-    .cn second_loop (mem: %mem.M, ret: %Int 4294967296) =
-        loop (mem, 0:(%Int 4294967296), ret, return);
+    .con second_loop (mem: %mem.M, ret: .Idx 4294967296) =
+        loop (mem, 0:(.Idx 4294967296), ret, return);
 
     // using `return` instead of `second_loop` here "resolves" the issue
-    loop (mem, 0:(%Int 4294967296), 0:(%Int 4294967296), second_loop)
+    loop (mem, 0:(.Idx 4294967296), 0:(.Idx 4294967296), second_loop)
 };
 
 
