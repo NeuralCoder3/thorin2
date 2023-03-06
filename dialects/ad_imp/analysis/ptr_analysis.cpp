@@ -1,0 +1,46 @@
+#include "dialects/ad_imp/analysis/ptr_analysis.h"
+
+#include "thorin/def.h"
+#include "thorin/tuple.h"
+
+#include "dialects/ad_imp/analysis/analysis.h"
+#include "dialects/ad_imp/analysis/analysis_factory.h"
+#include "dialects/ad_imp/autodiff.h"
+#include "dialects/ad_imp/utils/builder.h"
+#include "dialects/math/math.h"
+#include "dialects/mem/autogen.h"
+#include "dialects/mem/mem.h"
+
+namespace thorin::ad_imp {
+
+PtrAnalysis::PtrAnalysis(AnalysisFactory& factory)
+    : Analysis(factory) {
+    run();
+}
+
+DefUnionNode* PtrAnalysis::ptr_node(const Def* def) {
+    def = factory().alias().get(def);
+
+    auto i = ptr_union.find(def);
+    if (i == ptr_union.end()) {
+        auto p = ptr_union.emplace(def, std::make_unique<DefUnionNode>(def));
+        assert_unused(p.second);
+        i = p.first;
+    }
+    return &*i->second;
+}
+
+void PtrAnalysis::run() {
+    for (auto def : factory().dfa().ops()) {
+        if (auto lea = match<mem::lea>(def)) {
+            auto arg = lea->arg();
+            auto arr = arg->proj(0);
+            auto idx = arg->proj(1);
+            unify(ptr_node(arr), ptr_node(lea));
+        } else if (auto bitcast = match<core::bitcast>(def)) {
+            auto ptr = bitcast->arg();
+            unify(ptr_node(bitcast), ptr_node(ptr));
+        }
+    }
+}
+} // namespace thorin::ad_imp

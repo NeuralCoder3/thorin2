@@ -13,33 +13,66 @@ add_thorin_dialect(affine
     INSTALL
 )
 
-add_thorin_dialect(autodiff
+add_thorin_dialect(ad_func
     SOURCES
-        autodiff/autodiff.cpp
-        autodiff/autodiff.h
-        autodiff/passes/autodiff_reduce.cpp
-        autodiff/passes/autodiff_reduce.h
-        autodiff/passes/def_inliner.cpp
-        autodiff/passes/def_inliner.h
-        autodiff/passes/autodiff_eval.cpp
-        autodiff/passes/autodiff_eval.h
-        autodiff/passes/autodiff_rewrite_inner.cpp
-        autodiff/passes/autodiff_rewrite_toplevel.cpp
-        autodiff/analysis/ptr_analysis.cpp
-        autodiff/analysis/war_analysis.cpp
-        autodiff/analysis/gradient_analysis.cpp
-        autodiff/analysis/cache_analysis.cpp
-        autodiff/analysis/alias_analysis.cpp
-        autodiff/analysis/live_analysis.cpp
-        autodiff/analysis/affine_cfa.cpp
-        autodiff/analysis/affine_dfa.cpp
-        autodiff/analysis/analysis.cpp
-        autodiff/analysis/utils.cpp
-        autodiff/analysis/cache_optimizer.cpp
-        autodiff/utils/builder.h
-        autodiff/utils/helper.cpp
-        autodiff/utils/helper.h
-        autodiff/normalizers.cpp
+        ad_func/autodiff.cpp
+        ad_func/autodiff.h
+        ad_func/passes/autodiff_eval.cpp
+        ad_func/passes/autodiff_eval.h
+        ad_func/passes/autodiff_zero.cpp
+        ad_func/passes/autodiff_zero.h
+        ad_func/passes/autodiff_zero_cleanup.cpp
+        ad_func/passes/autodiff_zero_cleanup.h
+        ad_func/auxiliary/autodiff_aux.cpp
+        ad_func/auxiliary/autodiff_aux.h
+        ad_func/auxiliary/autodiff_rewrite_inner.cpp
+        ad_func/auxiliary/autodiff_rewrite_toplevel.cpp
+        ad_func/auxiliary/mem/autodiff_mem_aux.cpp
+        ad_func/auxiliary/mem/autodiff_mem_aux.h
+        ad_func/auxiliary/mem/autodiff_mem_axioms.cpp
+        ad_func/auxiliary/mem/autodiff_mem.cpp
+        ad_func/normalizers.cpp
+        compile/passes/internal_cleanup.cpp
+        affine/passes/lower_for.cpp
+    DEPENDS
+        mem
+        core
+        clos
+        affine
+        direct
+        matrix
+    HEADER_DEPENDS
+        mem
+    INSTALL
+)
+
+add_thorin_dialect(ad_imp
+    SOURCES
+        ad_imp/autodiff.cpp
+        ad_imp/autodiff.h
+        ad_imp/passes/autodiff_reduce.cpp
+        ad_imp/passes/autodiff_reduce.h
+        ad_imp/passes/def_inliner.cpp
+        ad_imp/passes/def_inliner.h
+        ad_imp/passes/autodiff_eval.cpp
+        ad_imp/passes/autodiff_eval.h
+        ad_imp/passes/autodiff_rewrite_inner.cpp
+        ad_imp/passes/autodiff_rewrite_toplevel.cpp
+        ad_imp/analysis/ptr_analysis.cpp
+        ad_imp/analysis/war_analysis.cpp
+        ad_imp/analysis/gradient_analysis.cpp
+        ad_imp/analysis/cache_analysis.cpp
+        ad_imp/analysis/alias_analysis.cpp
+        ad_imp/analysis/live_analysis.cpp
+        ad_imp/analysis/affine_cfa.cpp
+        ad_imp/analysis/affine_dfa.cpp
+        ad_imp/analysis/analysis.cpp
+        ad_imp/analysis/utils.cpp
+        ad_imp/analysis/cache_optimizer.cpp
+        ad_imp/utils/builder.h
+        ad_imp/utils/helper.cpp
+        ad_imp/utils/helper.h
+        ad_imp/normalizers.cpp
     DEPENDS
         mem
         core
