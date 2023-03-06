@@ -9,7 +9,7 @@
 .import core; // includes mem, compile (and avoids clashing re-import)
 /// supported dialects with passes
 .import affine;
-.import autodiff;
+.import ad_func;
 .import clos;
 .import direct;
 .import matrix;
@@ -31,7 +31,7 @@
 .ax %opt.mem_dialect     : %opt.Dialect;
 .ax %opt.demo_dialect    : %opt.Dialect;
 .ax %opt.affine_dialect  : %opt.Dialect;
-.ax %opt.autodiff_dialect: %opt.Dialect;
+.ax %opt.ad_func_dialect: %opt.Dialect;
 .ax %opt.clos_dialect    : %opt.Dialect;
 .ax %opt.direct_dialect  : %opt.Dialect;
 .ax %opt.refly_dialect   : %opt.Dialect;
@@ -66,31 +66,48 @@
 .lam .extern _default_compile [] -> Pipeline = {
     .let nullptr = %compile.nullptr_pass;
     .let nullphase = %compile.single_pass_phase nullptr;
+
+    .let optimize = 
+        (%compile.pass_phase 
+          (%compile.combine_pass_list (⊤:.Nat)
+          (
+            optimization_pass_list,
+            %compile.pass_list
+              (dialect_cond_pass (%opt.affine_dialect, %affine.lower_for_pass)),
+            mem_opt_pass_list
+          ))
+        );
+
     %compile.pipe
         nullphase
         (%compile.single_pass_phase (%compile.scalerize_pass nullptr))
         (%compile.single_pass_phase %compile.eta_red_pass)
         (%compile.single_pass_phase (%compile.tail_rec_elim_pass nullptr))
         // optimize
-        (%compile.pass_phase 
-          (%compile.combine_pass_list (⊤:.Nat)
-          (
-            optimization_pass_list,
-            %compile.pass_list (dialect_cond_pass (%opt.affine_dialect, %affine.lower_for_pass)),
-            mem_opt_pass_list
-          ))
-        )
-        (dialect_cond_phase (%opt.autodiff_dialect,
+        optimize
+
+        // AD1
+        (dialect_cond_phase (%opt.ad_func_dialect,
           %compile.combined_phase (%compile.phase_list
-            (%compile.single_pass_phase %autodiff.ad_reduce_pass)
-            (%compile.single_pass_phase %autodiff.ad_eval_pass)
+            // (%compile.single_pass_phase %ad_func.ad_reduce_pass)
+            // (%compile.single_pass_phase %ad_func.ad_eval_pass)
             // optimization_phase
-            // (%compile.single_pass_phase %autodiff.ad_zero_pass)
+            ad_opt_phases
+            (dialect_cond_phase (%opt.affine_dialect, (%compile.single_pass_phase %affine.lower_for_pass)))
+            // (%compile.single_pass_phase %ad_func.ad_zero_pass)
           )
         ))
+        (dialect_cond_phase (%opt.ad_func_dialect, 
+          (%compile.single_pass_phase %ad_func.ad_ext_cleanup_pass)
+        ))
+        // TODO: probably want reshape, add_mem here after ad to inline created memory operations
+        (dialect_cond_phase (%opt.ad_func_dialect, optimize))
+
         (dialect_cond_phase (%opt.direct_dialect,
           direct_phases
         ))
+        // AD2 (func only?)
+        (dialect_cond_phase (%opt.ad_func_dialect, ad_cleanup_phase))
         (dialect_cond_phase (%opt.matrix_dialect,
           %compile.combined_phase (%compile.phase_list
             matrix_lower_phase
@@ -102,7 +119,7 @@
           clos_phases
         ))
         (%compile.single_pass_phase %compile.lam_spec_pass)
-        (dialect_cond_phase (%opt.autodiff_dialect,
+        (dialect_cond_phase (%opt.ad_func_dialect,
           ad_cleanup_phase
         ))
         // CodeGenPrep
