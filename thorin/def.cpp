@@ -488,4 +488,10 @@ std::pair<const Def*, std::vector<const Def*>> collect_args(const Def* def) {
     }
 }
 
+const Def* apply_args(const Def* callee, const std::vector<const Def*>& args, const Def* dbg) {
+    for (auto arg : args) callee = callee->world().app(callee, arg);
+    callee->set_dbg(dbg);
+    return callee;
+}
+
 } // namespace thorin

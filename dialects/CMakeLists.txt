@@ -32,12 +32,14 @@ add_thorin_dialect(ad_func
         ad_func/auxiliary/mem/autodiff_mem_axioms.cpp
         ad_func/auxiliary/mem/autodiff_mem.cpp
         ad_func/normalizers.cpp
-        compile/passes/internal_cleanup.cpp
         affine/passes/lower_for.cpp
+        compile/passes/internal_cleanup.cpp
+        compile/passes/internal_cleanup.h
     DEPENDS
         mem
         core
         clos
+        compile
         affine
         direct
         matrix
@@ -81,6 +83,18 @@ add_thorin_dialect(ad_imp
         direct
     HEADER_DEPENDS
         mem
+    INSTALL
+)
+
+add_thorin_dialect(autodiff
+    SOURCES
+        autodiff/autodiff.cpp
+        autodiff/autodiff.h
+        autodiff/normalizers.cpp
+    DEPENDS
+        ad_func
+    HEADER_DEPENDS
+        ad_func
     INSTALL
 )
 

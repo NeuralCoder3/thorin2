@@ -1,0 +1,115 @@
+/// # The automatic differentiation dialect {#autodiff}
+///
+/// [TOC]
+///
+/// ## Dependencies
+///
+.import mem;
+.import ad_func;
+///
+///
+/// ## Types
+///
+///
+/// ## Operations
+///
+/// ### %autodiff.ad
+/// 
+/// This axiom operates on functions and types.
+///
+.ax %autodiff.AD: * -> *, normalize_AD;
+.ax %autodiff.ad: Π [T: *] -> T -> %autodiff.AD T, normalize_ad;
+///
+// /// ## Compilation Passes and Phases
+// /// 
+// /// ### Passes
+// /// 
+// .ax %autodiff.ad_eval_pass: %compile.Pass;
+// .ax %autodiff.ad_zero_pass: %compile.Pass;
+// .ax %autodiff.ad_zero_cleanup_pass: %compile.Pass;
+// .ax %autodiff.ad_ext_cleanup_pass: %compile.Pass;
+// /// 
+// /// ### Phases
+// /// 
+// .let ad_cleanup_phase = {
+//     %compile.phases_to_phase (⊤:.Nat)
+//         (
+//             (%compile.passes_to_phase 1 %autodiff.ad_zero_cleanup_pass),
+//             (%compile.passes_to_phase 1 %autodiff.ad_ext_cleanup_pass)
+//         )
+// };
+// .let ad_compact_phase = {
+//     %compile.combined_phase 
+//         (%compile.phase_list
+//             optimization_phase
+//             (%compile.single_pass_phase %autodiff.ad_eval_pass)
+//             (%compile.single_pass_phase %autodiff.ad_zero_pass)
+//             ad_cleanup_phase
+//         )
+// };
+// .let ad_opt_phases = {
+//     %compile.combined_phase 
+//         (%compile.phase_list
+//             (%compile.single_pass_phase %autodiff.ad_eval_pass)
+//             // (%compile.single_pass_phase %affine.lower_for_pass)
+//             (%compile.single_pass_phase %autodiff.ad_zero_pass)
+//             // TODO: find out why this diverges in eta-expansion (on direct style axioms)
+//             // optimization_phase
+//         )
+// };
+// /// 
+// /// ### Pipelines
+// /// 
+// .let ad_full_pipeline = {
+//     .let nullptr = %compile.nullptr_pass;
+//     %compile.pipe
+//         (%compile.single_pass_phase nullptr)
+//         // General
+//         (%compile.single_pass_phase (%compile.scalerize_pass nullptr))
+//         (%compile.single_pass_phase %compile.eta_red_pass)
+//         (%compile.single_pass_phase (%compile.tail_rec_elim_pass nullptr))
+//         // Optimization Phase (formerly known as "100")
+//         (%compile.pass_phase 
+//             (%compile.combine_pass_list (⊤:.Nat)
+//                 (optimization_pass_list,
+//                 // Memory
+//                 mem_opt_pass_list
+//                 // Affine
+//                 // (%compile.single_pass_phase %affine.lower_for_pass)
+//                 )
+//             )
+//         )
+//         // AD Phases
+//         ad_opt_phases
+//         // Direct (including optimization)
+//         direct_phases
+//         // AD Cleanup
+//         ad_cleanup_phase
+//         // TODO: AD simplification
+//             // optimization_phase
+//             // (%compile.pass_phase mem_opt_pass_list)
+//             // also remove matrix internals
+//         (%compile.single_pass_phase %compile.internal_cleanup_pass)
+//             (%compile.pass_phase 
+//                 (%compile.combine_pass_list (⊤:.Nat)
+//                     (optimization_pass_list,
+//                     mem_opt_pass_list
+//                     )
+//                 )
+//             )
+//             // (%compile.single_pass_phase %compile.lam_spec_pass)
+
+//         // (dialect_cond_phase (%opt.clos_dialect,
+//           clos_phases
+//         // ))
+
+//         // General PreCodeGenPrep (formerly known as "200")
+//         // (%compile.single_pass_phase %compile.lam_spec_pass)
+//         // General CodeGenPrep (formerly known as "300")
+//         (%compile.pass_phase (%compile.pass_list
+//             %compile.ret_wrap_pass
+//             // Memory
+//             %mem.remem_elim_pass
+//             %mem.alloc2malloc_pass
+//         ))
+// };
