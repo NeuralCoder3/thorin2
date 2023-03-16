@@ -10,6 +10,8 @@
 /// supported dialects with passes
 .import affine;
 .import ad_func;
+.import ad_imp;
+.import autodiff;
 .import clos;
 .import direct;
 .import matrix;

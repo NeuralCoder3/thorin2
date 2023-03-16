@@ -58,7 +58,7 @@ void PassMan::run() {
         for (auto&& pass : passes_) world().ILOG(" + {}", pass->name());
         push_state();
         curr_nom_ = pop(curr_state().stack);
-        world().VLOG("=== state {}: {} ===", states_.size() - 1, curr_nom_);
+        // world().VLOG("=== state {}: {} ===", states_.size() - 1, curr_nom_);
 
         if (!curr_nom_->is_set()) continue;
 

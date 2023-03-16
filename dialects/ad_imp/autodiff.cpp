@@ -29,14 +29,20 @@ public:
 // builder.extend_opt_phase(108, [](thorin::PassMan& man) { man.add<thorin::ad_imp::AutoDiffEval>(); });
 // builder.add_opt(133);
 extern "C" THORIN_EXPORT thorin::DialectInfo thorin_get_dialect_info() {
-    return {"ad_imp",
-            [](Passes& passes) {
-                register_pass<ad_imp::ad_reduce_pass, ad_imp::AutodiffReduce>(passes);
-                register_pass<ad_imp::ad_eval_pass, ad_imp::AutoDiffEval>(passes);
-                // register_pass<ad_imp::ad_eval_pass, ad_imp::AutoDiffEval>(passes);
-                // register_pass<ad_imp::ad_zero_pass, ad_imp::AutoDiffZero>(passes);
-                // register_pass<ad_imp::ad_zero_cleanup_pass, ad_imp::AutoDiffZeroCleanup>(passes);
-                // register_pass<ad_imp::ad_ext_cleanup_pass, ad_imp::AutoDiffExternalCleanup>(passes);
-            },
-            nullptr, [](Normalizers& normalizers) { ad_imp::register_normalizers(normalizers); }};
+    return {
+        "ad_imp",
+        [](Passes& passes) {
+            register_pass<ad_imp::ad_reduce_pass, ad_imp::AutodiffReduce>(passes);
+            register_pass<ad_imp::ad_eval_pass, ad_imp::AutoDiffEval>(passes);
+            // register_pass<ad_imp::ad_eval_pass, ad_imp::AutoDiffEval>(passes);
+            // register_pass<ad_imp::ad_zero_pass, ad_imp::AutoDiffZero>(passes);
+            // register_pass<ad_imp::ad_zero_cleanup_pass, ad_imp::AutoDiffZeroCleanup>(passes);
+            // register_pass<ad_imp::ad_ext_cleanup_pass, ad_imp::AutoDiffExternalCleanup>(passes);
+        },
+        nullptr,
+        //
+        // nullptr
+        [](Normalizers& normalizers) { ad_imp::register_normalizers(normalizers); }
+        //
+    };
 }
