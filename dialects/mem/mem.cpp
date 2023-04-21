@@ -6,7 +6,7 @@
 #include "thorin/dialects.h"
 
 #include "thorin/pass/fp/beta_red.h"
-#include "thorin/pass/fp/copy_prop.h"
+// #include "thorin/pass/fp/copy_prop.h"
 #include "thorin/pass/fp/eta_exp.h"
 #include "thorin/pass/fp/eta_red.h"
 #include "thorin/pass/fp/tail_rec_elim.h"
@@ -15,7 +15,7 @@
 #include "thorin/pass/rw/scalarize.h"
 
 #include "dialects/mem/autogen.h"
-// #include "dialects/mem/passes/fp/copy_prop.h"
+#include "dialects/mem/passes/fp/copy_prop.h"
 #include "dialects/mem/passes/fp/ssa_constr.h"
 #include "dialects/mem/passes/rw/alloc2malloc.h"
 #include "dialects/mem/passes/rw/mem_optimize.h"
@@ -56,7 +56,7 @@ extern "C" THORIN_EXPORT DialectInfo thorin_get_dialect_info() {
                     auto ee_pass = (EtaExp*)builder.get_pass_instance(ee);
                     auto bb_only = bb->as<Lit>()->get<u64>();
                     world.DLOG("registering copy_prop with br = {}, ee = {}, bb_only = {}", br, ee, bb_only);
-                    builder.add_pass<CopyProp>(app, br_pass, ee_pass, bb_only);
+                    builder.add_pass<mem::CopyProp>(app, br_pass, ee_pass, bb_only);
                 };
                 passes[flags_t(Axiom::Base<mem::reshape_pass>)] = [&](World&, PipelineBuilder& builder,
                                                                       const Def* app) {

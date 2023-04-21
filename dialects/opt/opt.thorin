@@ -33,11 +33,11 @@
 .ax %opt.mem_dialect     : %opt.Dialect;
 .ax %opt.demo_dialect    : %opt.Dialect;
 .ax %opt.affine_dialect  : %opt.Dialect;
-.ax %opt.ad_func_dialect: %opt.Dialect;
+.ax %opt.ad_func_dialect : %opt.Dialect;
 .ax %opt.clos_dialect    : %opt.Dialect;
 .ax %opt.direct_dialect  : %opt.Dialect;
 .ax %opt.refly_dialect   : %opt.Dialect;
-.ax %opt.matrix_dialect   : %opt.Dialect;
+.ax %opt.matrix_dialect  : %opt.Dialect;
 /// 
 /// ### %opt.is_loaded
 /// 
