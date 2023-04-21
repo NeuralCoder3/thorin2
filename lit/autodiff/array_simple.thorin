@@ -16,21 +16,21 @@
 .let arr_size = <<size; i32>>;
 .let ptr_ty = %mem.Ptr (arr_size, 0);
 
-.cn printInteger [mem: %mem.M, val: i32, return : .Cn [%mem.M]];
+.con printInteger [mem: %mem.M, val: i32, return : .Cn [%mem.M]];
 
-.cn f [mem : %mem.M, a: ptr_ty, ret: .Cn [ %mem.M, i32]] = {
+.con f [mem : %mem.M, a: ptr_ty, ret: .Cn [ %mem.M, i32]] = {
     .let idx_100_i = %core.bitcast (size_idx, i32) 0:i32;
     .let lea_a = %mem.lea (size, <size; i32>, 0) (a, idx_100_i);
     .let load = %mem.load (i32, 0) (mem, lea_a);
     ret load
 };
 
-.cn init [mem: %mem.M, ptr : ptr_ty, offset : i32, ret : .Cn [%mem.M]] = {
-    .cn for_exit [mem : %mem.M] = {
+.con init [mem: %mem.M, ptr : ptr_ty, offset : i32, ret : .Cn [%mem.M]] = {
+    .con for_exit [mem : %mem.M] = {
         ret (mem)
     };
 
-    .cn for_body [i : i32, mem : %mem.M, continue : .Cn [%mem.M]] = {
+    .con for_body [i : i32, mem : %mem.M, continue : .Cn [%mem.M]] = {
         .let idx_100_i = %core.bitcast (size_idx, i32) i;
         .let lea = %mem.lea (size, <size; i32>, 0) (ptr, idx_100_i);
 
@@ -42,12 +42,12 @@
     %affine.For (4294967296, 1, (%mem.M)) (0:i32, size_int, 1:i32, (mem), for_body, for_exit)
 };
 
-.cn const [mem: %mem.M, ptr : ptr_ty, value : i32, ret : .Cn [%mem.M]] = {
-    .cn for_exit [mem : %mem.M] = {
+.con const [mem: %mem.M, ptr : ptr_ty, value : i32, ret : .Cn [%mem.M]] = {
+    .con for_exit [mem : %mem.M] = {
         ret (mem)
     };
 
-    .cn for_body [i : i32, mem : %mem.M, continue : .Cn [%mem.M]] = {
+    .con for_body [i : i32, mem : %mem.M, continue : .Cn [%mem.M]] = {
         .let idx_100_i = %core.bitcast (size_idx, i32) i;
         .let lea = %mem.lea (size, <size; i32>, 0) (ptr, idx_100_i);
         .let store_mem = %mem.store (i32, 0) (mem, lea, value);
@@ -57,14 +57,14 @@
     %affine.For (4294967296, 1, (%mem.M)) (0:i32, size_int, 1:i32, (mem), for_body, for_exit)
 };
 
-.cn .extern main [mem : %mem.M, argc : i32, argv : %mem.Ptr (%mem.Ptr (.Idx 256, 0:.Nat), 0:.Nat), return : .Cn [%mem.M, i32]] = {
+.con .extern main [mem : %mem.M, argc : i32, argv : %mem.Ptr (%mem.Ptr (.Idx 256, 0:.Nat), 0:.Nat), return : .Cn [%mem.M, i32]] = {
 
     .let (alloc_a_mem, a) = %mem.alloc (arr_size, 0) mem;
     .let (alloc_ad_mem, ad) = %mem.alloc (arr_size, 0) alloc_a_mem;
 
-    .cn ret_cont [mem : %mem.M, result: i32, pb:.Cn[%mem.M, ptr_ty, s: i32, .Cn[%mem.M, ptr_ty]]] = {
-        .cn pb_ret_cont [mem : %mem.M, ad: ptr_ty] = {
-            .cn finish [mem : %mem.M] = {
+    .con ret_cont [mem : %mem.M, result: i32, pb:.Cn[%mem.M, ptr_ty, s: i32, .Cn[%mem.M, ptr_ty]]] = {
+        .con pb_ret_cont [mem : %mem.M, ad: ptr_ty] = {
+            .con finish [mem : %mem.M] = {
                 .let free_mem = %mem.free (arr_size, 0) (mem, a);
                 .let free_mem2 = %mem.free (arr_size, 0) (free_mem, ad);
                 return (free_mem2, 0:i32)
@@ -78,15 +78,15 @@
 
     .let f_diff = %autodiff.ad (.Cn [%mem.M, ptr_ty,.Cn[%mem.M, i32]]) f;
 
-    .cn enter_diff [mem : %mem.M] = {
+    .con enter_diff [mem : %mem.M] = {
         f_diff (mem, a,ret_cont)
     };
 
-    .cn init_ad [mem : %mem.M] = {
+    .con init_ad [mem : %mem.M] = {
         const(mem, ad, 0:i32, enter_diff)
     };
 
-    .cn init_a [mem : %mem.M] = {
+    .con init_a [mem : %mem.M] = {
         init(mem, a, 1:i32, init_ad)
     };
 
@@ -95,7 +95,7 @@
 
 
 
-// CHECK-DAG: .cn .extern main _{{[0-9_]+}}::[mem_[[memId:[_0-9]*]]: %mem.M, (i32), %mem.Ptr (%mem.Ptr ((.Idx 256), 0:.Nat), 0:.Nat), return_[[returnId:[_0-9]*]]: .Cn [%mem.M, (i32)]] = {
+// CHECK-DAG: .con .extern main _{{[0-9_]+}}::[mem_[[memId:[_0-9]*]]: %mem.M, (i32), %mem.Ptr (%mem.Ptr ((.Idx 256), 0:.Nat), 0:.Nat), return_[[returnId:[_0-9]*]]: .Cn [%mem.M, (i32)]] = {
 // CHECK-DAG: _[[appId:[_0-9]*]]: ⊥:★ = return_[[returnEtaId:[_0-9]*]] (mem_[[memId]], 42:(i32));
 // CHECK-DAG: _[[appId]]
 

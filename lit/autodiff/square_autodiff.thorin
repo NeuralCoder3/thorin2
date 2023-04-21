@@ -29,7 +29,7 @@
         pb(mem, 1:i32 ,pb_ret_cont)
     };
 
-    .let f_diff = %autodiff.autodiff (.Cn [%mem.M, i32,.Cn[%mem.M, i32]]) f;
+    .let f_diff = %autodiff.ad (.Cn [%mem.M, i32,.Cn[%mem.M, i32]]) f;
     .let f_diff_cast =  f_diff;
 
     f_diff_cast (mem, 42:i32, ret_cont)

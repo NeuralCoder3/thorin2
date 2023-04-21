@@ -181,7 +181,7 @@ _829363
         printInteger ( mem, 42:i32, print_integer_forward )
     };
 
-    .let f_diff = %autodiff.autodiff (.Cn [[%mem.M, %mem.Ptr (<<100; i32>>, 0), %mem.Ptr (<<100; i32>>, 0)],.Cn[%mem.M, %mem.Ptr (<<100; i32>>, 0)]]) f;
+    .let f_diff = %autodiff.ad (.Cn [[%mem.M, %mem.Ptr (<<100; i32>>, 0), %mem.Ptr (<<100; i32>>, 0)],.Cn[%mem.M, %mem.Ptr (<<100; i32>>, 0)]]) f;
 
     .cn init_callback_2 [mem : %mem.M] = {
         f_diff ((mem, a, b),ret_cont)
