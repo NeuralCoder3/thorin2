@@ -23,11 +23,13 @@ inline void handle_optimization_part(const Def* part, World& world, Passes& pass
             auto phase_fun = passes[flag];
             phase_fun(world, builder, part);
         } else {
-            world.WLOG("pass/phase '{}' not found", phase_ax->name());
+            world.WLOG("pass/phase '{}' not found\n", phase_ax->name());
+            printf("pass/phase '%s' not found\n", phase_ax->name().c_str());
+            fprintf(stderr, "pass/phase '%s' not found", phase_ax->name().c_str());
             assert(passes.contains(flag) && "pass/phase not found");
         }
     } else if (phase_def->isa<Lam>()) {
-        assert(0 && "curried lambas are not supported");
+        assert(0 && "curried lambdas are not supported");
     } else {
         world.WLOG("pass/phase '{}' is not an axiom", phase_def);
         assert(phase_def->isa<Axiom>() && "pass/phase is not an axiom");

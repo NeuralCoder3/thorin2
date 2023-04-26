@@ -34,6 +34,7 @@
 .ax %opt.demo_dialect    : %opt.Dialect;
 .ax %opt.affine_dialect  : %opt.Dialect;
 .ax %opt.ad_func_dialect : %opt.Dialect;
+.ax %opt.ad_imp_dialect  : %opt.Dialect;
 .ax %opt.clos_dialect    : %opt.Dialect;
 .ax %opt.direct_dialect  : %opt.Dialect;
 .ax %opt.refly_dialect   : %opt.Dialect;
@@ -102,8 +103,17 @@
         (dialect_cond_phase (%opt.ad_func_dialect, 
           (%compile.single_pass_phase %ad_func.ad_ext_cleanup_pass)
         ))
+        // AD Imp 
+        (dialect_cond_phase (%opt.ad_imp_dialect, 
+          %compile.combined_phase (%compile.phase_list
+            (%compile.single_pass_phase %ad_imp.ad_reduce_pass)
+            (%compile.single_pass_phase %ad_imp.ad_eval_pass)
+          )
+        ))
         // TODO: probably want reshape, add_mem here after ad to inline created memory operations
+        // TODO: one one of them => if autodiff is loaded (not the individual dialects)
         (dialect_cond_phase (%opt.ad_func_dialect, optimize))
+        (dialect_cond_phase (%opt.ad_imp_dialect, optimize))
 
         (dialect_cond_phase (%opt.direct_dialect,
           direct_phases

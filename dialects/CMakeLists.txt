@@ -152,15 +152,15 @@ add_thorin_dialect(core
     INSTALL
 )
 
-add_thorin_dialect(demo
-    SOURCES
-        demo/demo.cpp
-        demo/demo.h
-        demo/normalizers.cpp
-    DEPENDS
-        compile
-    INSTALL
-)
+# add_thorin_dialect(demo
+#     SOURCES
+#         demo/demo.cpp
+#         demo/demo.h
+#         demo/normalizers.cpp
+#     DEPENDS
+#         compile
+#     INSTALL
+# )
 
 add_thorin_dialect(direct
     SOURCES

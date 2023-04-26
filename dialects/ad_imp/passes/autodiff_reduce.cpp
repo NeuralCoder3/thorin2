@@ -70,7 +70,29 @@ const Def* AutodiffReduce::reduce(const Def* def, const Def* ret) {
                         break;
                     } else {
                         auto callee_lam = callee->as_nom<Lam>();
-                        lam->set(callee->reduce(arg));
+                        world().DLOG("autodiff_reduce: callee is a set but not an extract: {}", callee);
+                        // print lam with type
+                        // arg with type
+                        world().DLOG("autodiff_reduce: lam = {} : {}", lam, lam->type());
+                        world().DLOG("autodiff_reduce: arg = {} : {}", arg, arg->type());
+                        // callee with type
+                        world().DLOG("autodiff_reduce: callee = {} : {}", callee, callee->type());
+                        /*
+autodiff_reduce: callee is a set but not an extract: for_6438959
+
+autodiff_reduce: lam = break_9419970 : .Cn %mem.M
+
+autodiff_reduce: arg = (4572:(.Idx 4294967296), %mem.remem _9420049#0:(.Idx 2), _9420089) : [.Idx 4294967296, %mem.M,
+%math.F (52, 11)]
+
+autodiff_reduce: callee = for_6438959 : .Cn [.Idx 4294967296, %mem.M, %math.F (52, 11)]
+                        */
+                        auto callee_body = callee_lam->body();
+                        world().DLOG("autodiff_reduce: callee_body = {} : {}", callee_body, callee_body->type());
+                        auto new_body = callee_lam->reduce(arg);
+                        // lam->set(callee->reduce(arg));
+                        // lam->set_body(w.app(callee, arg));
+                        lam->set(new_body);
                     }
                 } else {
                     auto last_index = app->num_args() - 1;

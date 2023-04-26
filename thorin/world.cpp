@@ -1,5 +1,7 @@
 #include "thorin/world.h"
 
+#include <cstdio>
+
 #include "thorin/tuple.h"
 
 // for colored output
@@ -203,7 +205,13 @@ const Def* World::extract(const Def* d, const Def* index, const Def* dbg) {
     if (auto pack = d->isa_structural<Pack>()) return pack->body();
 
     if (err()) {
-        if (!checker().equiv(type->arity(), size, dbg)) err()->index_out_of_range(type->arity(), index, dbg);
+        // d->world().DLOG("extract type: {} ", d->type());
+        // d->world().DLOG("extract type: {} ", type);
+        if (!checker().equiv(type->arity(), size, dbg)) {
+            d->world().DLOG("extract: {}[{}]", d, index);
+            d->world().ELOG("extract: type mismatch: {} vs {}", type->arity(), size);
+            err()->index_out_of_range(type->arity(), index, dbg);
+        }
     }
 
     // extract(insert(x, index, val), index) -> val
