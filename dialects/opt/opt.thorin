@@ -103,6 +103,7 @@
         (dialect_cond_phase (%opt.ad_func_dialect, 
           (%compile.single_pass_phase %ad_func.ad_ext_cleanup_pass)
         ))
+        (dialect_cond_phase (%opt.ad_imp_dialect, optimize))
         // AD Imp 
         (dialect_cond_phase (%opt.ad_imp_dialect, 
           %compile.combined_phase (%compile.phase_list

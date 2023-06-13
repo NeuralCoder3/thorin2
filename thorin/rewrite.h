@@ -1,5 +1,6 @@
 #pragma once
 
+#include "thorin/def.h"
 #include "thorin/world.h"
 
 #include "thorin/analyses/scope.h"
@@ -38,6 +39,16 @@ public:
 
     const Def* rewrite(const Def* old_def) override {
         if (!old_def || !scope().bound(old_def)) return old_def;
+
+        if(old_def->isa<Lit>()) return old_def;
+        // if(old_def->isa<Var>()) {
+        //         return new_def->second;
+        // }
+
+        // old_def->world().DLOG("rewrite {}", old_def->node_name());
+        // old_def->world().DLOG("rewrite {}", old_def);
+
+        // old_def->world().DLOG("rewrite {} : {}", old_def, old_def->type());
         return Rewriter::rewrite(old_def);
     }
 

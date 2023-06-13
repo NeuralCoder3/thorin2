@@ -1,4 +1,5 @@
 #include "dialects/ad_imp/passes/autodiff_reduce.h"
+#include "thorin/rewrite.h"
 
 #include "thorin/analyses/schedule.h"
 
@@ -88,11 +89,24 @@ autodiff_reduce: arg = (4572:(.Idx 4294967296), %mem.remem _9420049#0:(.Idx 2), 
 autodiff_reduce: callee = for_6438959 : .Cn [.Idx 4294967296, %mem.M, %math.F (52, 11)]
                         */
                         auto callee_body = callee_lam->body();
+                        world().DLOG("autodiff_reduce: callee_lam to reduce {} : {}", callee_lam, callee_lam->type());
+                        // world().DLOG("autodiff_reduce: arg to reduce {} : {}", arg, arg->type());
                         world().DLOG("autodiff_reduce: callee_body = {} : {}", callee_body, callee_body->type());
-                        auto new_body = callee_lam->reduce(arg);
+
+
+                        // manual reduction
+                        Scope scope(callee_lam);
+                        ScopeRewriter rewriter(callee_lam->world(), scope);
+                        rewriter.map(callee_lam->var(), arg);
+                        auto new_body = rewriter.rewrite(callee_body);
+
+
+                        // auto new_body = callee_lam->reduce(arg);
                         // lam->set(callee->reduce(arg));
                         // lam->set_body(w.app(callee, arg));
-                        lam->set(new_body);
+                        // lam->set(new_body);
+                        lam->set_filter(callee_lam->filter());
+                        lam->set_body(new_body);
                     }
                 } else {
                     auto last_index = app->num_args() - 1;
