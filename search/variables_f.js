@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['scheduler_5f_0',['scheduler_',['../classthorin_1_1Emitter.html#ae66fde2b0fd25999046dbe9c71a0e5d7',1,'thorin::Emitter']]],
-  ['search_5fin_5fuses_5fthreshold_1',['Search_In_Uses_Threshold',['../namespacethorin.html#a8e3202a5ade81bc07faa7a9008f5f042',1,'thorin']]],
-  ['size_2',['Size',['../structthorin_1_1World_1_1Arena_1_1Zone.html#a8e4022ab1a9a8ade71b42d87a0f9cdd6',1,'thorin::World::Arena::Zone']]],
-  ['str_5f_3',['str_',['../classthorin_1_1utf8_1_1Lexer.html#a4a18d2046e483888cf970184d418a893',1,'thorin::utf8::Lexer']]],
-  ['subs_4',['subs',['../namespacethorin_1_1h.html#acb830e5ff7077b0db1294e81c9e042cd',1,'thorin::h::AxiomInfo']]],
-  ['sym_5',['sym',['../namespacethorin.html#adf7e4c784857fc3ee4087bc01398f73f',1,'thorin::Dbg']]]
+  ['tab_0',['tab',['../classthorin_1_1Emitter.html#a970073a2e4b9447f3c146d6623360452',1,'thorin::Emitter']]],
+  ['tag_1',['tag',['../structthorin_1_1Annex.html#a16defcff0de03fbf3cce5c673c7724c6',1,'thorin::Annex']]],
+  ['tag_5fid_2',['tag_id',['../structthorin_1_1Annex.html#a1bd812b8d47396e100f5635accc0d9d8',1,'thorin::Annex']]],
+  ['trace_5fgids_3',['trace_gids',['../namespacethorin.html#a0c6e11089999fb8349a4fbd2463578bb',1,'thorin::Flags']]],
+  ['trip_5f_4',['trip_',['../classthorin_1_1Def.html#acd8ae8810314b2c77903a10ffdfcd385',1,'thorin::Def']]],
+  ['trip_5fend_5',['Trip_End',['../classthorin_1_1Axiom.html#a2309a17fdc0233fae32e713576bbc7bb',1,'thorin::Axiom']]],
+  ['type_6',['Type',['../classthorin_1_1Use.html#a4639969a6fc8f56d66c95be111a8be54',1,'thorin::Use']]],
+  ['type_5f_7',['type_',['../classthorin_1_1fe_1_1Ptrn.html#a25d3c3f27ad60dcede2a2012c51abd0e',1,'thorin::fe::Ptrn']]],
+  ['types_5f_8',['types_',['../classthorin_1_1Emitter.html#a26b70a223d3a2b08c3a236ef32743d1a',1,'thorin::Emitter']]]
 ];

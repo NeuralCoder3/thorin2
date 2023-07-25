@@ -113,7 +113,6 @@ $(document).ready(function(){initNavTree('namespacethorin_1_1fe.html',''); initR
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">thorin::fe Namespace Reference</div></div>
 </div><!--header-->
@@ -143,13 +142,12 @@ Typedefs</h2></td></tr>
 <tr class="separator:a9556fb86dba0a9baa15b863c932a4f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42a193d43619ab8dde374ddc8b4fdd37"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1fe.html#a42a193d43619ab8dde374ddc8b4fdd37">Ptrns</a> = std::deque&lt; std::unique_ptr&lt; <a class="el" href="classthorin_1_1fe_1_1Ptrn.html">Ptrn</a> &gt; &gt;</td></tr>
 <tr class="separator:a42a193d43619ab8dde374ddc8b4fdd37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c3795aa5d7f20fc54f0d5e37202f403"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1fe.html#a8c3795aa5d7f20fc54f0d5e37202f403">Tag</a> = <a class="el" href="classthorin_1_1fe_1_1Tok.html#aec20e733703a47cbb2a949219dc77b79">Tok::Tag</a></td></tr>
+<tr class="separator:a8c3795aa5d7f20fc54f0d5e37202f403"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a92d64b307c3c5a72e83e776515392d6e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1fe.html#a92d64b307c3c5a72e83e776515392d6e">issign</a> (char32_t i)</td></tr>
-<tr class="separator:a92d64b307c3c5a72e83e776515392d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d036f1099648b258d0948cfae174039"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1fe.html#a0d036f1099648b258d0948cfae174039">issubscsr</a> (char32_t i)</td></tr>
-<tr class="separator:a0d036f1099648b258d0948cfae174039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">std::ostream operator</div></td></tr>
 <tr class="memitem:aaadb16f093868c1d298f0acc003e410e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1fe.html#aaadb16f093868c1d298f0acc003e410e">operator&lt;&lt;</a> (std::ostream &amp;os, <a class="el" href="classthorin_1_1fe_1_1Tok.html">Tok</a> tok)</td></tr>
 <tr class="separator:aaadb16f093868c1d298f0acc003e410e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -191,65 +189,23 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a92d64b307c3c5a72e83e776515392d6e" name="a92d64b307c3c5a72e83e776515392d6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92d64b307c3c5a72e83e776515392d6e">&#9670;&#160;</a></span>issign()</h2>
+<a id="a8c3795aa5d7f20fc54f0d5e37202f403" name="a8c3795aa5d7f20fc54f0d5e37202f403"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c3795aa5d7f20fc54f0d5e37202f403">&#9670;&#160;</a></span>Tag</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> thorin::fe::issign </td>
-          <td>(</td>
-          <td class="paramtype">char32_t&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
-          <td></td>
+          <td class="memname">typedef <a class="el" href="classthorin_1_1fe_1_1Tok.html#aec20e733703a47cbb2a949219dc77b79">Tok::Tag</a> <a class="el" href="classthorin_1_1fe_1_1Tok.html#aec20e733703a47cbb2a949219dc77b79">thorin::fe::Tag</a></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="lexer_8cpp_source.html#l00009">9</a> of file <a class="el" href="lexer_8cpp_source.html">lexer.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="lexer_8cpp_source.html#l00030">thorin::fe::Lexer::lex()</a>.</p>
-
 </div>
 </div>
-<a id="a0d036f1099648b258d0948cfae174039" name="a0d036f1099648b258d0948cfae174039"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d036f1099648b258d0948cfae174039">&#9670;&#160;</a></span>issubscsr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> thorin::fe::issubscsr </td>
-          <td>(</td>
-          <td class="paramtype">char32_t&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="lexer_8cpp_source.html#l00010">10</a> of file <a class="el" href="lexer_8cpp_source.html">lexer.cpp</a>.</p>
-
-</div>
-</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="aaadb16f093868c1d298f0acc003e410e" name="aaadb16f093868c1d298f0acc003e410e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaadb16f093868c1d298f0acc003e410e">&#9670;&#160;</a></span>operator&lt;&lt;()</h2>
 
@@ -276,7 +232,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tok_8cpp_source.html#l00020">20</a> of file <a class="el" href="tok_8cpp_source.html">tok.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tok_8cpp_source.html#l00022">22</a> of file <a class="el" href="tok_8cpp_source.html">tok.cpp</a>.</p>
 
 </div>
 </div>
@@ -301,7 +257,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tok_8h_source.html#l00043">43</a> of file <a class="el" href="tok_8h_source.html">tok.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tok_8h_source.html#l00044">44</a> of file <a class="el" href="tok_8h_source.html">tok.h</a>.</p>
 
 </div>
 </div>

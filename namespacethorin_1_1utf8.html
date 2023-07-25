@@ -131,9 +131,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a420279844f511969229c3af8d8f9435c"><td class="memItemLeft" align="right" valign="top">char32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1utf8.html#a420279844f511969229c3af8d8f9435c">encode</a> (std::istream &amp;is)</td></tr>
 <tr class="memdesc:a420279844f511969229c3af8d8f9435c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes the next sequence of bytes from <code>is</code> as UTF-32.  <a href="namespacethorin_1_1utf8.html#a420279844f511969229c3af8d8f9435c">More...</a><br /></td></tr>
 <tr class="separator:a420279844f511969229c3af8d8f9435c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6dceebd5276e97e1147dd786456e666"><td class="memItemLeft" align="right" valign="top">static std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1utf8.html#aa6dceebd5276e97e1147dd786456e666">ao</a> (std::ostream &amp;os, char32_t c32, char32_t a=0b00111111_u32, char32_t o=0b10000000_u32)</td></tr>
-<tr class="separator:aa6dceebd5276e97e1147dd786456e666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a830878e63c9e4b8bf2f73ba457a790ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1utf8.html#a830878e63c9e4b8bf2f73ba457a790ca">decode</a> (std::ostream &amp;os, char32_t c)</td></tr>
+<tr class="memitem:a830878e63c9e4b8bf2f73ba457a790ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1utf8.html#a830878e63c9e4b8bf2f73ba457a790ca">decode</a> (std::ostream &amp;os, char32_t c)</td></tr>
 <tr class="memdesc:a830878e63c9e4b8bf2f73ba457a790ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes the UTF-32 char <code>c</code> to UTF-8 and writes the sequence of bytes to <code>os</code>.  <a href="namespacethorin_1_1utf8.html#a830878e63c9e4b8bf2f73ba457a790ca">More...</a><br /></td></tr>
 <tr class="separator:a830878e63c9e4b8bf2f73ba457a790ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab193286524b0df4c5483ae6290004959"><td class="memItemLeft" align="right" valign="top">char32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1utf8.html#ab193286524b0df4c5483ae6290004959">append</a> (char32_t c, char32_t b)</td></tr>
@@ -162,58 +160,6 @@ Variables</h2></td></tr>
 <tr class="separator:a52719151c16151f7d70287c5ce19aac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aa6dceebd5276e97e1147dd786456e666" name="aa6dceebd5276e97e1147dd786456e666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6dceebd5276e97e1147dd786456e666">&#9670;&#160;</a></span>ao()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static std::ostream &amp; thorin::utf8::ao </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char32_t&#160;</td>
-          <td class="paramname"><em>c32</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char32_t&#160;</td>
-          <td class="paramname"><em>a</em> = <code>0b00111111_u32</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char32_t&#160;</td>
-          <td class="paramname"><em>o</em> = <code>0b10000000_u32</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00037">37</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00041">decode()</a>.</p>
-
-</div>
-</div>
 <a id="ab193286524b0df4c5483ae6290004959" name="ab193286524b0df4c5483ae6290004959"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab193286524b0df4c5483ae6290004959">&#9670;&#160;</a></span>append()</h2>
 
@@ -252,7 +198,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="utf8_8h_source.html#l00022">22</a> of file <a class="el" href="utf8_8h_source.html">utf8.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utf8_8h_source.html#l00103">thorin::utf8::Lexer&lt; Max_Ahead &gt;::accept()</a>, <a class="el" href="utf8_8h_source.html#l00094">thorin::utf8::Lexer&lt; Max_Ahead &gt;::accept_if()</a>, and <a class="el" href="utf8_8cpp_source.html#l00015">encode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utf8_8h_source.html#l00104">thorin::utf8::Lexer&lt; Max_Ahead &gt;::accept()</a>, <a class="el" href="utf8_8h_source.html#l00094">thorin::utf8::Lexer&lt; Max_Ahead &gt;::accept_if()</a>, and <a class="el" href="utf8_8cpp_source.html#l00022">encode()</a>.</p>
 
 </div>
 </div>
@@ -263,7 +209,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> thorin::utf8::decode </td>
+          <td class="memname">bool thorin::utf8::decode </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>os</em>, </td>
@@ -285,9 +231,7 @@ Variables</h2></td></tr>
 <p>Decodes the UTF-32 char <code>c</code> to UTF-8 and writes the sequence of bytes to <code>os</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>false</code> on error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00041">41</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="utf8_8cpp_source.html#l00037">ao()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00042">42</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
 
 </div>
 </div>
@@ -310,9 +254,9 @@ Variables</h2></td></tr>
 <p>Encodes the next sequence of bytes from <code>is</code> as UTF-32. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>std::nullopt</code> on error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00015">15</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00022">22</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="utf8_8h_source.html#l00022">append()</a>, <a class="el" href="utf8_8h_source.html#l00014">EoF</a>, <a class="el" href="utf8_8h_source.html#l00015">Err</a>, <a class="el" href="utf8_8h_source.html#l00025">first()</a>, <a class="el" href="utf8_8h_source.html#l00028">is_valid()</a>, and <a class="el" href="utf8_8cpp_source.html#l00007">num_bytes()</a>.</p>
+<p class="reference">References <a class="el" href="utf8_8h_source.html#l00022">append()</a>, <a class="el" href="utf8_8h_source.html#l00014">EoF</a>, <a class="el" href="utf8_8h_source.html#l00015">Err</a>, <a class="el" href="utf8_8h_source.html#l00025">first()</a>, <a class="el" href="utf8_8h_source.html#l00028">is_valid()</a>, and <a class="el" href="utf8_8cpp_source.html#l00014">num_bytes()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="utf8_8h_source.html#l00069">thorin::utf8::Lexer&lt; Max_Ahead &gt;::next()</a>.</p>
 
@@ -356,7 +300,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="utf8_8h_source.html#l00025">25</a> of file <a class="el" href="utf8_8h_source.html">utf8.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00015">encode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00022">encode()</a>.</p>
 
 </div>
 </div>
@@ -388,7 +332,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="utf8_8h_source.html#l00028">28</a> of file <a class="el" href="utf8_8h_source.html">utf8.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00015">encode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00022">encode()</a>.</p>
 
 </div>
 </div>
@@ -411,9 +355,9 @@ Variables</h2></td></tr>
 <p>Returns the expected number of bytes for an UTF-8 char sequence by inspecting the first byte. </p>
 <p >Retuns <code>0</code> if invalid. </p>
 
-<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00007">7</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utf8_8cpp_source.html#l00014">14</a> of file <a class="el" href="utf8_8cpp_source.html">utf8.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00015">encode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00022">encode()</a>.</p>
 
 </div>
 </div>
@@ -468,7 +412,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="utf8_8h_source.html#l00014">14</a> of file <a class="el" href="utf8_8h_source.html">utf8.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00015">encode()</a>, <a class="el" href="lexer_8cpp_source.html#l00030">thorin::fe::Lexer::lex()</a>, and <a class="el" href="utf8_8h_source.html#l00069">thorin::utf8::Lexer&lt; Max_Ahead &gt;::next()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00022">encode()</a>, <a class="el" href="lexer_8cpp_source.html#l00034">thorin::fe::Lexer::lex()</a>, and <a class="el" href="utf8_8h_source.html#l00069">thorin::utf8::Lexer&lt; Max_Ahead &gt;::next()</a>.</p>
 
 </div>
 </div>
@@ -496,7 +440,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="utf8_8h_source.html#l00015">15</a> of file <a class="el" href="utf8_8h_source.html">utf8.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00015">encode()</a>, and <a class="el" href="lexer_8cpp_source.html#l00030">thorin::fe::Lexer::lex()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utf8_8cpp_source.html#l00022">encode()</a>, and <a class="el" href="lexer_8cpp_source.html#l00034">thorin::fe::Lexer::lex()</a>.</p>
 
 </div>
 </div>

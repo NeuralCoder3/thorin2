@@ -1,23 +1,5 @@
 var clos_2autogen_8h =
 [
-    [ "thorin::Axiom::Match< clos::clos_conv_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1clos__conv__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#a1d6bd7b3284e9b9b0d12681d5cd0d660", null ]
-    ] ],
-    [ "thorin::Axiom::Match< clos::clos_conv_prep_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1clos__conv__prep__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#a4dc9dd50fa02923e6851bfbeef39aa82", null ]
-    ] ],
-    [ "thorin::Axiom::Match< clos::lower_typed_clos_prep_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1lower__typed__clos__prep__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#acfcc47bf4110b009071da2779ee35caf", null ]
-    ] ],
-    [ "thorin::Axiom::Match< clos::clos2sjlj_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1clos2sjlj__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#a583701a1b6005be3e5b073398e113350", null ]
-    ] ],
-    [ "thorin::Axiom::Match< clos::lower_typed_clos_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1lower__typed__clos__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#aa3d4dfaca1c111efbba6934eab4aed9b", null ]
-    ] ],
-    [ "thorin::Axiom::Match< clos::branch_clos_pass >", "classthorin_1_1Axiom.html#structthorin_1_1Axiom_1_1Match_3_01clos_1_1branch__clos__pass_01_4", [
-      [ "type", "classthorin_1_1Axiom.html#a30506ad337187cc6cf713c9bc72bc5a5", null ]
-    ] ],
     [ "THORIN_clos_NORMALIZER_IMPL", "clos_2autogen_8h.html#a2e487041387471b14c1a874a4453fbec", null ],
     [ "alloc_jmpbuf", "clos_2autogen_8h.html#a0aabdb9a4da6e16afb462b4ce783fec8", null ],
     [ "attr", "clos_2autogen_8h.html#a5c55a5bd62132e28b49915902ea0117a", [
@@ -28,20 +10,29 @@ var clos_2autogen_8h =
       [ "bot", "clos_2autogen_8h.html#a5c55a5bd62132e28b49915902ea0117aa62cbfe7c9edd7c5f14f4a83cd32a3bcd", null ]
     ] ],
     [ "branch_clos_pass", "clos_2autogen_8h.html#aef3b95c191f7a48e7e5e13d98a5b6ee4", null ],
+    [ "BufPtr", "clos_2autogen_8h.html#aae38c8a20476ed7b14dc7ecd06129979", null ],
     [ "clos2sjlj_pass", "clos_2autogen_8h.html#a2b43b9b0f0f249caec3e6b18c11ffb1c", null ],
-    [ "clos_conv_pass", "clos_2autogen_8h.html#a490eb43f7a0b0221478f50630e80b707", null ],
+    [ "clos_conv_phase", "clos_2autogen_8h.html#a02da91bfb3d89201e282b538b6c65b35", null ],
     [ "clos_conv_prep_pass", "clos_2autogen_8h.html#a5cb61dac566533e52e49b976bf8d2247", null ],
     [ "eta_red_bool_pass", "clos_2autogen_8h.html#aa56bd8e01337ec16d30bd57994bf4cc2", null ],
     [ "longjmp", "clos_2autogen_8h.html#a6de5a72a27162097768c57a865741a3e", null ],
-    [ "lower_typed_clos_pass", "clos_2autogen_8h.html#ab52d3894a6198408374175b6fed51a48", null ],
+    [ "lower_typed_clos_phase", "clos_2autogen_8h.html#a165927aa7fe6bfc92728273adf4127ba", null ],
     [ "lower_typed_clos_prep_pass", "clos_2autogen_8h.html#a1b7c65a97fcd27aead23ea5bbf794653", null ],
     [ "setjmp", "clos_2autogen_8h.html#a553c0b470a1ee42cdae9d1fd3006dec8", null ],
     [ "normalize_clos", "clos_2autogen_8h.html#ac9f972eb39228514383964979ae688b1", null ],
-    [ "operator&", "clos_2autogen_8h.html#a6bdeb99fedfd82bcd5b30adfe470ef14", null ],
-    [ "operator&", "clos_2autogen_8h.html#a1544fa4ef5d289049c75829425139504", null ],
-    [ "operator==", "clos_2autogen_8h.html#aa999d58fd04f9e8281311fda55810a33", null ],
-    [ "operator|", "clos_2autogen_8h.html#ae0d160618b1a31051f14cc165965c0eb", null ],
-    [ "operator|", "clos_2autogen_8h.html#a5bc979545b779830bfd8859afe98ba7a", null ],
+    [ "operator&", "clos_2autogen_8h.html#a16ac5f2963ce4acb56f91c7415d7e6b0", null ],
+    [ "operator&", "clos_2autogen_8h.html#a626c847ac5b2dcc564dda92740186085", null ],
+    [ "operator&", "clos_2autogen_8h.html#a71c8d0982a40a4d69d1ebc2167092d78", null ],
+    [ "operator<=>", "clos_2autogen_8h.html#ae70b00f1a4c8f3fc4cde54457a3db2bc", null ],
+    [ "operator<=>", "clos_2autogen_8h.html#a14438edf99536baf4b684616624253b6", null ],
+    [ "operator==", "clos_2autogen_8h.html#a15e943ffb61823ad6f96d81c593be2d3", null ],
+    [ "operator==", "clos_2autogen_8h.html#a8ef8c6548d21a7cbaaa859430d701e22", null ],
+    [ "operator^", "clos_2autogen_8h.html#a156f58e214a3c2ad158edbfe092e2d79", null ],
+    [ "operator^", "clos_2autogen_8h.html#a4a844e179839ad692329dee79b970238", null ],
+    [ "operator^", "clos_2autogen_8h.html#a4ec9918ba3679ed5e84d96fa07de4417", null ],
+    [ "operator|", "clos_2autogen_8h.html#a91059bb655eb44ede0dedca09fcb2d75", null ],
+    [ "operator|", "clos_2autogen_8h.html#a576818b7a69874cd2ef42cce5de8c51e", null ],
+    [ "operator|", "clos_2autogen_8h.html#adedbdf48d48bcc1965f47da5a396de4b", null ],
     [ "register_normalizers", "clos_2autogen_8h.html#ab4e2702acfbe14c56bc38803308aae1f", null ],
-    [ "Dialect_Id", "clos_2autogen_8h.html#a825f85d6f84051d8c57118e012949b8e", null ]
+    [ "Plugin_Id", "clos_2autogen_8h.html#a1fa7da73fdc2c7148dc222ad76bb0322", null ]
 ];

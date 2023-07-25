@@ -112,26 +112,25 @@ $(document).ready(function(){initNavTree('pipelinebuilder_8h.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle"><div class="title">pipelinebuilder.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="world_8h_source.html">thorin/world.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="plugin_8h_source.html">thorin/plugin.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="world_8h_source.html">thorin/world.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="optimize_8h_source.html">thorin/pass/optimize.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pass_8h_source.html">thorin/pass/pass.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phase_8h_source.html">thorin/phase/phase.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for pipelinebuilder.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pipelinebuilder_8h__incl.svg" width="1887" height="799"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pipelinebuilder_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pipelinebuilder_8h__dep__incl.svg" width="3864" height="550"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pipelinebuilder_8h__dep__incl.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
@@ -145,16 +144,11 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacethorin"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin.html">thorin</a></td></tr>
-<tr class="memdesc:namespacethorin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper functions of general interest. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a1cbfdf030eb2da4e01a4061e5c7fd082"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin.html#a1cbfdf030eb2da4e01a4061e5c7fd082">thorin::PassInstanceMap</a> = absl::btree_map&lt; const Def *, Pass *, GIDLt&lt; const Def * &gt; &gt;</td></tr>
-<tr class="separator:a1cbfdf030eb2da4e01a4061e5c7fd082"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Register Pass/Phase</div></td></tr>
 <tr class="memitem:a4af8566c40f049204989f6fcb8a1cba4"><td class="memTemplParams" colspan="2">template&lt;class A , class P , class... CArgs&gt; </td></tr>
 <tr class="memitem:a4af8566c40f049204989f6fcb8a1cba4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin.html#a4af8566c40f049204989f6fcb8a1cba4">thorin::register_pass</a> (Passes &amp;passes, CArgs &amp;&amp;... args)</td></tr>
 <tr class="separator:a4af8566c40f049204989f6fcb8a1cba4"><td class="memSeparator" colspan="2">&#160;</td></tr>

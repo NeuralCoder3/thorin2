@@ -7,7 +7,6 @@ var searchData=
   ['indexset_4',['IndexSet',['../classthorin_1_1IndexSet.html',1,'thorin']]],
   ['infer_5',['Infer',['../classthorin_1_1Infer.html',1,'thorin']]],
   ['info_6',['Info',['../classthorin_1_1mem_1_1SSAConstr.html#structthorin_1_1mem_1_1SSAConstr_1_1Info',1,'thorin::mem::SSAConstr']]],
-  ['inline_7',['Inline',['../structthorin_1_1Inline.html',1,'thorin']]],
-  ['insert_8',['Insert',['../classthorin_1_1Insert.html',1,'thorin']]],
-  ['internalcleanup_9',['InternalCleanup',['../classthorin_1_1compile_1_1InternalCleanup.html',1,'thorin::compile']]]
+  ['insert_7',['Insert',['../classthorin_1_1Insert.html',1,'thorin']]],
+  ['internalcleanup_8',['InternalCleanup',['../classthorin_1_1compile_1_1InternalCleanup.html',1,'thorin::compile']]]
 ];

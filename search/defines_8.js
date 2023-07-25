@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['m_0',['M',['../core_2normalizers_8cpp.html#aeaded74fae54146d0f196f3f31367c89',1,'M():&#160;normalizers.cpp'],['../math_2normalizers_8cpp.html#aeaded74fae54146d0f196f3f31367c89',1,'M():&#160;normalizers.cpp']]]
+  ['vlog_0',['VLOG',['../log_8h.html#a35e71de09dfd64892a48e3f7c56c5619',1,'log.h']]]
 ];

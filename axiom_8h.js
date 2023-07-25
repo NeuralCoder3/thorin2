@@ -5,8 +5,8 @@ var axiom_8h =
       [ "type", "classthorin_1_1Axiom.html#a90bea664417af17801b73ee688147b7d", null ]
     ] ],
     [ "thorin::Match< Id, D >", "classthorin_1_1Match.html", "classthorin_1_1Match" ],
-    [ "thorin::axiom_with_subs", "conceptthorin_1_1axiom__with__subs.html", null ],
-    [ "thorin::axiom_without_subs", "conceptthorin_1_1axiom__without__subs.html", null ],
+    [ "thorin::annex_with_subs", "conceptthorin_1_1annex__with__subs.html", null ],
+    [ "thorin::annex_without_subs", "conceptthorin_1_1annex__without__subs.html", null ],
     [ "force", "axiom_8h.html#ab44c7f88991518e191a0b6168e41d816", null ],
     [ "force", "axiom_8h.html#a73e99aec74e2e132591d174b75bb920b", null ],
     [ "is_associative", "axiom_8h.html#a4cccb6dae2ff7654bbb7ba358d0d6362", null ],

@@ -112,14 +112,13 @@ $(document).ready(function(){initNavTree('namespacethorin_1_1refly.html',''); in
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">thorin::refly Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>add c++ bindings to call the axioms here preferably using inlined functions  
+<p><a class="el" href="refly.html">The refly Plugin</a>  
 <a href="namespacethorin_1_1refly.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -130,66 +129,102 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ab1ac37f5bc566fdbf0493a720d3791df"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ab1ac37f5bc566fdbf0493a720d3791df">gid</a> : flags_t </td></tr>
-<tr class="separator:ab1ac37f5bc566fdbf0493a720d3791df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab126eca8fb6114846260a8c356d1488d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ab126eca8fb6114846260a8c356d1488d">reify</a> : flags_t </td></tr>
-<tr class="separator:ab126eca8fb6114846260a8c356d1488d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95226b5a00778394709d73b0d0b113ae"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a95226b5a00778394709d73b0d0b113ae">reflect</a> : flags_t </td></tr>
-<tr class="separator:a95226b5a00778394709d73b0d0b113ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.Code</div></td></tr>
 <tr class="memitem:a3f05eabc5ee2f65901758d5f61d7beaa"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a3f05eabc5ee2f65901758d5f61d7beaa">Code</a> : flags_t </td></tr>
 <tr class="separator:a3f05eabc5ee2f65901758d5f61d7beaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac062d21f6636a7927391d6c70c40ce70"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> : flags_t { <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70a16ca9cd5187dcd8ed6e91cb703f5c183">tmp</a> = 0x4c61cd6800000400
-, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70a3bc27f49064aa42217947ff8aa1b273c">perm</a> = 0x4c61cd6800000401
- }</td></tr>
-<tr class="separator:ac062d21f6636a7927391d6c70c40ce70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.error</div></td></tr>
+<tr class="memitem:ae26f9eabf92b1f761ab2a412c80b4e1c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ae26f9eabf92b1f761ab2a412c80b4e1c">error</a> : flags_t </td></tr>
+<tr class="separator:ae26f9eabf92b1f761ab2a412c80b4e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.warn</div></td></tr>
+<tr class="memitem:a496c27db8cdd688efafc9c1b5024e35c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a496c27db8cdd688efafc9c1b5024e35c">warn</a> : flags_t </td></tr>
+<tr class="separator:a496c27db8cdd688efafc9c1b5024e35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.info</div></td></tr>
+<tr class="memitem:a908feebb848657645e5d4a64997a7a57"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a908feebb848657645e5d4a64997a7a57">info</a> : flags_t </td></tr>
+<tr class="separator:a908feebb848657645e5d4a64997a7a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.verbose</div></td></tr>
+<tr class="memitem:ac9732b218bdc69670770b8496c5e0cc7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ac9732b218bdc69670770b8496c5e0cc7">verbose</a> : flags_t </td></tr>
+<tr class="separator:ac9732b218bdc69670770b8496c5e0cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.debug</div></td></tr>
+<tr class="memitem:aa208ad3e46dba11754599f34b54e0161"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aa208ad3e46dba11754599f34b54e0161">debug</a> : flags_t </td></tr>
+<tr class="separator:aa208ad3e46dba11754599f34b54e0161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.remove_dbg_perm_pass</div></td></tr>
 <tr class="memitem:abb25ddaaece56242a704ba11b92cd6db"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#abb25ddaaece56242a704ba11b92cd6db">remove_dbg_perm_pass</a> : flags_t </td></tr>
 <tr class="separator:abb25ddaaece56242a704ba11b92cd6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d98aa6b6e4f6092e4fcd6e329611518"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a2d98aa6b6e4f6092e4fcd6e329611518">refine</a> : flags_t </td></tr>
-<tr class="separator:a2d98aa6b6e4f6092e4fcd6e329611518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2c71823e5082857b0d426de67ccd1844"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a2c71823e5082857b0d426de67ccd1844">do_reify</a> (const <a class="el" href="classthorin_1_1Def.html">Def</a> *def)</td></tr>
-<tr class="memdesc:a2c71823e5082857b0d426de67ccd1844"><td class="mdescLeft">&#160;</td><td class="mdescRight">The trick is that we simply "box" the pointer of <code>def</code> inside a <a class="el" href="classthorin_1_1Lit.html">Lit</a> of type <code>refly.Code</code>.  <a href="namespacethorin_1_1refly.html#a2c71823e5082857b0d426de67ccd1844">More...</a><br /></td></tr>
-<tr class="separator:a2c71823e5082857b0d426de67ccd1844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a651050df666c363dc64e58b7232d98ea"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="classthorin_1_1Def.html">Def</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a651050df666c363dc64e58b7232d98ea">do_reflect</a> (const <a class="el" href="classthorin_1_1Def.html">Def</a> *def)</td></tr>
-<tr class="memdesc:a651050df666c363dc64e58b7232d98ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">And here we are doing the reverse to retrieve the original pointer again.  <a href="namespacethorin_1_1refly.html#a651050df666c363dc64e58b7232d98ea">More...</a><br /></td></tr>
-<tr class="separator:a651050df666c363dc64e58b7232d98ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d4c579f94fcac60eebde5c8593d9884"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> id&gt; </td></tr>
-<tr class="memitem:a1d4c579f94fcac60eebde5c8593d9884"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a1d4c579f94fcac60eebde5c8593d9884">normalize_dbg</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a> type, <a class="el" href="classthorin_1_1Ref.html">Ref</a> callee, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
-<tr class="separator:a1d4c579f94fcac60eebde5c8593d9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4f7164654473913f60f6fe9b7163b5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aa4f7164654473913f60f6fe9b7163b5f">normalize_reify</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
-<tr class="separator:aa4f7164654473913f60f6fe9b7163b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af154d7d91d30c79a49922d90d58fa051"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#af154d7d91d30c79a49922d90d58fa051">normalize_reflect</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
-<tr class="separator:af154d7d91d30c79a49922d90d58fa051"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5191894f184796478f7f29b14decad4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ad5191894f184796478f7f29b14decad4">normalize_refine</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a> type, <a class="el" href="classthorin_1_1Ref.html">Ref</a> callee, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
-<tr class="separator:ad5191894f184796478f7f29b14decad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba788e6f901736144880c9710c082528"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aba788e6f901736144880c9710c082528">normalize_gid</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
-<tr class="separator:aba788e6f901736144880c9710c082528"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30122fc088057538572d8631a0df6d2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a30122fc088057538572d8631a0df6d2b">debug_print</a> (const <a class="el" href="classthorin_1_1Def.html">Def</a> *def)</td></tr>
-<tr class="separator:a30122fc088057538572d8631a0df6d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf796606d851c9bab06caf5a2332170"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classthorin_1_1Axiom.html">Axiom</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a2cf796606d851c9bab06caf5a2332170">type_code</a> (<a class="el" href="classthorin_1_1World.html">World</a> &amp;w)</td></tr>
-<tr class="separator:a2cf796606d851c9bab06caf5a2332170"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8abb16ae543e1ff3f3d91b16c0db9303"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a8abb16ae543e1ff3f3d91b16c0db9303">operator==</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> lhs, <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> rhs)</td></tr>
-<tr class="separator:a8abb16ae543e1ff3f3d91b16c0db9303"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5ad0ebd9ef9dcdf4bd2fb97555efbc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aa5ad0ebd9ef9dcdf4bd2fb97555efbc3">operator&amp;</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> lhs, <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> rhs)</td></tr>
-<tr class="separator:aa5ad0ebd9ef9dcdf4bd2fb97555efbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a382a03d6d7633d6b621fe76e6eca809c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a382a03d6d7633d6b621fe76e6eca809c">operator&amp;</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> lhs, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> rhs)</td></tr>
-<tr class="separator:a382a03d6d7633d6b621fe76e6eca809c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4867d2c4637bc4a409f35f5acb532261"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a4867d2c4637bc4a409f35f5acb532261">operator|</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> lhs, <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> rhs)</td></tr>
-<tr class="separator:a4867d2c4637bc4a409f35f5acb532261"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23155ff11a60c257c3cd99c8bb3a5248"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a23155ff11a60c257c3cd99c8bb3a5248">operator|</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> lhs, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> rhs)</td></tr>
-<tr class="separator:a23155ff11a60c257c3cd99c8bb3a5248"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a308b889d433339a153302adbe67339fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a308b889d433339a153302adbe67339fe">register_normalizers</a> (<a class="el" href="namespacethorin.html#a286f60254e3f9699ea27cb2bc98b6051">Normalizers</a> &amp;normalizers)</td></tr>
+<tr class="memitem:a308b889d433339a153302adbe67339fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a308b889d433339a153302adbe67339fe">register_normalizers</a> (<a class="el" href="namespacethorin.html#a6ad6eaa1c542646fa592d10b05676464">Normalizers</a> &amp;normalizers)</td></tr>
 <tr class="separator:a308b889d433339a153302adbe67339fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae1f0ffa94ba8ecc878b7849b6c1ad04f"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespacethorin.html#adb7875050bd88ae8cd44a2fc16a7143d">dialect_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ae1f0ffa94ba8ecc878b7849b6c1ad04f">Dialect_Id</a> = 0x4c61cd6800000000</td></tr>
-<tr class="separator:ae1f0ffa94ba8ecc878b7849b6c1ad04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a323a1d074b165a712a766e8da367dd11"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespacethorin.html#adc4504461c3f6cec792a3fdb3e57f076">plugin_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a323a1d074b165a712a766e8da367dd11">Plugin_Id</a> = 0x4c61cd6800000000</td></tr>
+<tr class="separator:a323a1d074b165a712a766e8da367dd11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader">%refly.reify</h2></td></tr>
+<tr class="memitem:ab126eca8fb6114846260a8c356d1488d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ab126eca8fb6114846260a8c356d1488d">reify</a> : flags_t </td></tr>
+<tr class="separator:ab126eca8fb6114846260a8c356d1488d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4f7164654473913f60f6fe9b7163b5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aa4f7164654473913f60f6fe9b7163b5f">normalize_reify</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
+<tr class="separator:aa4f7164654473913f60f6fe9b7163b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader">%refly.reflect</h2></td></tr>
+<tr class="memitem:a95226b5a00778394709d73b0d0b113ae"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a95226b5a00778394709d73b0d0b113ae">reflect</a> : flags_t </td></tr>
+<tr class="separator:a95226b5a00778394709d73b0d0b113ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af154d7d91d30c79a49922d90d58fa051"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#af154d7d91d30c79a49922d90d58fa051">normalize_reflect</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
+<tr class="separator:af154d7d91d30c79a49922d90d58fa051"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader">%refly.gid</h2></td></tr>
+<tr class="memitem:ab1ac37f5bc566fdbf0493a720d3791df"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ab1ac37f5bc566fdbf0493a720d3791df">gid</a> : flags_t </td></tr>
+<tr class="separator:ab1ac37f5bc566fdbf0493a720d3791df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba788e6f901736144880c9710c082528"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aba788e6f901736144880c9710c082528">normalize_gid</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a>, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
+<tr class="separator:aba788e6f901736144880c9710c082528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader">%refly.dbg</h2></td></tr>
+<tr class="memitem:ac062d21f6636a7927391d6c70c40ce70"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> : flags_t { <br />
+&#160;&#160;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70a16ca9cd5187dcd8ed6e91cb703f5c183">tmp</a> = 0x4c61cd6800000900
+, <br />
+&#160;&#160;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70a3bc27f49064aa42217947ff8aa1b273c">perm</a> = 0x4c61cd6800000901
+<br />
+ }</td></tr>
+<tr class="separator:ac062d21f6636a7927391d6c70c40ce70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d4c579f94fcac60eebde5c8593d9884"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> id&gt; </td></tr>
+<tr class="memitem:a1d4c579f94fcac60eebde5c8593d9884"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a1d4c579f94fcac60eebde5c8593d9884">normalize_dbg</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a> type, <a class="el" href="classthorin_1_1Ref.html">Ref</a> callee, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
+<tr class="separator:a1d4c579f94fcac60eebde5c8593d9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad1ceec23aafd64cff53792907e00315"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aad1ceec23aafd64cff53792907e00315">operator&amp;</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:aad1ceec23aafd64cff53792907e00315"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3db95c5f6ff2f5d06721aaca46f64391"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a3db95c5f6ff2f5d06721aaca46f64391">operator&amp;</a> (std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:a3db95c5f6ff2f5d06721aaca46f64391"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b6b0e1397065969f31427b2e977609c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a0b6b0e1397065969f31427b2e977609c">operator&amp;</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; y)</td></tr>
+<tr class="separator:a0b6b0e1397065969f31427b2e977609c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd3b6f8f3b15b98df55d1f247c08378"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a1cd3b6f8f3b15b98df55d1f247c08378">operator|</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:a1cd3b6f8f3b15b98df55d1f247c08378"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c96ba6f2b8d0f413d0c815ff37b4a9c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a0c96ba6f2b8d0f413d0c815ff37b4a9c">operator|</a> (std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:a0c96ba6f2b8d0f413d0c815ff37b4a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2a93436e4df65511d69502d281b3b6f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ac2a93436e4df65511d69502d281b3b6f">operator|</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; y)</td></tr>
+<tr class="separator:ac2a93436e4df65511d69502d281b3b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6e60cddeba8bc1f896c53a23709edd"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a4e6e60cddeba8bc1f896c53a23709edd">operator^</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:a4e6e60cddeba8bc1f896c53a23709edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a657dc9d59bfdd847d165029ebf17f8"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a1a657dc9d59bfdd847d165029ebf17f8">operator^</a> (std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:a1a657dc9d59bfdd847d165029ebf17f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcc6281b421b982cbba6a5dbfdfa5dac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#afcc6281b421b982cbba6a5dbfdfa5dac">operator^</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; y)</td></tr>
+<tr class="separator:afcc6281b421b982cbba6a5dbfdfa5dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa476e9f86c2b64e71c53ba00c3ffda2"><td class="memItemLeft" align="right" valign="top">constexpr std::strong_ordering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#afa476e9f86c2b64e71c53ba00c3ffda2">operator&lt;=&gt;</a> (std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:afa476e9f86c2b64e71c53ba00c3ffda2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a11c973e5562a8ee1bca4edbf50179c"><td class="memItemLeft" align="right" valign="top">constexpr std::strong_ordering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a9a11c973e5562a8ee1bca4edbf50179c">operator&lt;=&gt;</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; y)</td></tr>
+<tr class="separator:a9a11c973e5562a8ee1bca4edbf50179c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d24118fd114c736a84cfc5db25e90fa"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a3d24118fd114c736a84cfc5db25e90fa">operator==</a> (std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; x, <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> y)</td></tr>
+<tr class="separator:a3d24118fd114c736a84cfc5db25e90fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885144631214f0efed9f20983355d191"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a885144631214f0efed9f20983355d191">operator==</a> (<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> x, std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt; y)</td></tr>
+<tr class="separator:a885144631214f0efed9f20983355d191"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader">%refly.refine</h2></td></tr>
+<tr class="memitem:a2d98aa6b6e4f6092e4fcd6e329611518"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a2d98aa6b6e4f6092e4fcd6e329611518">refine</a> : flags_t </td></tr>
+<tr class="separator:a2d98aa6b6e4f6092e4fcd6e329611518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5191894f184796478f7f29b14decad4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classthorin_1_1Ref.html">Ref</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ad5191894f184796478f7f29b14decad4">normalize_refine</a> (<a class="el" href="classthorin_1_1Ref.html">Ref</a> type, <a class="el" href="classthorin_1_1Ref.html">Ref</a> callee, <a class="el" href="classthorin_1_1Ref.html">Ref</a> arg)</td></tr>
+<tr class="separator:ad5191894f184796478f7f29b14decad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >add c++ bindings to call the axioms here preferably using inlined functions </p>
+<div class="textblock"><p ><a class="el" href="refly.html">The refly Plugin</a> </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a3f05eabc5ee2f65901758d5f61d7beaa" name="a3f05eabc5ee2f65901758d5f61d7beaa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3f05eabc5ee2f65901758d5f61d7beaa">&#9670;&#160;</a></span>Code</h2>
@@ -203,7 +238,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00039">39</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00015">15</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -223,7 +258,39 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="ac062d21f6636a7927391d6c70c40ce70a3bc27f49064aa42217947ff8aa1b273c" name="ac062d21f6636a7927391d6c70c40ce70a3bc27f49064aa42217947ff8aa1b273c"></a>perm&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00046">46</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00117">117</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="aa208ad3e46dba11754599f34b54e0161" name="aa208ad3e46dba11754599f34b54e0161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa208ad3e46dba11754599f34b54e0161">&#9670;&#160;</a></span>debug</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacethorin_1_1refly.html#aa208ad3e46dba11754599f34b54e0161">thorin::refly::debug</a> : <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00106">106</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="ae26f9eabf92b1f761ab2a412c80b4e1c" name="ae26f9eabf92b1f761ab2a412c80b4e1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae26f9eabf92b1f761ab2a412c80b4e1c">&#9670;&#160;</a></span>error</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacethorin_1_1refly.html#ae26f9eabf92b1f761ab2a412c80b4e1c">thorin::refly::error</a> : <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00062">62</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -239,7 +306,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00012">12</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00050">50</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a908feebb848657645e5d4a64997a7a57" name="a908feebb848657645e5d4a64997a7a57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a908feebb848657645e5d4a64997a7a57">&#9670;&#160;</a></span>info</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacethorin_1_1refly.html#a908feebb848657645e5d4a64997a7a57">thorin::refly::info</a> : <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00084">84</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -255,7 +338,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00071">71</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00134">134</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -271,7 +354,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00030">30</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00038">38</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -287,7 +370,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00021">21</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00026">26</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -303,103 +386,43 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00064">64</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00146">146</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="ac9732b218bdc69670770b8496c5e0cc7" name="ac9732b218bdc69670770b8496c5e0cc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9732b218bdc69670770b8496c5e0cc7">&#9670;&#160;</a></span>verbose</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacethorin_1_1refly.html#ac9732b218bdc69670770b8496c5e0cc7">thorin::refly::verbose</a> : <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00095">95</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a496c27db8cdd688efafc9c1b5024e35c" name="a496c27db8cdd688efafc9c1b5024e35c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a496c27db8cdd688efafc9c1b5024e35c">&#9670;&#160;</a></span>warn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacethorin_1_1refly.html#a496c27db8cdd688efafc9c1b5024e35c">thorin::refly::warn</a> : <a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00073">73</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a30122fc088057538572d8631a0df6d2b" name="a30122fc088057538572d8631a0df6d2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30122fc088057538572d8631a0df6d2b">&#9670;&#160;</a></span>debug_print()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void thorin::refly::debug_print </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classthorin_1_1Def.html">Def</a> *&#160;</td>
-          <td class="paramname"><em>def</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="refly_8cpp_source.html#l00024">24</a> of file <a class="el" href="refly_8cpp_source.html">refly.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="refly_8cpp_source.html#l00021">BLANK</a>, <a class="el" href="def_8cpp_source.html#l00201">thorin::Def::node_name()</a>, <a class="el" href="def_8h_source.html#l00280">thorin::Def::num_extended_ops()</a>, <a class="el" href="def_8h_source.html#l00243">thorin::Def::num_ops()</a>, <a class="el" href="def_8h_source.html#l00314">thorin::Def::num_projs()</a>, <a class="el" href="def_8h_source.html#l00220">thorin::Def::type()</a>, <a class="el" href="def_8cpp_source.html#l00361">thorin::Def::unique_name()</a>, <a class="el" href="def_8cpp_source.html#l00185">thorin::Def::world()</a>, and <a class="el" href="refly_8cpp_source.html#l00020">YELLOW</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="refly_2normalizers_8cpp_source.html#l00016">normalize_dbg()</a>.</p>
-
-</div>
-</div>
-<a id="a651050df666c363dc64e58b7232d98ea" name="a651050df666c363dc64e58b7232d98ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a651050df666c363dc64e58b7232d98ea">&#9670;&#160;</a></span>do_reflect()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static const <a class="el" href="classthorin_1_1Def.html">Def</a> * thorin::refly::do_reflect </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classthorin_1_1Def.html">Def</a> *&#160;</td>
-          <td class="paramname"><em>def</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>And here we are doing the reverse to retrieve the original pointer again. </p>
-
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00013">13</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="cast_8h_source.html#l00039">thorin::RuntimeCast&lt; B &gt;::as()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="refly_2normalizers_8cpp_source.html#l00026">normalize_refine()</a>, and <a class="el" href="refly_2normalizers_8cpp_source.html#l00024">normalize_reflect()</a>.</p>
-
-</div>
-</div>
-<a id="a2c71823e5082857b0d426de67ccd1844" name="a2c71823e5082857b0d426de67ccd1844"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c71823e5082857b0d426de67ccd1844">&#9670;&#160;</a></span>do_reify()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="classthorin_1_1Ref.html">Ref</a> thorin::refly::do_reify </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classthorin_1_1Def.html">Def</a> *&#160;</td>
-          <td class="paramname"><em>def</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The trick is that we simply "box" the pointer of <code>def</code> inside a <a class="el" href="classthorin_1_1Lit.html">Lit</a> of type <code>refly.Code</code>. </p>
-
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00010">10</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="world_8cpp_source.html#l00384">thorin::World::lit()</a>, <a class="el" href="refly_8h_source.html#l00012">type_code()</a>, and <a class="el" href="def_8cpp_source.html#l00185">thorin::Def::world()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="refly_2normalizers_8cpp_source.html#l00026">normalize_refine()</a>, and <a class="el" href="refly_2normalizers_8cpp_source.html#l00022">normalize_reify()</a>.</p>
-
-</div>
-</div>
 <a id="a1d4c579f94fcac60eebde5c8593d9884" name="a1d4c579f94fcac60eebde5c8593d9884"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1d4c579f94fcac60eebde5c8593d9884">&#9670;&#160;</a></span>normalize_dbg()</h2>
 
@@ -434,9 +457,9 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00016">16</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00039">39</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="refly_8cpp_source.html#l00024">debug_print()</a>, <a class="el" href="refly_2autogen_8h_source.html#l00051">perm</a>, and <a class="el" href="def_8cpp_source.html#l00185">thorin::Def::world()</a>.</p>
+<p class="reference">References <a class="el" href="refly_2autogen_8h_source.html#l00122">perm</a>, <a class="el" href="def_8h_source.html#l00355">thorin::Def::projs()</a>, and <a class="el" href="def_8cpp_source.html#l00229">thorin::Def::world()</a>.</p>
 
 </div>
 </div>
@@ -472,9 +495,9 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00037">37</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00061">61</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="def_8h_source.html#l00210">thorin::Def::gid()</a>, <a class="el" href="world_8h_source.html#l00350">thorin::World::lit_nat()</a>, and <a class="el" href="def_8cpp_source.html#l00185">thorin::Def::world()</a>.</p>
+<p class="reference">References <a class="el" href="def_8h_source.html#l00219">thorin::Def::gid()</a>, <a class="el" href="world_8h_source.html#l00333">thorin::World::lit_nat()</a>, and <a class="el" href="def_8cpp_source.html#l00229">thorin::Def::world()</a>.</p>
 
 </div>
 </div>
@@ -510,9 +533,9 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00026">26</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00050">50</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="refly_2normalizers_8cpp_source.html#l00013">do_reflect()</a>, <a class="el" href="refly_2normalizers_8cpp_source.html#l00010">do_reify()</a>, <a class="el" href="def_8h_source.html#l00635">thorin::isa_lit()</a>, <a class="el" href="def_8h_source.html#l00337">thorin::Def::projs()</a>, and <a class="el" href="def_8cpp_source.html#l00185">thorin::Def::world()</a>.</p>
+<p class="reference">References <a class="el" href="cast_8h_source.html#l00028">thorin::RuntimeCast&lt; Def &gt;::isa()</a>, <a class="el" href="def_8h_source.html#l00355">thorin::Def::projs()</a>, and <a class="el" href="def_8cpp_source.html#l00229">thorin::Def::world()</a>.</p>
 
 </div>
 </div>
@@ -548,9 +571,7 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00024">24</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="refly_2normalizers_8cpp_source.html#l00013">do_reflect()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00048">48</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
 
 </div>
 </div>
@@ -586,14 +607,12 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00022">22</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="refly_2normalizers_8cpp_source.html#l00010">do_reify()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2normalizers_8cpp_source.html#l00046">46</a> of file <a class="el" href="refly_2normalizers_8cpp_source.html">normalizers.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a382a03d6d7633d6b621fe76e6eca809c" name="a382a03d6d7633d6b621fe76e6eca809c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a382a03d6d7633d6b621fe76e6eca809c">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[1/2]</span></h2>
+<a id="aad1ceec23aafd64cff53792907e00315" name="aad1ceec23aafd64cff53792907e00315"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad1ceec23aafd64cff53792907e00315">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -602,16 +621,16 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> thorin::refly::operator&amp; </td>
+          <td class="memname">constexpr auto thorin::refly::operator&amp; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -621,17 +640,17 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00056">56</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
-<a id="aa5ad0ebd9ef9dcdf4bd2fb97555efbc3" name="aa5ad0ebd9ef9dcdf4bd2fb97555efbc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5ad0ebd9ef9dcdf4bd2fb97555efbc3">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[2/2]</span></h2>
+<a id="a0b6b0e1397065969f31427b2e977609c" name="a0b6b0e1397065969f31427b2e977609c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b6b0e1397065969f31427b2e977609c">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -640,16 +659,16 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> thorin::refly::operator&amp; </td>
+          <td class="memname">constexpr auto thorin::refly::operator&amp; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -659,17 +678,17 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00055">55</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
-<a id="a8abb16ae543e1ff3f3d91b16c0db9303" name="a8abb16ae543e1ff3f3d91b16c0db9303"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8abb16ae543e1ff3f3d91b16c0db9303">&#9670;&#160;</a></span>operator==()</h2>
+<a id="a3db95c5f6ff2f5d06721aaca46f64391" name="a3db95c5f6ff2f5d06721aaca46f64391"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3db95c5f6ff2f5d06721aaca46f64391">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -678,16 +697,16 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> thorin::refly::operator== </td>
+          <td class="memname">constexpr auto thorin::refly::operator&amp; </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -697,17 +716,17 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00054">54</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
-<a id="a23155ff11a60c257c3cd99c8bb3a5248" name="a23155ff11a60c257c3cd99c8bb3a5248"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23155ff11a60c257c3cd99c8bb3a5248">&#9670;&#160;</a></span>operator|() <span class="overload">[1/2]</span></h2>
+<a id="a9a11c973e5562a8ee1bca4edbf50179c" name="a9a11c973e5562a8ee1bca4edbf50179c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a11c973e5562a8ee1bca4edbf50179c">&#9670;&#160;</a></span>operator&lt;=&gt;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -716,16 +735,16 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> thorin::refly::operator| </td>
+          <td class="memname">constexpr std::strong_ordering thorin::refly::operator&lt;=&gt; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -735,17 +754,17 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00058">58</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
-<a id="a4867d2c4637bc4a409f35f5acb532261" name="a4867d2c4637bc4a409f35f5acb532261"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4867d2c4637bc4a409f35f5acb532261">&#9670;&#160;</a></span>operator|() <span class="overload">[2/2]</span></h2>
+<a id="afa476e9f86c2b64e71c53ba00c3ffda2" name="afa476e9f86c2b64e71c53ba00c3ffda2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa476e9f86c2b64e71c53ba00c3ffda2">&#9670;&#160;</a></span>operator&lt;=&gt;() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -754,16 +773,16 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a> thorin::refly::operator| </td>
+          <td class="memname">constexpr std::strong_ordering thorin::refly::operator&lt;=&gt; </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacethorin.html#ae4dba9b3be2d9956cd3c0df92ba53dc2">flags_t</a>&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -773,12 +792,316 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00057">57</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a885144631214f0efed9f20983355d191" name="a885144631214f0efed9f20983355d191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a885144631214f0efed9f20983355d191">&#9670;&#160;</a></span>operator==() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool thorin::refly::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a3d24118fd114c736a84cfc5db25e90fa" name="a3d24118fd114c736a84cfc5db25e90fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d24118fd114c736a84cfc5db25e90fa">&#9670;&#160;</a></span>operator==() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool thorin::refly::operator== </td>
+          <td>(</td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a4e6e60cddeba8bc1f896c53a23709edd" name="a4e6e60cddeba8bc1f896c53a23709edd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e6e60cddeba8bc1f896c53a23709edd">&#9670;&#160;</a></span>operator^() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto thorin::refly::operator^ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="afcc6281b421b982cbba6a5dbfdfa5dac" name="afcc6281b421b982cbba6a5dbfdfa5dac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcc6281b421b982cbba6a5dbfdfa5dac">&#9670;&#160;</a></span>operator^() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto thorin::refly::operator^ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a1a657dc9d59bfdd847d165029ebf17f8" name="a1a657dc9d59bfdd847d165029ebf17f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a657dc9d59bfdd847d165029ebf17f8">&#9670;&#160;</a></span>operator^() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto thorin::refly::operator^ </td>
+          <td>(</td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a1cd3b6f8f3b15b98df55d1f247c08378" name="a1cd3b6f8f3b15b98df55d1f247c08378"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cd3b6f8f3b15b98df55d1f247c08378">&#9670;&#160;</a></span>operator|() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto thorin::refly::operator| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="ac2a93436e4df65511d69502d281b3b6f" name="ac2a93436e4df65511d69502d281b3b6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2a93436e4df65511d69502d281b3b6f">&#9670;&#160;</a></span>operator|() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto thorin::refly::operator| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+
+</div>
+</div>
+<a id="a0c96ba6f2b8d0f413d0c815ff37b4a9c" name="a0c96ba6f2b8d0f413d0c815ff37b4a9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c96ba6f2b8d0f413d0c815ff37b4a9c">&#9670;&#160;</a></span>operator|() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto thorin::refly::operator| </td>
+          <td>(</td>
+          <td class="paramtype">std::underlying_type_t&lt; <a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a> &gt;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927391d6c70c40ce70">dbg</a>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00125">125</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>
@@ -791,52 +1114,20 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
         <tr>
           <td class="memname">void thorin::refly::register_normalizers </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacethorin.html#a286f60254e3f9699ea27cb2bc98b6051">Normalizers</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacethorin.html#a6ad6eaa1c542646fa592d10b05676464">Normalizers</a> &amp;&#160;</td>
           <td class="paramname"><em>normalizers</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="refly_8cpp_source.html#l00014">thorin_get_dialect_info()</a>.</p>
-
-</div>
-</div>
-<a id="a2cf796606d851c9bab06caf5a2332170" name="a2cf796606d851c9bab06caf5a2332170"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2cf796606d851c9bab06caf5a2332170">&#9670;&#160;</a></span>type_code()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classthorin_1_1Axiom.html">Axiom</a> * thorin::refly::type_code </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classthorin_1_1World.html">World</a> &amp;&#160;</td>
-          <td class="paramname"><em>w</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="refly_8h_source.html#l00012">12</a> of file <a class="el" href="refly_8h_source.html">refly.h</a>.</p>
-
-<p class="reference">References <a class="el" href="world_8h_source.html#l00226">thorin::World::ax()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="refly_2normalizers_8cpp_source.html#l00010">do_reify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="refly_8cpp_source.html#l00011">thorin_get_plugin()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ae1f0ffa94ba8ecc878b7849b6c1ad04f" name="ae1f0ffa94ba8ecc878b7849b6c1ad04f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1f0ffa94ba8ecc878b7849b6c1ad04f">&#9670;&#160;</a></span>Dialect_Id</h2>
+<a id="a323a1d074b165a712a766e8da367dd11" name="a323a1d074b165a712a766e8da367dd11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a323a1d074b165a712a766e8da367dd11">&#9670;&#160;</a></span>Plugin_Id</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -845,7 +1136,7 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="namespacethorin.html#adb7875050bd88ae8cd44a2fc16a7143d">dialect_t</a> thorin::refly::Dialect_Id = 0x4c61cd6800000000</td>
+          <td class="memname">constexpr <a class="el" href="namespacethorin.html#adc4504461c3f6cec792a3fdb3e57f076">plugin_t</a> thorin::refly::Plugin_Id = 0x4c61cd6800000000</td>
         </tr>
       </table>
   </td>
@@ -855,7 +1146,7 @@ template&lt;<a class="el" href="namespacethorin_1_1refly.html#ac062d21f6636a7927
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00009">9</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="refly_2autogen_8h_source.html#l00010">10</a> of file <a class="el" href="refly_2autogen_8h_source.html">autogen.h</a>.</p>
 
 </div>
 </div>

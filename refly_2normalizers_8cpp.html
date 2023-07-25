@@ -111,17 +111,17 @@ $(document).ready(function(){initNavTree('refly_2normalizers_8cpp.html',''); ini
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle"><div class="title">normalizers.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="world_8h_source.html">thorin/world.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;rang.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="world_8h_source.html">thorin/world.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="refly_8h_source.html">dialects/refly/refly.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for normalizers.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="refly_2normalizers_8cpp__incl.svg" width="1488" height="1019"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="refly_2normalizers_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
@@ -130,29 +130,27 @@ Include dependency graph for normalizers.cpp:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacethorin"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin.html">thorin</a></td></tr>
-<tr class="memdesc:namespacethorin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper functions of general interest. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacethorin_1_1refly"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html">thorin::refly</a></td></tr>
-<tr class="memdesc:namespacethorin_1_1refly"><td class="mdescLeft">&#160;</td><td class="mdescRight">add c++ bindings to call the axioms here preferably using inlined functions <br /></td></tr>
+<tr class="memdesc:namespacethorin_1_1refly"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="refly.html">The refly Plugin</a> <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2c71823e5082857b0d426de67ccd1844"><td class="memItemLeft" align="right" valign="top">static Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a2c71823e5082857b0d426de67ccd1844">thorin::refly::do_reify</a> (const Def *def)</td></tr>
-<tr class="memdesc:a2c71823e5082857b0d426de67ccd1844"><td class="mdescLeft">&#160;</td><td class="mdescRight">The trick is that we simply "box" the pointer of <code>def</code> inside a <a class="el" href="classthorin_1_1Lit.html">Lit</a> of type <code>refly.Code</code>.  <a href="namespacethorin_1_1refly.html#a2c71823e5082857b0d426de67ccd1844">More...</a><br /></td></tr>
-<tr class="separator:a2c71823e5082857b0d426de67ccd1844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a651050df666c363dc64e58b7232d98ea"><td class="memItemLeft" align="right" valign="top">static const Def *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a651050df666c363dc64e58b7232d98ea">thorin::refly::do_reflect</a> (const Def *def)</td></tr>
-<tr class="memdesc:a651050df666c363dc64e58b7232d98ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">And here we are doing the reverse to retrieve the original pointer again.  <a href="namespacethorin_1_1refly.html#a651050df666c363dc64e58b7232d98ea">More...</a><br /></td></tr>
-<tr class="separator:a651050df666c363dc64e58b7232d98ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.dbg</div></td></tr>
 <tr class="memitem:a1d4c579f94fcac60eebde5c8593d9884"><td class="memTemplParams" colspan="2">template&lt;dbg id&gt; </td></tr>
 <tr class="memitem:a1d4c579f94fcac60eebde5c8593d9884"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#a1d4c579f94fcac60eebde5c8593d9884">thorin::refly::normalize_dbg</a> (Ref type, Ref callee, Ref arg)</td></tr>
 <tr class="separator:a1d4c579f94fcac60eebde5c8593d9884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.reify</div></td></tr>
 <tr class="memitem:aa4f7164654473913f60f6fe9b7163b5f"><td class="memItemLeft" align="right" valign="top">Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aa4f7164654473913f60f6fe9b7163b5f">thorin::refly::normalize_reify</a> (Ref, Ref, Ref arg)</td></tr>
 <tr class="separator:aa4f7164654473913f60f6fe9b7163b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.reflect</div></td></tr>
 <tr class="memitem:af154d7d91d30c79a49922d90d58fa051"><td class="memItemLeft" align="right" valign="top">Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#af154d7d91d30c79a49922d90d58fa051">thorin::refly::normalize_reflect</a> (Ref, Ref, Ref arg)</td></tr>
 <tr class="separator:af154d7d91d30c79a49922d90d58fa051"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.refine</div></td></tr>
 <tr class="memitem:ad5191894f184796478f7f29b14decad4"><td class="memItemLeft" align="right" valign="top">Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#ad5191894f184796478f7f29b14decad4">thorin::refly::normalize_refine</a> (Ref type, Ref callee, Ref arg)</td></tr>
 <tr class="separator:ad5191894f184796478f7f29b14decad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%refly.gid</div></td></tr>
 <tr class="memitem:aba788e6f901736144880c9710c082528"><td class="memItemLeft" align="right" valign="top">Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1refly.html#aba788e6f901736144880c9710c082528">thorin::refly::normalize_gid</a> (Ref, Ref, Ref arg)</td></tr>
 <tr class="separator:aba788e6f901736144880c9710c082528"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

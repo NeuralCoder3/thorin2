@@ -118,14 +118,13 @@ $(document).ready(function(){initNavTree('main_8cpp.html',''); initResizable(); 
 <div class="contents">
 <div class="textblock"><code>#include &lt;cstdlib&gt;</code><br />
 <code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;lyra/lyra.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="config_8h_source.html">thorin/config.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="dialects_8h_source.html">thorin/dialects.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="driver_8h_source.html">thorin/driver.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="dot_8h_source.html">thorin/be/dot/dot.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="bootstrap_8h_source.html">thorin/be/h/bootstrap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="parser_8h_source.html">thorin/fe/parser.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="optimize_8h_source.html">thorin/pass/optimize.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pass_8h_source.html">thorin/pass/pass.h</a>&quot;</code><br />
@@ -135,7 +134,7 @@ $(document).ready(function(){initNavTree('main_8cpp.html',''); initResizable(); 
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for main.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="main_8cpp__incl.svg" width="2990" height="872"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="main_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
@@ -145,12 +144,16 @@ Include dependency graph for main.cpp:</div>
 Enumerations</h2></td></tr>
 <tr class="memitem:a085744bf883a85c3fb7407874efa1d9d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9d">Backends</a> { <br />
 &#160;&#160;<a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9daf7f834c597c60e7e59d272d3223742e7">Dot</a>
-, <a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da5008b1179f399a2273fd3f6a7fc3b292">H</a>
-, <a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da11ea57bac296f79f8acbaf6fdf6bcc20">LL</a>
-, <a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da83f6a976a3bd2fcba277536df8c6d8ee">Md</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da5008b1179f399a2273fd3f6a7fc3b292">H</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da11ea57bac296f79f8acbaf6fdf6bcc20">LL</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da83f6a976a3bd2fcba277536df8c6d8ee">Md</a>
 , <br />
 &#160;&#160;<a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da6d99a9536a344e5d61838ab160cc17ba">Thorin</a>
-, <a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da894ff1b9ab1ff14efbfff100c0752be4">Num_Backends</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a085744bf883a85c3fb7407874efa1d9da894ff1b9ab1ff14efbfff100c0752be4">Num_Backends</a>
 <br />
  }</td></tr>
 <tr class="separator:a085744bf883a85c3fb7407874efa1d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,7 +184,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a085744bf883a85c3fb7407874efa1d9da894ff1b9ab1ff14efbfff100c0752be4" name="a085744bf883a85c3fb7407874efa1d9da894ff1b9ab1ff14efbfff100c0752be4"></a>Num_Backends&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00024">24</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00023">23</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -212,9 +215,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00026">26</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00025">25</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="parser_8cpp_source.html#l00112">thorin::fe::Parser::bootstrap()</a>, <a class="el" href="main_8cpp_source.html#l00024">Dot</a>, <a class="el" href="dump_8cpp_source.html#l00373">thorin::World::dump()</a>, <a class="el" href="dot_8cpp_source.html#l00044">thorin::dot::emit()</a>, <a class="el" href="print_8h_source.html#l00149">thorin::errln()</a>, <a class="el" href="sys_8cpp_source.html#l00064">thorin::sys::find_cmd()</a>, <a class="el" href="driver_8h_source.html#l00018">thorin::Driver::flags</a>, <a class="el" href="main_8cpp_source.html#l00024">H</a>, <a class="el" href="parser_8cpp_source.html#l00085">thorin::fe::Parser::import_module()</a>, <a class="el" href="log_8h_source.html#l00043">thorin::Log::level</a>, <a class="el" href="main_8cpp_source.html#l00024">LL</a>, <a class="el" href="dialects_8cpp_source.html#l00074">thorin::Dialect::load()</a>, <a class="el" href="world_8cpp_source.html#l00072">thorin::World::log()</a>, <a class="el" href="main_8cpp_source.html#l00024">Md</a>, <a class="el" href="main_8cpp_source.html#l00024">Num_Backends</a>, <a class="el" href="optimize_8cpp_source.html#l00021">thorin::optimize()</a>, <a class="el" href="log_8h_source.html#l00042">thorin::Log::ostream</a>, <a class="el" href="parser_8cpp_source.html#l00114">thorin::fe::Parser::parse_module()</a>, <a class="el" href="world_8h_source.html#l00087">thorin::World::set()</a>, <a class="el" href="world_8cpp_source.html#l00077">thorin::World::sym()</a>, <a class="el" href="main_8cpp_source.html#l00024">Thorin</a>, <a class="el" href="config_8h_source.html#l00003">THORIN_ENABLE_CHECKS</a>, <a class="el" href="config_8h_source.html#l00007">THORIN_VER</a>, and <a class="el" href="sys_8h_source.html#l00006">THORIN_WHICH</a>.</p>
+<p class="reference">References <a class="el" href="bootstrap_8cpp_source.html#l00011">thorin::bootstrap()</a>, <a class="el" href="world_8cpp_source.html#l00556">thorin::World::breakpoint()</a>, <a class="el" href="main_8cpp_source.html#l00023">Dot</a>, <a class="el" href="dump_8cpp_source.html#l00377">thorin::World::dump()</a>, <a class="el" href="dot_8cpp_source.html#l00062">thorin::dot::emit()</a>, <a class="el" href="def_8h_source.html#l00544">thorin::error()</a>, <a class="el" href="sys_8cpp_source.html#l00064">thorin::sys::find_cmd()</a>, <a class="el" href="driver_8h_source.html#l00023">thorin::Driver::flags()</a>, <a class="el" href="main_8cpp_source.html#l00023">H</a>, <a class="el" href="main_8cpp_source.html#l00023">LL</a>, <a class="el" href="main_8cpp_source.html#l00023">Md</a>, <a class="el" href="main_8cpp_source.html#l00023">Num_Backends</a>, <a class="el" href="optimize_8cpp_source.html#l00019">thorin::optimize()</a>, <a class="el" href="world_8h_source.html#l00088">thorin::World::set()</a>, <a class="el" href="world_8cpp_source.html#l00088">thorin::World::sym()</a>, <a class="el" href="main_8cpp_source.html#l00023">Thorin</a>, <a class="el" href="config_8h_source.html#l00003">THORIN_ENABLE_CHECKS</a>, <a class="el" href="config_8h_source.html#l00005">THORIN_VER</a>, and <a class="el" href="sys_8h_source.html#l00010">THORIN_WHICH</a>.</p>
 
 </div>
 </div>

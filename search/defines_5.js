@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['f_5farg_5fty_0',['f_arg_ty',['../autodiff__rewrite__inner_8cpp.html#aa12037954962e7f749e4a57e2617eb72',1,'autodiff_rewrite_inner.cpp']]]
+  ['ilog_0',['ILOG',['../log_8h.html#a0c221110c77b993968e98cb53c0d652e',1,'log.h']]],
+  ['internal_5fprefix_1',['INTERNAL_PREFIX',['../matrix_8h.html#a076f90e3d41ff22230a75a561d43d116',1,'matrix.h']]]
 ];

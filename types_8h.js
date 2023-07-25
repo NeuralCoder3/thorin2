@@ -1,79 +1,36 @@
 var types_8h =
 [
-    [ "thorin::w2u_< int >", "namespacethorin.html#structthorin_1_1w2u__", [
-      [ "type", "namespacethorin.html#aa4b8ff84aad2911b64b284855fbb1772", null ]
-    ] ],
-    [ "thorin::w2s_< int >", "namespacethorin.html#structthorin_1_1w2s__", [
-      [ "type", "namespacethorin.html#ac7223f960adf209dfb0b852da8f3b02e", null ]
-    ] ],
-    [ "thorin::w2f_< int >", "namespacethorin.html#structthorin_1_1w2f__", [
-      [ "type", "namespacethorin.html#a78a7aed0065b2af9d2ae51d3970e007e", null ]
-    ] ],
-    [ "thorin::w2u_< 8 >", "namespacethorin.html#structthorin_1_1w2u___3_018_01_4", [
-      [ "type", "namespacethorin.html#a87d84d5e238fcae9baaf983feae9feb4", null ]
-    ] ],
-    [ "thorin::w2s_< 8 >", "namespacethorin.html#structthorin_1_1w2s___3_018_01_4", [
-      [ "type", "namespacethorin.html#aafb6c3efa222d0de4710794ec1bed10d", null ]
-    ] ],
-    [ "thorin::w2u_< 16 >", "namespacethorin.html#structthorin_1_1w2u___3_0116_01_4", [
-      [ "type", "namespacethorin.html#ab43fd39fce621340c65d8ce39abf0574", null ],
-      [ "type", "namespacethorin.html#ab43fd39fce621340c65d8ce39abf0574", null ]
-    ] ],
-    [ "thorin::w2s_< 16 >", "namespacethorin.html#structthorin_1_1w2s___3_0116_01_4", [
-      [ "type", "namespacethorin.html#a9e7428191023b0e110e6c9e9bc7f7bcd", null ],
-      [ "type", "namespacethorin.html#a9e7428191023b0e110e6c9e9bc7f7bcd", null ]
-    ] ],
-    [ "thorin::w2u_< 32 >", "namespacethorin.html#structthorin_1_1w2u___3_0132_01_4", [
-      [ "type", "namespacethorin.html#a326173261ef168c70c0bfb83f2091a12", null ],
-      [ "type", "namespacethorin.html#a326173261ef168c70c0bfb83f2091a12", null ]
-    ] ],
-    [ "thorin::w2s_< 32 >", "namespacethorin.html#structthorin_1_1w2s___3_0132_01_4", [
-      [ "type", "namespacethorin.html#ac2b25fb3f41080aac9d95007038fcd72", null ],
-      [ "type", "namespacethorin.html#ac2b25fb3f41080aac9d95007038fcd72", null ]
-    ] ],
-    [ "thorin::w2u_< 64 >", "namespacethorin.html#structthorin_1_1w2u___3_0164_01_4", [
-      [ "type", "namespacethorin.html#ab4258beb851bb5c09dcc4e661e786bc5", null ],
-      [ "type", "namespacethorin.html#ab4258beb851bb5c09dcc4e661e786bc5", null ]
-    ] ],
-    [ "thorin::w2s_< 64 >", "namespacethorin.html#structthorin_1_1w2s___3_0164_01_4", [
-      [ "type", "namespacethorin.html#a47be934414b287449eda49f75f4c2fbc", null ],
-      [ "type", "namespacethorin.html#a47be934414b287449eda49f75f4c2fbc", null ]
-    ] ],
-    [ "thorin::w2u_< 1 >", "namespacethorin.html#structthorin_1_1w2u___3_011_01_4", [
-      [ "type", "namespacethorin.html#a9e01d5e916eb2f06b25e3f1308cc136d", null ]
-    ] ],
-    [ "thorin::w2s_< 1 >", "namespacethorin.html#structthorin_1_1w2s___3_011_01_4", [
-      [ "type", "namespacethorin.html#a1146751cff4360b9409462e9ab5c1294", null ]
-    ] ],
-    [ "CODE", "types_8h.html#a48da5e6acc28b0cfe9f3402f29ae9a1c", null ],
-    [ "CODE", "types_8h.html#a48da5e6acc28b0cfe9f3402f29ae9a1c", null ],
+    [ "CODE1", "types_8h.html#a8b51dd85b6e4d60706c8e9e0e2d429d4", null ],
+    [ "CODE2", "types_8h.html#af92a48651ac55f7fcab83b852481d5ed", null ],
+    [ "CODE3", "types_8h.html#a9414ba3a2fb815027a872506cc048797", null ],
+    [ "CODE4", "types_8h.html#a3753a8fd672ed997199aecbd1955c611", null ],
     [ "HALF_ROUND_STYLE", "types_8h.html#af470ed60568b3e7f4fde6092d22abbde", null ],
     [ "HALF_ROUND_TIES_TO_EVEN", "types_8h.html#ab0c3c06432f0247f22594abe3df0ebfe", null ],
     [ "THORIN_16_32_64", "types_8h.html#ad0f62d33662ee0f5536f9be2b2560144", null ],
     [ "THORIN_1_8_16_32_64", "types_8h.html#abed9e2c94bf4ae298244734bda96b214", null ],
     [ "THORIN_8_16_32_64", "types_8h.html#ac0cd2b23cb8624d2ade40573fb299d15", null ],
-    [ "dialect_t", "types_8h.html#adb7875050bd88ae8cd44a2fc16a7143d", null ],
     [ "f16", "types_8h.html#a76438d3d8f2823c15edaf4754c733a91", null ],
     [ "f32", "types_8h.html#ae683288c4230cd715c4179947ecd4772", null ],
     [ "f64", "types_8h.html#afe96046ceabc361c3cba443a088f9f00", null ],
     [ "flags_t", "types_8h.html#ae4dba9b3be2d9956cd3c0df92ba53dc2", null ],
+    [ "level_t", "types_8h.html#ae2b9a3abaa277c7852b0f465240b0dd7", null ],
     [ "nat_t", "types_8h.html#a529e2848fe27ea9f7ccf59bec4fd1e91", null ],
     [ "node_t", "types_8h.html#ae0ec74d835ce935c637499bea15e74f2", null ],
-    [ "s16", "types_8h.html#aead77ec943b2667e0ca8de85dcf65b32", null ],
-    [ "s32", "types_8h.html#aec966247b3a15f12201f883262bfdc78", null ],
-    [ "s64", "types_8h.html#a3a2fb7fcec1f4e0b791f34d5f3d302cc", null ],
+    [ "plugin_t", "types_8h.html#adc4504461c3f6cec792a3fdb3e57f076", null ],
+    [ "s16", "types_8h.html#a104d78a6244c650db16518f3a6238b20", null ],
+    [ "s32", "types_8h.html#a912ad8ed42c2f6fe731351938aad6021", null ],
+    [ "s64", "types_8h.html#a8eded40f472d8b97b1e697f554c3573a", null ],
     [ "s8", "types_8h.html#ab0f99eb12483ec616d52dd577f7ae546", null ],
     [ "sub_t", "types_8h.html#a15ce090292f7ca88b828d15baf109838", null ],
     [ "tag_t", "types_8h.html#ad6f0807de74648433d98df664cbb79ba", null ],
     [ "u1", "types_8h.html#aa540ae7ab9303fdd42fd43309ab1f465", null ],
-    [ "u16", "types_8h.html#ad695e536510da2b86815473a33feca75", null ],
-    [ "u32", "types_8h.html#a50211555a7f845dea0837f6d6c22cedd", null ],
-    [ "u64", "types_8h.html#aa4a9df41658521fb2f8a6842c377f13d", null ],
+    [ "u16", "types_8h.html#a9689480ababad9d91947881b6c5da5e8", null ],
+    [ "u32", "types_8h.html#a80a833cf2f0cd4eb44a795cc30a83450", null ],
+    [ "u64", "types_8h.html#a22aa1b457904ccc13d8473ab38003efd", null ],
     [ "u8", "types_8h.html#ad56e33ae995f3dc833c281c3945c335d", null ],
-    [ "w2f", "types_8h.html#a3f9e22246d8928f1c6223ce04744bbe0", null ],
-    [ "w2s", "types_8h.html#aff779207196c19859b63760c693b389a", null ],
-    [ "w2u", "types_8h.html#aba227b3ba0e6cb0a398abeef94c5ddef", null ],
-    [ "get_sign", "types_8h.html#ac76b51109303662a47f30fa874337254", null ],
+    [ "w2f", "types_8h.html#acc6f5a1f24c7e5e539d81c4d5670c153", null ],
+    [ "w2s", "types_8h.html#a3f00b268822519192e4c657e28393ed1", null ],
+    [ "w2u", "types_8h.html#a758e8ee1110137e5998563c4f2ae5a86", null ],
     [ "operator\"\"_f16", "types_8h.html#a46f692eb62a7bc86d7344d8b6404834e", null ],
     [ "operator\"\"_f32", "types_8h.html#ab9ded46c5f49fb0cfa62298d6c02815a", null ],
     [ "operator\"\"_f64", "types_8h.html#a31d63af589b908d3c86842e24f045b9f", null ],

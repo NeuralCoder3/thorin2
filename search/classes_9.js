@@ -12,8 +12,10 @@ var searchData=
   ['looptree_9',['LoopTree',['../classthorin_1_1LoopTree.html',1,'thorin']]],
   ['looptreebuilder_10',['LoopTreeBuilder',['../classthorin_1_1LoopTreeBuilder.html',1,'thorin']]],
   ['lowerfor_11',['LowerFor',['../classthorin_1_1affine_1_1LowerFor.html',1,'thorin::affine']]],
-  ['lowertypedclos_12',['LowerTypedClos',['../classthorin_1_1clos_1_1LowerTypedClos.html',1,'thorin::clos']]],
-  ['lowertypedclosprep_13',['LowerTypedClosPrep',['../classthorin_1_1clos_1_1LowerTypedClosPrep.html',1,'thorin::clos']]],
-  ['lowertypedcloswrapper_14',['LowerTypedClosWrapper',['../classLowerTypedClosWrapper.html',1,'']]],
-  ['lrprec_15',['LRPrec',['../structthorin_1_1LRPrec.html',1,'thorin']]]
+  ['lowermatrixhighlevelmapred_12',['LowerMatrixHighLevelMapRed',['../classthorin_1_1matrix_1_1LowerMatrixHighLevelMapRed.html',1,'thorin::matrix']]],
+  ['lowermatrixlowlevel_13',['LowerMatrixLowLevel',['../classthorin_1_1matrix_1_1LowerMatrixLowLevel.html',1,'thorin::matrix']]],
+  ['lowermatrixmediumlevel_14',['LowerMatrixMediumLevel',['../classthorin_1_1matrix_1_1LowerMatrixMediumLevel.html',1,'thorin::matrix']]],
+  ['lowerregex_15',['LowerRegex',['../classthorin_1_1regex_1_1LowerRegex.html',1,'thorin::regex']]],
+  ['lowertypedclos_16',['LowerTypedClos',['../classthorin_1_1clos_1_1LowerTypedClos.html',1,'thorin::clos']]],
+  ['lowertypedclosprep_17',['LowerTypedClosPrep',['../classthorin_1_1clos_1_1LowerTypedClosPrep.html',1,'thorin::clos']]]
 ];

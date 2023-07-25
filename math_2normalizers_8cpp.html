@@ -111,10 +111,8 @@ $(document).ready(function(){initNavTree('math_2normalizers_8cpp.html',''); init
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle"><div class="title">normalizers.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -123,94 +121,83 @@ $(document).ready(function(){initNavTree('math_2normalizers_8cpp.html',''); init
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for normalizers.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="math_2normalizers_8cpp__incl.svg" width="1531" height="1092"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="math_2normalizers_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
 <p><a href="math_2normalizers_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classthorin_1_1math_1_1Res.html">thorin::math::Res</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacethorin"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin.html">thorin</a></td></tr>
-<tr class="memdesc:namespacethorin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper functions of general interest. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacethorin_1_1math"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html">thorin::math</a></td></tr>
+<tr class="memdesc:namespacethorin_1_1math"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="math.html">The math Plugin</a> <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_2normalizers_8cpp.html#a48da5e6acc28b0cfe9f3402f29ae9a1c">CODE</a>(i)&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(la-&gt;get()); break;</td></tr>
+<tr class="memitem:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_2normalizers_8cpp.html#a48da5e6acc28b0cfe9f3402f29ae9a1c">CODE</a>(i)&#160;&#160;&#160;    case i: res = fold&lt;Id, i&gt;(la-&gt;get()); break;</td></tr>
 <tr class="separator:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_2normalizers_8cpp.html#a48da5e6acc28b0cfe9f3402f29ae9a1c">CODE</a>(i)&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(la-&gt;get(), lb-&gt;get()); break;</td></tr>
+<tr class="memitem:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_2normalizers_8cpp.html#a48da5e6acc28b0cfe9f3402f29ae9a1c">CODE</a>(i)&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(*la); break;</td></tr>
+<tr class="separator:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_2normalizers_8cpp.html#a48da5e6acc28b0cfe9f3402f29ae9a1c">CODE</a>(i)&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(*la, *lb); break;</td></tr>
 <tr class="separator:a48da5e6acc28b0cfe9f3402f29ae9a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeaded74fae54146d0f196f3f31367c89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="math_2normalizers_8cpp.html#aeaded74fae54146d0f196f3f31367c89">M</a>(S,  D)</td></tr>
 <tr class="separator:aeaded74fae54146d0f196f3f31367c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a203125b7865c862699c650180bc5c21f"><td class="memTemplParams" colspan="2">template&lt;class Id &gt; </td></tr>
-<tr class="memitem:a203125b7865c862699c650180bc5c21f"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin.html#a203125b7865c862699c650180bc5c21f">thorin::commute</a> (Id id, const Def *&amp;a, const Def *&amp;b)</td></tr>
-<tr class="memdesc:a203125b7865c862699c650180bc5c21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap <a class="el" href="classthorin_1_1Lit.html">Lit</a> to left - or smaller gid, if no lit present.  <a href="namespacethorin.html#a203125b7865c862699c650180bc5c21f">More...</a><br /></td></tr>
-<tr class="separator:a203125b7865c862699c650180bc5c21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31966d01e053685bd3bf0b7cc9da169d"><td class="memTemplParams" colspan="2">template&lt;class Id , Id id, nat_t w&gt; </td></tr>
-<tr class="memitem:a31966d01e053685bd3bf0b7cc9da169d"><td class="memTemplItemLeft" align="right" valign="top">Res&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a31966d01e053685bd3bf0b7cc9da169d">thorin::math::fold</a> (u64 a)</td></tr>
-<tr class="separator:a31966d01e053685bd3bf0b7cc9da169d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d7bf1845a505a89fd83326be23c7ddf"><td class="memTemplParams" colspan="2">template&lt;class Id , Id id, nat_t w&gt; </td></tr>
-<tr class="memitem:a4d7bf1845a505a89fd83326be23c7ddf"><td class="memTemplItemLeft" align="right" valign="top">Res&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a4d7bf1845a505a89fd83326be23c7ddf">thorin::math::fold</a> (u64 a, u64 b)</td></tr>
-<tr class="separator:a4d7bf1845a505a89fd83326be23c7ddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28dec2b2da2e3fc1920d5770c7a1dd5b"><td class="memTemplParams" colspan="2">template&lt;class Id , Id id&gt; </td></tr>
-<tr class="memitem:a28dec2b2da2e3fc1920d5770c7a1dd5b"><td class="memTemplItemLeft" align="right" valign="top">static Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a28dec2b2da2e3fc1920d5770c7a1dd5b">thorin::math::fold</a> (World &amp;world, Ref type, const Def *a)</td></tr>
-<tr class="separator:a28dec2b2da2e3fc1920d5770c7a1dd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a20b2b5b561a91857a4a0c745ea9b54"><td class="memTemplParams" colspan="2">template&lt;class Id , Id id&gt; </td></tr>
-<tr class="memitem:a3a20b2b5b561a91857a4a0c745ea9b54"><td class="memTemplItemLeft" align="right" valign="top">static Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a3a20b2b5b561a91857a4a0c745ea9b54">thorin::math::fold</a> (World &amp;world, Ref type, const Def *&amp;a, const Def *&amp;b)</td></tr>
-<tr class="separator:a3a20b2b5b561a91857a4a0c745ea9b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dbd4873d88f4d6d5fcf0ebd6e2b3876"><td class="memTemplParams" colspan="2">template&lt;class Id &gt; </td></tr>
-<tr class="memitem:a6dbd4873d88f4d6d5fcf0ebd6e2b3876"><td class="memTemplItemLeft" align="right" valign="top">static Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a6dbd4873d88f4d6d5fcf0ebd6e2b3876">thorin::math::reassociate</a> (Id id, World &amp;world, const App *ab, Ref a, Ref b)</td></tr>
-<tr class="memdesc:a6dbd4873d88f4d6d5fcf0ebd6e2b3876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reassociates <code>a</code> und <code>b</code> according to following rules.  <a href="namespacethorin_1_1math.html#a6dbd4873d88f4d6d5fcf0ebd6e2b3876">More...</a><br /></td></tr>
-<tr class="separator:a6dbd4873d88f4d6d5fcf0ebd6e2b3876"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.arith</div></td></tr>
 <tr class="memitem:a043e8c60e23d31a6d663672eadee2bcf"><td class="memTemplParams" colspan="2">template&lt;arith id&gt; </td></tr>
 <tr class="memitem:a043e8c60e23d31a6d663672eadee2bcf"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a043e8c60e23d31a6d663672eadee2bcf">thorin::math::normalize_arith</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:a043e8c60e23d31a6d663672eadee2bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.extrema</div></td></tr>
 <tr class="memitem:a695cbd06a1231d289cac6603c2e79045"><td class="memTemplParams" colspan="2">template&lt;extrema id&gt; </td></tr>
 <tr class="memitem:a695cbd06a1231d289cac6603c2e79045"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a695cbd06a1231d289cac6603c2e79045">thorin::math::normalize_extrema</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:a695cbd06a1231d289cac6603c2e79045"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.tri</div></td></tr>
 <tr class="memitem:a9f03f2cd6530e1ec131486e3d771a975"><td class="memTemplParams" colspan="2">template&lt;tri id&gt; </td></tr>
 <tr class="memitem:a9f03f2cd6530e1ec131486e3d771a975"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a9f03f2cd6530e1ec131486e3d771a975">thorin::math::normalize_tri</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:a9f03f2cd6530e1ec131486e3d771a975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.pow</div></td></tr>
 <tr class="memitem:adb513511d10525c5acf25f5f64266929"><td class="memItemLeft" align="right" valign="top">Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#adb513511d10525c5acf25f5f64266929">thorin::math::normalize_pow</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:adb513511d10525c5acf25f5f64266929"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.rt</div></td></tr>
 <tr class="memitem:a2191c9079354097898b7df0ba218f883"><td class="memTemplParams" colspan="2">template&lt;rt id&gt; </td></tr>
 <tr class="memitem:a2191c9079354097898b7df0ba218f883"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a2191c9079354097898b7df0ba218f883">thorin::math::normalize_rt</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:a2191c9079354097898b7df0ba218f883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.exp</div></td></tr>
 <tr class="memitem:a9fe884c46e33997818b9124018788d26"><td class="memTemplParams" colspan="2">template&lt;exp id&gt; </td></tr>
 <tr class="memitem:a9fe884c46e33997818b9124018788d26"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a9fe884c46e33997818b9124018788d26">thorin::math::normalize_exp</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:a9fe884c46e33997818b9124018788d26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.er</div></td></tr>
 <tr class="memitem:aac0d2a33688ecfe15836f4126f63f96c"><td class="memTemplParams" colspan="2">template&lt;er id&gt; </td></tr>
 <tr class="memitem:aac0d2a33688ecfe15836f4126f63f96c"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#aac0d2a33688ecfe15836f4126f63f96c">thorin::math::normalize_er</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:aac0d2a33688ecfe15836f4126f63f96c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.gamma</div></td></tr>
 <tr class="memitem:ac8695d8e00a1c7308da513601f0aa79f"><td class="memTemplParams" colspan="2">template&lt;gamma id&gt; </td></tr>
 <tr class="memitem:ac8695d8e00a1c7308da513601f0aa79f"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#ac8695d8e00a1c7308da513601f0aa79f">thorin::math::normalize_gamma</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:ac8695d8e00a1c7308da513601f0aa79f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.cmp</div></td></tr>
 <tr class="memitem:a72ac378d2391c5a54e7c6a60234beaa1"><td class="memTemplParams" colspan="2">template&lt;cmp id&gt; </td></tr>
 <tr class="memitem:a72ac378d2391c5a54e7c6a60234beaa1"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a72ac378d2391c5a54e7c6a60234beaa1">thorin::math::normalize_cmp</a> (Ref type, Ref c, Ref arg)</td></tr>
 <tr class="separator:a72ac378d2391c5a54e7c6a60234beaa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cf63c6923dfa1f7af6ec153e5f122b6"><td class="memTemplParams" colspan="2">template&lt;class Id , Id id, nat_t sw, nat_t dw&gt; </td></tr>
-<tr class="memitem:a0cf63c6923dfa1f7af6ec153e5f122b6"><td class="memTemplItemLeft" align="right" valign="top">Res&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a0cf63c6923dfa1f7af6ec153e5f122b6">thorin::math::fold</a> (u64 a)</td></tr>
-<tr class="separator:a0cf63c6923dfa1f7af6ec153e5f122b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.conv</div></td></tr>
 <tr class="memitem:abb9921d1dbdfac714ed5f685137c8423"><td class="memTemplParams" colspan="2">template&lt;conv id&gt; </td></tr>
 <tr class="memitem:abb9921d1dbdfac714ed5f685137c8423"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#abb9921d1dbdfac714ed5f685137c8423">thorin::math::normalize_conv</a> (Ref dst_t, Ref c, Ref x)</td></tr>
 <tr class="separator:abb9921d1dbdfac714ed5f685137c8423"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac21074f8f373cf8a86c0206b5137ae34"><td class="memItemLeft" align="right" valign="top">u64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#ac21074f8f373cf8a86c0206b5137ae34">thorin::math::pad</a> (u64 offset, u64 align)</td></tr>
-<tr class="separator:ac21074f8f373cf8a86c0206b5137ae34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.abs</div></td></tr>
+<tr class="memitem:a5961f19229e6f9bffa25b282e991770e"><td class="memItemLeft" align="right" valign="top">Ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a5961f19229e6f9bffa25b282e991770e">thorin::math::normalize_abs</a> (Ref type, Ref c, Ref arg)</td></tr>
+<tr class="separator:a5961f19229e6f9bffa25b282e991770e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">%math.round</div></td></tr>
+<tr class="memitem:a1f1d12b362143c19bae98bed8a0cb796"><td class="memTemplParams" colspan="2">template&lt;round id&gt; </td></tr>
+<tr class="memitem:a1f1d12b362143c19bae98bed8a0cb796"><td class="memTemplItemLeft" align="right" valign="top">Ref&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacethorin_1_1math.html#a1f1d12b362143c19bae98bed8a0cb796">thorin::math::normalize_round</a> (Ref type, Ref c, Ref arg)</td></tr>
+<tr class="separator:a1f1d12b362143c19bae98bed8a0cb796"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a48da5e6acc28b0cfe9f3402f29ae9a1c" name="a48da5e6acc28b0cfe9f3402f29ae9a1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48da5e6acc28b0cfe9f3402f29ae9a1c">&#9670;&#160;</a></span>CODE <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a48da5e6acc28b0cfe9f3402f29ae9a1c">&#9670;&#160;</a></span>CODE <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,7 +207,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">i</td><td>)</td>
-          <td>&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(la-&gt;get()); break;</td>
+          <td>&#160;&#160;&#160;    case i: res = fold&lt;Id, i&gt;(la-&gt;get()); break;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -228,7 +215,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a48da5e6acc28b0cfe9f3402f29ae9a1c" name="a48da5e6acc28b0cfe9f3402f29ae9a1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48da5e6acc28b0cfe9f3402f29ae9a1c">&#9670;&#160;</a></span>CODE <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a48da5e6acc28b0cfe9f3402f29ae9a1c">&#9670;&#160;</a></span>CODE <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +225,25 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">i</td><td>)</td>
-          <td>&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(la-&gt;get(), lb-&gt;get()); break;</td>
+          <td>&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(*la); break;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48da5e6acc28b0cfe9f3402f29ae9a1c" name="a48da5e6acc28b0cfe9f3402f29ae9a1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48da5e6acc28b0cfe9f3402f29ae9a1c">&#9670;&#160;</a></span>CODE <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CODE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">i</td><td>)</td>
+          <td>&#160;&#160;&#160;    case i: res = fold&lt;Id, id, i&gt;(*la, *lb); break;</td>
         </tr>
       </table>
 </div><div class="memdoc">
