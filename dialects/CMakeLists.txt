@@ -1,6 +1,8 @@
 # must be registered before `add_thorin_plugin` calls
 add_custom_target(thorin_all_plugins)
 
+# the order is alphabetical
+
 add_thorin_plugin(affine
     SOURCES
         affine/affine.cpp
@@ -9,6 +11,17 @@ add_thorin_plugin(affine
         affine/pass/lower_for.h
     DEPENDS
         mem
+        core
+    INSTALL
+)
+
+add_thorin_plugin(cache
+    SOURCES
+        cache/cache.cpp
+        cache/cache.h
+        cache/phase/memoize.cpp
+        cache/phase/memoize.h
+    DEPENDS
         core
     INSTALL
 )

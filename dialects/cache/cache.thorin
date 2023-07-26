@@ -1,0 +1,18 @@
+/// # The cache Plugin {#cache}
+///
+/// @see thorin::cache
+///
+/// [TOC]
+///
+/// [TODO:Explain]
+///
+/// ## Dependencies
+///
+.import compile;
+///
+/// ## Passes and Phases
+/// 
+/// Caches the result of another phase.
+/// First replaces cached results with the cached value and then runs the phase.
+/// 
+.ax %cache.memoize: %compile.Phase -> %compile.Phase;
