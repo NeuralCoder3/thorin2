@@ -33,13 +33,13 @@ public:
 
     bool is_overwritten(const Def* def) { return overwritten.contains(def); }
 
-    bool find(Lam* lam, const Def* mem);
+    void find(Lam* lam, const Def* mem);
 
     void find(Lam* lam);
 
     void meet_stores(const Def* src, const Def* dst);
 
-    bool collect(Lam* lam, const Def* mem);
+    void collect(Lam* lam, const Def* mem);
 
     void collect(Lam* lam);
 

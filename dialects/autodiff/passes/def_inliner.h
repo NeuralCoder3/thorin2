@@ -107,7 +107,7 @@ public:
         old2new_->map_global(old_def, new_def);
     }
 
-    const Def* has(const Def* def) { old2new_->has(def); }
+    const Def* has(const Def* def) { return old2new_->has(def); }
 
     const Def* new2old(const Def* def) { return new2old_[def]; }
 

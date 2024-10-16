@@ -42,7 +42,7 @@ void WarAnalysis::run() {
     std::cout << size << std::endl;
 }
 
-bool WarAnalysis::find(Lam* lam, const Def* mem) {
+void WarAnalysis::find(Lam* lam, const Def* mem) {
     auto op = unextract(mem);
     if (auto app = match<mem::store>(op)) {
         auto ptr  = app->arg(1);
@@ -108,7 +108,7 @@ void WarAnalysis::wipe(Lam* lam) {
     }
 }
 
-bool WarAnalysis::collect(Lam* lam, const Def* mem) {
+void WarAnalysis::collect(Lam* lam, const Def* mem) {
     auto op = unextract(mem);
     if (auto app = match<mem::store>(op)) { stores->operator[](lam).insert(app); }
 
