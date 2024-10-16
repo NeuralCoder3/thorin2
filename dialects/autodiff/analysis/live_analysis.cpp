@@ -59,6 +59,7 @@ Lam* find_join_lam(AffineCFNode* node, LamSet& lams, DefMap<Lam*>& visited) {
 Lam* find_join_lam(AffineCFNode* node, LamSet& lams) {
     DefMap<Lam*> visited;
     find_join_lam(node, lams, visited);
+    return nullptr;
 }
 
 void LiveAnalysis::build_end_of_live() {

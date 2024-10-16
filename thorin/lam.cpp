@@ -17,7 +17,7 @@ const Pi* Pi::ret_pi(const Def* dbg) const {
     return nullptr;
 }
 
-const Def* Pi::ret_dom(const Def* dbg) const {
+const Def* Pi::ret_dom(const Def*) const {
     auto ret_pi_def = ret_pi();
     if (!ret_pi_def) return nullptr;
     return ret_pi_def->dom();

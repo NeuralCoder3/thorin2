@@ -211,7 +211,6 @@ const Def* AutoDiffEval::derive_(const Def* def) {
 
     current_state   = State::Invert;
     auto inv_diffee = invert_lam(diffee);
-    auto test       = current_mem;
 
     forward_end->set_body(w.app(diff_lam->ret_var(), merge_flat(forward_end->var(), backward_begin)));
     auto backward_end = create_lam(inv_diffee->ret_pi(), "backward_end_" + diffee->name());

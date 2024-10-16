@@ -88,7 +88,7 @@ void WarAnalysis::meet_stores(const Def* src, const Def* dst) {
 
 void WarAnalysis::wipe(Lam* lam) {
     auto body = lam->body()->as<App>();
-    auto mem  = mem::mem_def(body->arg());
+    // auto mem  = mem::mem_def(body->arg());
 
     if (match<affine::For>(body)) {
         auto loop = body->arg(4)->as_nom<Lam>();

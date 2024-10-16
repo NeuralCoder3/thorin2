@@ -18,8 +18,7 @@ CacheOptimizer::CacheOptimizer(AnalysisFactory& factory)
     , cfa(factory.cfa())
     , dfa(factory.dfa())
     , utils(factory.utils())
-    , alias(factory.alias())
-    , best(nullptr) {}
+    , alias(factory.alias()) {}
 
 size_t CacheOptimizer::get_depth(const Def* op) {
     Lam* lam  = utils.lam_of_op(op);
@@ -41,7 +40,6 @@ void CacheOptimizer::explore(std::shared_ptr<CacheState>& last, const Def* remov
     next_state->memory -= memory_estimate(removed->type());
     size_t depth = get_depth(removed);
 
-    auto test = next_state->depths.size();
     next_state->remove_depth(depth);
 
     next_state->cached_defs.erase(removed);

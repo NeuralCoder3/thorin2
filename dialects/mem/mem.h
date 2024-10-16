@@ -132,7 +132,7 @@ inline const Def* op_memset(const Def* mem, const Def* ptr, const Def* size, con
     return w.app(w.app(w.ax<memset>(), {pointee, w.lit_nat_0()}), {mem, ptr, size, value}, dbg);
 }
 
-inline const Def* op_memset(const Def* mem, const Def* ptr, const Def* dbg = {}) {
+inline const Def* op_memset(const Def* mem, const Def* ptr, const Def* = {}) {
     World& w     = ptr->world();
     auto ptr_ty  = force<Ptr>(ptr->type())->as<App>();
     auto pointee = ptr_ty->arg(0);

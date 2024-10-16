@@ -19,7 +19,6 @@ std::pair<const App*, const Pack*> is_pack_store(const Def* def) {
         auto [_, ptr, val] = store->args<3>();
 
         if (auto pack = val->isa<Pack>()) {
-            auto shape_def = pack->shape();
             if (is_zero(pack->body())) { return {store, pack}; }
         }
     }

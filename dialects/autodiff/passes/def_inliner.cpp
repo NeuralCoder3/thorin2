@@ -268,7 +268,7 @@ void DefInliner::propagate(const CFNode* node) {
         if (auto extract = is_branch(callee)) {
             DefSet join;
             for (auto op : extract->tuple()->ops()) {
-                auto& src_extra = extras[op];
+                // auto& src_extra = extras[op];
                 meet(op, lam);
                 // join.insert(src_extra.begin(), src_extra.end());
             }

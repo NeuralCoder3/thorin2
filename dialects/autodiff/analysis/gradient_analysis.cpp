@@ -117,7 +117,6 @@ void GradientAnalysis::require(const Def* def) { todo_ |= get_lattice(def).set(G
 void GradientAnalysis::has(const Def* def) { todo_ |= get_lattice(def).set(GradientLattice::Has); }
 
 void GradientAnalysis::run() {
-    auto lam = factory().lam();
     /*for (auto var : lam->vars()) {
         if (match<mem::M>(var->type())) continue;
 
@@ -143,7 +142,6 @@ void GradientAnalysis::run() {
 
     auto& utils = factory().utils();
     auto& cfa   = factory().cfa();
-    auto& dfa   = factory().dfa();
 
     todo_ = true;
     while (todo_) {

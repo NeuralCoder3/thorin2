@@ -58,5 +58,6 @@ public:
     }
 };
 
-static Builder build(World& world) { return Builder(world); }
+inline Builder build(World& world) { return Builder(world); }
+
 } // namespace thorin

@@ -69,7 +69,7 @@ const Def* AutodiffReduce::reduce(const Def* def, const Def* ret) {
                         lam->set_body(w.app(new_callee, arg));
                         break;
                     } else {
-                        auto callee_lam = callee->as_nom<Lam>();
+                        // auto callee_lam = callee->as_nom<Lam>();
                         lam->set(callee->reduce(arg));
                     }
                 } else {

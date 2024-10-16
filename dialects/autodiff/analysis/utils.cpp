@@ -63,8 +63,6 @@ DefSet& Utils::depends_on_loads(const Def* def) {
     load_deps_[def] = std::make_unique<DefSet>();
     DefSet& deps    = *load_deps_[def];
     if (auto lam = def->isa_nom<Lam>()) {
-        auto& s = scope(lam);
-
         for (auto bound : factory().dfa().post_order(lam)) {
             DefSet& other_deps = depends_on_loads(bound->def());
             deps.insert(other_deps.begin(), other_deps.end());

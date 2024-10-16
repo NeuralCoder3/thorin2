@@ -60,7 +60,7 @@ void for_each_lam(const Def* def, std::function<void(Lam*)> f) {
 
 const Def* is_idx(const Def* ty) {
     if (auto app = ty->isa<App>()) {
-        if (auto idx = app->callee()->isa<Idx>()) { return app->arg(); }
+        if (app->callee()->isa<Idx>()) { return app->arg(); }
     }
     return nullptr;
 }
@@ -162,7 +162,7 @@ const Def* merge_flat(const Def* left, const Def* right) {
 }
 
 // A,R => A'->R' * (R* -> A*)
-const Pi* autodiff_type_fun(const Def* arg, const Def* ret, bool flat) {
+const Pi* autodiff_type_fun(const Def* arg, const Def* ret, bool) {
     auto& w = arg->world();
 
     DefVec forward_in;

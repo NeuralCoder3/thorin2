@@ -13,8 +13,6 @@ void Reshape::enter() {
     rewrite(curr_nom());
 
     while (!worklist_.empty()) {
-        auto size = worklist_.size();
-
         auto lam = worklist_.top();
         worklist_.pop();
         if (lam->is_set()) {
@@ -259,16 +257,14 @@ const Def* Reshape::rewrite_convert(const Def* def) {
         }
 
         return new_lam;
-    } else if (auto tup = def->isa<Tuple>()) {
+    } else if (def->isa<Tuple>()) {
         auto new_ops = DefArray(def->num_ops(), [&](auto i) {
             auto op           = def->op(i);
             target_types_[op] = new_type->proj(i);
             return rewrite(op);
         });
 
-        auto result      = w.tuple(new_ops);
-        auto result_type = result->type();
-
+        auto result = w.tuple(new_ops);
         return result;
     } else {
         auto new_ops = DefArray(def->num_ops(), [&](auto i) { return rewrite(def->op(i)); });

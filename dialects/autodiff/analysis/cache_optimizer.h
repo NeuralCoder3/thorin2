@@ -98,10 +98,10 @@ struct CacheStateEq {
 class CacheOptimizer : public Analysis {
 public:
     absl::flat_hash_set<std::shared_ptr<CacheState>, CacheStateHash, CacheStateEq> explored;
-    std::shared_ptr<CacheState> best;
-    AffineDFA& dfa;
-    AffineCFA& cfa;
+    std::shared_ptr<CacheState> best = nullptr;
     WarAnalysis& war;
+    AffineCFA& cfa;
+    AffineDFA& dfa;
     Utils& utils;
     AliasAnalysis& alias;
     std::vector<DefVec> groups;

@@ -35,7 +35,6 @@ void PtrAnalysis::run() {
         if (auto lea = match<mem::lea>(def)) {
             auto arg = lea->arg();
             auto arr = arg->proj(0);
-            auto idx = arg->proj(1);
             unify(ptr_node(arr), ptr_node(lea));
         } else if (auto bitcast = match<core::bitcast>(def)) {
             auto ptr = bitcast->arg();

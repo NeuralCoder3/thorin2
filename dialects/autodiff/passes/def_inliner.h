@@ -168,8 +168,11 @@ public:
     void push() { r_.push(); }
     void pop() { r_.pop(); }
 
+    Lam* lam_;
+    World& w_;
     Scope scope;
     Scheduler scheduler;
+    InferRewriter r_;
 
     NomMap<DefSet> nom2defs;
     DefMap<Def*> def2nom;
@@ -178,9 +181,6 @@ public:
     DefMap<DefSet> extras_fwd;
     DefMap<DefVec> extras_sorted;
 
-    InferRewriter r_;
-    World& w_;
-    Lam* lam_;
     bool todo_;
 
     std::vector<filter_t> filters;

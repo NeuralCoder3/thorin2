@@ -953,6 +953,7 @@ std::string Emitter::emit_bb(BB& bb, const Def* def) {
             case math::exp::exp2: f += "exp2"; break;
             case math::exp::log:  f += "log" ; break;
             case math::exp::log2: f += "log2"; break;
+            default: assert(false);
         }
         // clang-format on
         f += llvm_suffix(exp->type());
